@@ -1,0 +1,6 @@
+%h1 Create a new account!
+- form_for @account do |f|
+  = f.error_messages
+  = f.label :name, 'Account name'
+  = f.text_field :name
+  = submit_tag
