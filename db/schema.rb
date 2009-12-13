@@ -9,7 +9,37 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091211220432) do
+ActiveRecord::Schema.define(:version => 20091211225425) do
+
+  create_table "accounts", :force => true do |t|
+    t.string  "name"
+    t.integer "user_id"
+  end
+
+  create_table "actors", :force => true do |t|
+    t.integer "user_id"
+    t.string  "name"
+  end
+
+  create_table "events", :force => true do |t|
+    t.string  "description"
+    t.integer "account_id"
+    t.date    "occured_on"
+    t.string  "actor_name"
+    t.float   "amount"
+  end
+
+  create_table "friends", :force => true do |t|
+    t.integer "owner_id"
+  end
+
+  create_table "line_items", :force => true do |t|
+    t.integer "event_id"
+    t.integer "friend_id"
+    t.float   "amount"
+    t.date    "paid_on"
+    t.boolean "confirmed_payment"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40
@@ -28,5 +58,14 @@ ActiveRecord::Schema.define(:version => 20091211220432) do
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+
+  create_table "users_friends", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "friend_id"
+    t.float   "money_in"
+    t.float   "money_out"
+    t.float   "total"
+    t.date    "befriended_on"
+  end
 
 end
