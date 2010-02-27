@@ -4,6 +4,7 @@ class AccountsController < ApplicationController
 
   def index
     @accounts = current_user.accounts
+    redirect_to events_path if @accounts.length == 1
   end
 
   def new
@@ -11,8 +12,11 @@ class AccountsController < ApplicationController
   end
 
   def create
-    debugger
-    i=0
-    i+=1
+    @account = Account.create!(params["account"].merge(:user_id => current_user.id))
+    render :action => :show
+  end
+
+  def show
+    @account = Account.find(params[:id])
   end
 end

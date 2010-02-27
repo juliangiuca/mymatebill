@@ -4,7 +4,7 @@ class CreateEvents < ActiveRecord::Migration
       t.column :description,      :string
       t.column :account_id,       :integer
       t.column :occured_on,       :date
-      t.column :actor_name,       :string
+      t.column :actor_id,         :integer
       t.column :amount,           :float
       t.timestamp
     end

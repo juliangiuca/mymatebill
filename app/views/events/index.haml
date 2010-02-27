@@ -1,0 +1,6 @@
+%h1 Events
+= render :partial => "account", :collection => @accounts
+
+%a{:href => new_account_path} Create a new account
+- if @accounts.length > 1
+  %a{:href => accounts_path} Back to Accounts

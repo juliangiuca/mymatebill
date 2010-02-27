@@ -30,6 +30,9 @@ class User < ActiveRecord::Base
   has_many :accounts
   has_many :friends
   has_many :actors
+  has_many :events, :through => :accounts
+
+  after_create :create_first_account
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
@@ -71,6 +74,10 @@ class User < ActiveRecord::Base
 
   def email=(value)
     write_attribute :email, (value ? value.downcase : nil)
+  end
+
+  def create_first_account
+    accounts.create!(:name => "My First Account")
   end
 
   protected

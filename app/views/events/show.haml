@@ -1,0 +1,14 @@
+%h1 Show an event
+%p
+  = label_tag :amount, 'Amount'
+  = text_field_tag 'amount', @event.amount, :size => 3
+%p
+  = label :actor, 'Event'
+  = text_field_tag 'actor[name]', @event.actor.name, :disabled => true
+%p
+  = label :description, 'Additional notes'
+  = text_field_tag "description", @event.description, :disabled => true 
+
+%a{:href => events_path} back
+
+

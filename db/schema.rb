@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.string  "description"
     t.integer "account_id"
     t.date    "occured_on"
-    t.string  "actor_name"
+    t.integer "actor_id"
     t.float   "amount"
   end
 
