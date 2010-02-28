@@ -11,7 +11,10 @@
     :javascript
       $(document).ready(function(){
         $("#datepicker").datepicker();
+        var options = { source:'ac/actors_name' };
+        $("#actor_name").autocomplete(options);
       });
+
   %body
     = render :partial => "shared/header"
     %div#content

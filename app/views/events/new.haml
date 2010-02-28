@@ -7,6 +7,7 @@
     = f.text_field :amount, :size => 3
   %p
     = f.label :actor, 'Event'
+    = text_field_tag "actor[name]", nil
   %p
     = f.label :description, 'Additional notes'
     = f.text_field :description

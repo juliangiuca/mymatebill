@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource  :session
   map.resources :accounts
+  map.connect '/events/ac/actors_name', :controller => :events, :action => :auto_complete_for_actor_name
   map.resources :events
 
   map.home '', :controller => :accounts, :action => :index

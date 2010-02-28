@@ -1,5 +1,4 @@
 class EventsController < ApplicationController
-  #auto_complete_for :actor, :name
   layout "basic"
      #skip_before_filter :verify_authenticity_token, :only => [:auto_complete_for_actor_name]
 
@@ -10,9 +9,8 @@ class EventsController < ApplicationController
 
   def create
     account = current_user.accounts.find(params[:event][:account_id])
-    @event = account.events.create!(params["event"])
-    @event.actor = current_user.actors.find_or_create_by_name(params[:actor])
-    @event.save!
+    actor = current_user.actors.find_or_create_by_name(params[:actor])
+    @event = account.events.create!(params["event"].merge(:actor_id => actor.id))
     redirect_to :action => :show, :id => @event.id
 
   rescue ActiveRecord::RecordNotFound
@@ -29,14 +27,14 @@ class EventsController < ApplicationController
     @accounts = current_user.accounts
   end
 
-  #def auto_complete_for_actor_name
-    #actor = params[:actor][:name]
-    #@actors = current_user.actors.find(:all, :conditions => "name like '%" + actor + "%'")
-    #if @actors.present?
-      #render :partial => 'actorname'
-    #else
-      #render :nothing => true
-    #end
+  def auto_complete_for_actor_name
+    actor = params[:term]
+    @actors = current_user.actors.find(:all, :conditions => "name like '%" + actor + "%'")
+    if @actors.present?
+      render :text => @actors.map{|x| x.name}.to_json
+    else
+      render :nothing => true
+    end
 
-  #end
+  end
 end

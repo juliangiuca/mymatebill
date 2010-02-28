@@ -14,5 +14,7 @@
 class Event < ActiveRecord::Base
   belongs_to :account
   belongs_to :actor
+
+  validates_presence_of :actor_id
 end
 
