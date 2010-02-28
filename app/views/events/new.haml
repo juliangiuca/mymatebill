@@ -7,14 +7,14 @@
     = f.text_field :amount, :size => 3
   %p
     = f.label :actor, 'Event'
-    = text_field_with_auto_complete "actor", "name"
   %p
     = f.label :description, 'Additional notes'
     = f.text_field :description
     = f.hidden_field :account_id
 
-  %p
-    = calendar_date_select_tag "calendar", Date.today, :embeded => true, :year_range => 0.years.ago..3.year.since
+  %div#datepicker
+    hai
+
   %p
     = submit_tag
 
