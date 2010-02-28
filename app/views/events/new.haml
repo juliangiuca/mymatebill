@@ -1,8 +1,16 @@
 :javascript
-  $(document).ready(function(){
-    $("#event_occured_on").datepicker();
-    var options = { source:'ac/actors_name' };
-    $("#actor_name").autocomplete(options);
+  jQuery(document).ready(function($) {
+
+    $(document).ready(function(){
+      $("#event_occured_on").datepicker();
+
+      var options = { source:'ac/actors_name' };
+      $("#actor_name").autocomplete(options);
+
+      $("#line_items_button").click(function() {
+        $("#line_items_container").slideDown("slow");
+      });
+    });
   });
 
 %h1 Create a new bill
@@ -23,8 +31,8 @@
   %p
     = f.label :occured_on, 'Date'
     = f.text_field :occured_on
-
-  = render :partial => :line_item_details
+  %p
+    = render :partial => "line_item_details"
 
   %p
     = submit_tag
