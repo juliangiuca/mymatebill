@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
+  auto_complete_for :actor, :name
   layout "basic"
-     skip_before_filter :verify_authenticity_token, :only => [:auto_complete_for_actor_name]
+     #skip_before_filter :verify_authenticity_token, :only => [:auto_complete_for_actor_name]
 
   def new
     account = current_user.accounts.find(params[:account_id])
@@ -10,7 +11,7 @@ class EventsController < ApplicationController
   def create
     account = current_user.accounts.find(params[:event][:account_id])
     @event = account.events.create!(params["event"])
-    @event.actor = Actor.create!(params[:actor].merge(:user_id => current_user.id))
+    @event.actor = current_user.actors.find_or_create_by_name(params[:actor])
     @event.save!
     redirect_to :action => :show, :id => @event.id
 
@@ -28,14 +29,14 @@ class EventsController < ApplicationController
     @accounts = current_user.accounts
   end
 
-  def auto_complete_for_actor_name
-    actor = params[:actor][:name]
-    @actors = current_user.actors.find(:all, :conditions => "name like '%" + actor + "%'")
-    if @actors.present?
-      render :partial => 'actorname'
-    else
-      render :nothing => true
-    end
+  #def auto_complete_for_actor_name
+    #actor = params[:actor][:name]
+    #@actors = current_user.actors.find(:all, :conditions => "name like '%" + actor + "%'")
+    #if @actors.present?
+      #render :partial => 'actorname'
+    #else
+      #render :nothing => true
+    #end
 
-  end
+  #end
 end

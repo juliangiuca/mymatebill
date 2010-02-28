@@ -1,4 +1,4 @@
-%h1 Create a new event
+%h1 Create a new bill
 - form_for @event do |f|
   %p
     = f.error_messages
@@ -7,11 +7,14 @@
     = f.text_field :amount, :size => 3
   %p
     = f.label :actor, 'Event'
-    = text_field_with_auto_complete "actor", "name", {}, :skip_style => false
+    = text_field_with_auto_complete "actor", "name"
   %p
     = f.label :description, 'Additional notes'
     = f.text_field :description
     = f.hidden_field :account_id
+
+  %p
+    = calendar_date_select_tag "calendar", Date.today, :embeded => true, :year_range => 0.years.ago..3.year.since
   %p
     = submit_tag
 
