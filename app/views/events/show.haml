@@ -9,6 +9,10 @@
   = label :description, 'Additional notes'
   = text_field_tag "description", @event.description, :disabled => true 
 
+%p
+  = label :occured_on, 'Date'
+  = text_field_tag "occured_on", @event.occured_on, :disabled => true 
+
 %a{:href => events_path} back
 
 

@@ -1,3 +1,10 @@
+:javascript
+  $(document).ready(function(){
+    $("#event_occured_on").datepicker();
+    var options = { source:'ac/actors_name' };
+    $("#actor_name").autocomplete(options);
+  });
+
 %h1 Create a new bill
 - form_for @event do |f|
   %p
@@ -13,8 +20,11 @@
     = f.text_field :description
     = f.hidden_field :account_id
 
-  %div#datepicker
-    hai
+  %p
+    = f.label :occured_on, 'Date'
+    = f.text_field :occured_on
+
+  = render :partial => :line_item_details
 
   %p
     = submit_tag
