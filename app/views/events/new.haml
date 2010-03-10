@@ -1,39 +1,55 @@
 :javascript
-  jQuery(document).ready(function($) {
 
-    $(document).ready(function(){
-      $("#event_occured_on").datepicker();
+  $(document).ready(function(){
+    $("#event_occured_on").datepicker();
+    var line_item_counter = 0;
 
-      var options = { source:'ac/actors_name' };
-      $("#actor_name").autocomplete(options);
+    var actor_name_autocomplete = { source:'ac/actors_name' };
+    $("#actor_name").autocomplete(actor_name_autocomplete);
 
-      $("#line_items_button").click(function() {
-        $("#line_items_container").slideDown("slow");
-      });
+    var friend_name_autocomplete = { source:'ac/friends_name' };
+    $(".event_line_items_friend").autocomplete(friend_name_autocomplete);
+
+    $("#line_items_button").click(function() {
+      $("#line_items_container").slideDown("slow");
     });
+
+      $("div.add_line_item").click(function() {
+        line_item_counter++
+
+        $("#line_items_container > #line_items").append(
+          "<p>Amount <input id=\"event_line_items_attributes_" + line_item_counter + "_amount\" name=\"event[line_items_attributes][" + line_item_counter + "][amount]\" type=\"text\" />" +
+            " Friend <input id=\"event_line_items_attributes_" + line_item_counter + "_friend\" name=\"event[line_items_attributes][" + line_item_counter + "][friend]\" type=\"text\" class=\"event_line_items_friend\"/>" +
+              " paid on <input id=\"event_line_items_attributes_" + line_item_counter + "_paid_on\" name=\"event[line_items_attributes][" + line_item_counter + "][paid_on]\" type=\"text\" /></p>"
+          );
+
+      $(".event_line_items_friend").autocomplete(friend_name_autocomplete);
+      });
+
   });
 
-%h1 Create a new bill
-- form_for @event do |f|
-  %p
-    = f.error_messages
-  %p
-    = f.label :amount, 'Amount'
-    = f.text_field :amount, :size => 3
-  %p
-    = f.label :actor, 'Event'
-    = text_field_tag "actor[name]", nil
-  %p
-    = f.label :description, 'Additional notes'
-    = f.text_field :description
-    = f.hidden_field :account_id
+%div#new_event_container
+  %h1 Create a new bill
+  - form_for @event do |f|
+    %p
+      = f.error_messages
+    %p
+      = f.label :amount, 'Amount'
+      = f.text_field :amount, :size => 3
+    %p
+      = f.label :actor, 'Event'
+      = text_field_tag "actor[name]", nil
+    %p
+      = f.label :description, 'Additional notes'
+      = f.text_field :description
+      = f.hidden_field :account_id
 
-  %p
-    = f.label :occured_on, 'Date'
-    = f.text_field :occured_on
-  %p
-    = render :partial => "line_item_details"
+    %p
+      = f.label :occured_on, 'Date'
+      = f.text_field :occured_on
+    %p
+      = render :partial => "line_item_details", :locals => {:f => f}
 
-  %p
-    = submit_tag
+    %p
+      = submit_tag
 

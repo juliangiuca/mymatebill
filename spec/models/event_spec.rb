@@ -15,13 +15,19 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Event do
   before(:each) do
-    @valid_attributes = {
-      
-    }
+    @user = Factory(:user)
+    
   end
 
-  it "should create a new instance given valid attributes" do
-    Event.create!(@valid_attributes)
+  it "should be able to create an event"
+  it "should be able to create an event with an actor"
+
+  it "should be able to create an event with some line items" do
+    user = Factory(:user)
+    debugger
+    i=0
+    i+=1
+
   end
 end
 

@@ -5,6 +5,7 @@
 #
 #  id       :integer(4)      not null, primary key
 #  owner_id :integer(4)
+#  name     :string(255)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
@@ -14,4 +15,5 @@
 #
 # two:
 #   column: value
+
 

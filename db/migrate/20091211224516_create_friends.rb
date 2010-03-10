@@ -2,6 +2,7 @@ class CreateFriends < ActiveRecord::Migration
   def self.up
     create_table "friends", :force => true do |t|
       t.column :owner_id,       :integer
+      t.column :name,           :string
     end
 
     create_table "users_friends", :id => false, :force => true do |t|

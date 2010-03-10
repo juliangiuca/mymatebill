@@ -28,7 +28,8 @@ class User < ActiveRecord::Base
   include Authorization::AasmRoles
 
   has_many :accounts
-  has_many :friends
+  has_many :users_friends
+  has_many :friends, :through => :users_friends, :source => :friend
   has_many :actors
   has_many :events, :through => :accounts
 

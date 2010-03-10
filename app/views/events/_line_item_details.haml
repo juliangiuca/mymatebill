@@ -1,4 +1,14 @@
 %div#line_items_button
   Add transaction details
-%div#line_items_container{:style => "display:none"}
-  I'm hidden!
+%div#line_items_container
+  - f.fields_for :line_items do |l|
+    %div#line_items
+      %p
+        Amount
+        = l.text_field :amount
+        Friend
+        = text_field_tag "event[line_items_attributes][0][friend]", nil, {:class => "event_line_items_friend"}
+        paid on
+        = l.text_field :paid_on
+  %div.add_line_item
+    Add Another

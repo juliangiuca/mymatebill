@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
 
   create_table "friends", :force => true do |t|
     t.integer "owner_id"
+    t.string  "name"
   end
 
   create_table "line_items", :force => true do |t|

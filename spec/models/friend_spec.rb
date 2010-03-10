@@ -5,6 +5,7 @@
 #
 #  id       :integer(4)      not null, primary key
 #  owner_id :integer(4)
+#  name     :string(255)
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -20,4 +21,5 @@ describe Friend do
     Friend.create!(@valid_attributes)
   end
 end
+
 
