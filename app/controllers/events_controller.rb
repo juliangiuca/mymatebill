@@ -11,8 +11,13 @@ class EventsController < ApplicationController
   def create
     account = current_user.accounts.find(params[:event][:account_id])
     actor = current_user.actors.find_or_create_by_name(params[:actor])
-    debugger
+    friends = current_user.friends
+
     @event = account.events.create!(params["event"].merge(:actor_id => actor.id))
+    params['line_items'].each do |key, line_item|
+      friend = friends.find_by_name(line_item["friend"]) || friends.create!(:name => line_item["friend"])
+      @event.line_items << LineItem.create!(line_item.except("friend").merge(:friend_id => friend.id))
+    end
     #redirect_to :action => :show, :id => @event.id
     redirect_to :action => :index
 

@@ -20,6 +20,14 @@ describe Friend do
   it "should create a new instance given valid attributes" do
     Friend.create!(@valid_attributes)
   end
+
+  it "should be able to be created attached to a user" do
+    user = Factory(:user)
+    user.friends.should be_blank
+    user.friends.create!(:name => "Trevor")
+    Friend.first.should_not be_nil
+    User.find(user).friends.should be_present
+  end
 end
 
 

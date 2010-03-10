@@ -9,7 +9,8 @@
 #
 
 class Friend < ActiveRecord::Base
-  belongs_to  :user
+  has_many    :users_friends
+  has_many    :users, :through => :users_friends, :source => :user
   has_many    :line_items
 end
 

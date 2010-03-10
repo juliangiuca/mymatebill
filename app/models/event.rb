@@ -16,9 +16,6 @@ class Event < ActiveRecord::Base
   belongs_to :actor
   has_many   :line_items
 
-  accepts_nested_attributes_for :line_items
-  accepts_nested_attributes_for :actor
-
   validates_presence_of :actor_id
   validates_numericality_of :amount
 end
