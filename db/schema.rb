@@ -32,7 +32,15 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
   create_table "friends", :force => true do |t|
     t.integer "owner_id"
     t.string  "name"
+    t.float   "money_in"
+    t.float   "money_out"
+    t.float   "total"
+    t.date    "befriended_on"
+    t.string  "hash"
+    t.string  "email_address"
   end
+
+  add_index "friends", ["hash"], :name => "index_friends_on_hash"
 
   create_table "line_items", :force => true do |t|
     t.integer "event_id"
@@ -59,14 +67,5 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
-
-  create_table "users_friends", :id => false, :force => true do |t|
-    t.integer "user_id"
-    t.integer "friend_id"
-    t.float   "money_in"
-    t.float   "money_out"
-    t.float   "total"
-    t.date    "befriended_on"
-  end
 
 end

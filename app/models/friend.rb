@@ -3,15 +3,21 @@
 #
 # Table name: friends
 #
-#  id       :integer(4)      not null, primary key
-#  owner_id :integer(4)
-#  name     :string(255)
+#  id            :integer(4)      not null, primary key
+#  owner_id      :integer(4)
+#  name          :string(255)
+#  money_in      :float
+#  money_out     :float
+#  total         :float
+#  befriended_on :date
+#  hash          :string(255)
+#  email_address :string(255)
 #
 
 class Friend < ActiveRecord::Base
-  has_many    :users_friends
-  has_many    :users, :through => :users_friends, :source => :user
+  belongs_to  :user
   has_many    :line_items
 end
+
 
 

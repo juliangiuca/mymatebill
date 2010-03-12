@@ -3,9 +3,15 @@
 #
 # Table name: friends
 #
-#  id       :integer(4)      not null, primary key
-#  owner_id :integer(4)
-#  name     :string(255)
+#  id            :integer(4)      not null, primary key
+#  owner_id      :integer(4)
+#  name          :string(255)
+#  money_in      :float
+#  money_out     :float
+#  total         :float
+#  befriended_on :date
+#  hash          :string(255)
+#  email_address :string(255)
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -29,5 +35,6 @@ describe Friend do
     User.find(user).friends.should be_present
   end
 end
+
 
 
