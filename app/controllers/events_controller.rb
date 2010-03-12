@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  layout "basic"
+  layout "leftnav"
      #skip_before_filter :verify_authenticity_token, :only => [:auto_complete_for_actor_name]
 
   def new

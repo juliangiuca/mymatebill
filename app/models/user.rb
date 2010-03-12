@@ -81,6 +81,11 @@ class User < ActiveRecord::Base
     accounts.create!(:name => "My First Account")
   end
 
+  def line_items
+    event_ids = self.events.map(&:id)
+    line_items = LineItem.find(:all, :conditions => ["event_id in (?)", event_ids])
+  end
+
   protected
     
     def make_activation_code

@@ -1,0 +1,31 @@
+
+#new_event_container #line_items_container, div.line_items {
+  display: none;
+}
+
+div.fieldWithErrors {
+  display: inline;
+  color: #F00;
+  padding: 0px;
+  margin: 0px;
+}
+
+ .fieldWithErrors input,
+ .fieldWithErrors textarea,
+ .fieldWithErrors select {
+border: solid 1px #f00;
+}
+
+form div {
+  padding:3px;
+}
+
+.ui-datepicker { width: 17em; padding: .2em .2em 0; font-size: 12px !important;} 
+
+div.more_line_items {
+  display:inline;
+}
+
+div#left_panel {
+  width: 240px;
+}

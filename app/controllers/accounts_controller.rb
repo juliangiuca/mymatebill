@@ -1,6 +1,6 @@
 class AccountsController < ApplicationController
 
-  layout "basic"
+  layout "leftnav"
 
   def index
     @accounts = current_user.accounts
