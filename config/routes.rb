@@ -5,11 +5,14 @@ ActionController::Routing::Routes.draw do |map|
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.resources :users
 
-  map.resource  :session
-  map.resources :accounts
   map.connect '/ac/actors_name', :controller => :events, :action => :auto_complete_for_actor_name
   map.connect '/ac/friends_name', :controller => :events, :action => :auto_complete_for_friend_name
   map.resources :events
+  map.resource  :session
+  map.resources :accounts
+  map.resources :friends
+  map.resources :actors
+  map.resources :line_items
 
   map.home '', :controller => :accounts, :action => :index
 

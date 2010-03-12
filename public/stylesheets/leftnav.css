@@ -1,8 +1,8 @@
-
-#new_event_container #line_items_container, div.line_items {
-  display: none;
+/* Body specific styles*/
+body {
+  padding: 0;
+  margin: 0;
 }
-
 div.fieldWithErrors {
   display: inline;
   color: #F00;
@@ -10,22 +10,35 @@ div.fieldWithErrors {
   margin: 0px;
 }
 
- .fieldWithErrors input,
- .fieldWithErrors textarea,
- .fieldWithErrors select {
-border: solid 1px #f00;
+.fieldWithErrors input,
+.fieldWithErrors textarea,
+.fieldWithErrors select {
+  border: solid 1px #f00;
 }
+
+#left_panel {
+  width: 12%;
+  float:left;
+}
+
+#content {
+  float:right;
+  width: 88%;
+}
+/* End body specific styles */
+
+/* Event specific styles */
+.ui-datepicker { width: 17em; padding: .2em .2em 0; font-size: 12px !important;} 
 
 form div {
   padding:3px;
 }
 
-.ui-datepicker { width: 17em; padding: .2em .2em 0; font-size: 12px !important;} 
+#new_event_container #line_items_container, div.line_items {
+  display: none;
+}
 
 div.more_line_items {
   display:inline;
 }
 
-div#left_panel {
-  width: 240px;
-}

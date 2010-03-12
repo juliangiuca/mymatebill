@@ -6,13 +6,12 @@
     = javascript_include_tag "jquery"
     = javascript_include_tag "jquery-ui"
     = javascript_include_tag "application"
-    = stylesheet_link_tag "left_nav"
+    = stylesheet_link_tag "leftnav"
     = stylesheet_link_tag "jquery-ui"
 
   %body
     = render :partial => "shared/header"
-    %div#left_panel
-      = render :partial => "shared/left"
+    = render :partial => "shared/left"
     %div#content
       - if flash[:error] || flash[:notice]
         = "<div class='notice'>#{flash[:error]}</div>" if flash[:error]
