@@ -16,7 +16,16 @@ class Event < ActiveRecord::Base
   belongs_to :actor
   has_many   :line_items
 
-  validates_presence_of :actor_id
+  validates_presence_of :actor_id, :message => "can't be blank"
   validates_numericality_of :amount
+
+  HUMANIZED_ATTRIBUTES = {
+    :actor_id => "Event name"
+  }
+
+  def self.human_attribute_name(attr)
+    HUMANIZED_ATTRIBUTES[attr.to_sym] || super
+  end
+  
 end
 

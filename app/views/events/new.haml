@@ -4,10 +4,10 @@
     $("#event_occured_on").datepicker();
     var line_item_counter = 0;
 
-    var actor_name_autocomplete = { source:'ac/actors_name' };
+    var actor_name_autocomplete = { source:'/ac/actors_name' };
     $("#actor_name").autocomplete(actor_name_autocomplete);
 
-    var friend_name_autocomplete = { source:'ac/friends_name' };
+    var friend_name_autocomplete = { source:'/ac/friends_name' };
     $(".event_line_items_friend").autocomplete(friend_name_autocomplete);
 
     $("#line_items_button").click(function() {
@@ -31,25 +31,25 @@
 %div#new_event_container
   %h1 Create a new bill
   - form_for @event do |f|
-    %p
+    %div
       = f.error_messages
-    %p
-      = f.label :amount, 'Amount'
+    %div
+      = f.label :amount
       = f.text_field :amount, :size => 3
-    %p
-      = f.label :actor, 'Event'
-      = text_field_tag "actor[name]", nil
-    %p
+    %div
+      = f.label :actor_id, 'Event'
+      = text_field_tag "actor[name]", @last_entered_name
+    %div
       = f.label :description, 'Additional notes'
       = f.text_field :description
       = f.hidden_field :account_id
 
-    %p
+    %div
       = f.label :occured_on, 'Date'
       = f.text_field :occured_on
-    %p
+    %div
       = render :partial => "line_item_details", :locals => {:f => f}
 
-    %p
+    %div
       = submit_tag
 

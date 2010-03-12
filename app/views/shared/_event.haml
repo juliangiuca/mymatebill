@@ -1,0 +1,11 @@
+%div
+  = text_field_tag 'amount', event.amount, :size => 3, :disabled => true
+  = text_field_tag 'actor[name]', event.actor.name, :disabled => true
+  = text_field_tag "description", event.description, :disabled => true 
+  = text_field_tag "occured_on", event.occured_on, :disabled => true 
+  - if event.line_items.present?
+    %div.more_line_items{:onclick => "$('#line_item_#{event_counter}').slideToggle('slow')"} More
+- if event.line_items.present?
+  %div.line_items{:id => "line_item_#{event_counter}"}
+    = render :partial => "/shared/line_item", :collection => event.line_items
+
