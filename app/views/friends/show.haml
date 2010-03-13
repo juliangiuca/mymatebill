@@ -1,0 +1,13 @@
+%div#friend
+  %h1
+    = "Details for #{@friend.name}"
+  %div.label
+    Money In:
+    %div.tally
+      = @friend.money_in
+  %div.label
+    Money Out:
+    %div.tally
+      = @friend.money_out
+
+  = render :partial => "shared/line_item", :collection => @friend.line_items

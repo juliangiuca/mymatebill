@@ -32,7 +32,7 @@ describe Event do
 
     #line item
     line_item = event.line_items.first
-    line_item.friend_id = 1
+    line_item.friend_id = Factory(:friend).id
     line_item.amount = "12"
 
     event.save!

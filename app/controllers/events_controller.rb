@@ -16,7 +16,7 @@ class EventsController < ApplicationController
     if @event && @event.valid? && @event.save! && @event.errors.empty?
       line_item_params = params['line_items']
 
-      #Since the first line item is automatically created, but invisible, make sure it's populated.
+      #Since the first line item is automatically created, but invisible, make sure it's populated with a 'real' friend entry.
       if line_item_params && params['line_items']['0']["friend"].present?
         line_item_params.each do |key, line_item|
           friend = friends.find_by_name(line_item["friend"]) || friends.create!(:name => line_item["friend"])
@@ -49,7 +49,7 @@ class EventsController < ApplicationController
     actor = params[:term]
     @actors = current_user.actors.find(:all, :conditions => "name like '%" + actor + "%'")
     if @actors.present?
-      render :text => @actors.map{|x| x.name}.to_json
+      render :text => @actors.map(&:name).to_json
     else
       render :text => "".to_json
     end
@@ -59,7 +59,7 @@ class EventsController < ApplicationController
     friend = params[:term]
     @friends = current_user.friends.find(:all, :conditions => "name like '%" + friend + "%'")
     if @friends.present?
-      render :text => @friends.map{|x| x.name}.to_json
+      render :text => @friends.map(&:name).to_json
     else
       render :text => "".to_json
     end

@@ -19,6 +19,9 @@ class Event < ActiveRecord::Base
   validates_presence_of :actor_id, :message => "can't be blank"
   validates_numericality_of :amount
 
+  before_validation :strip_spaces
+  before_validation :make_sure_a_date_is_set
+
   HUMANIZED_ATTRIBUTES = {
     :actor_id => "Event name"
   }
@@ -26,6 +29,14 @@ class Event < ActiveRecord::Base
   def self.human_attribute_name(attr)
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end
-  
+
+  protected
+  def strip_spaces
+    self.description = self.description.strip
+  end
+
+  def make_sure_a_date_is_set
+    self.occured_on ||= Time.now
+  end
 end
 

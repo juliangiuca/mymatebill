@@ -31,16 +31,18 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
 
   create_table "friends", :force => true do |t|
     t.integer "owner_id"
+    t.integer "user_id"
     t.string  "name"
-    t.float   "money_in"
-    t.float   "money_out"
+    t.float   "money_in",          :default => 0.0
+    t.float   "money_out",         :default => 0.0
     t.float   "total"
     t.date    "befriended_on"
-    t.string  "hash"
+    t.string  "unique_magic_hash"
     t.string  "email_address"
   end
 
-  add_index "friends", ["hash"], :name => "index_friends_on_hash"
+  add_index "friends", ["unique_magic_hash"], :name => "index_friends_on_unique_magic_hash"
+  add_index "friends", ["user_id"], :name => "index_friends_on_user_id"
 
   create_table "line_items", :force => true do |t|
     t.integer "event_id"

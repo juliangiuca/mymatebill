@@ -42,3 +42,15 @@ div.more_line_items {
   display:inline;
 }
 
+/*End Event specific styles*/
+
+/*Friend specific styles*/
+div#friend div.label{
+  width:400px;
+}
+
+.tally {
+  float:right;
+}
+/*End friend specific styles*/
+
