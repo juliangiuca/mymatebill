@@ -4,10 +4,10 @@
   %div.label
     Money In:
     %div.tally
-      = @friend.money_in
+      = number_to_currency @friend.money_in
   %div.label
     Money Out:
     %div.tally
-      = @friend.money_out
+      = number_to_currency @friend.money_out
 
-  = render :partial => "shared/line_item", :collection => @friend.line_items
+  = render :partial => "line_item", :collection => @friend.line_items

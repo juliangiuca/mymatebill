@@ -9,6 +9,8 @@
 #  amount            :float
 #  paid_on           :date
 #  confirmed_payment :boolean(1)
+#  confirmed_on      :date
+#  state             :string(255)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
@@ -18,4 +20,8 @@
 #
 # two:
 #   column: value
+
+
+
+
 

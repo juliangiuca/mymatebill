@@ -9,6 +9,8 @@
 #  amount            :float
 #  paid_on           :date
 #  confirmed_payment :boolean(1)
+#  confirmed_on      :date
+#  state             :string(255)
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -18,4 +20,8 @@ describe LineItem do
     Factory(:line_item)
   end
 end
+
+
+
+
 

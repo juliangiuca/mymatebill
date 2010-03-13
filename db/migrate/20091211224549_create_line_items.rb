@@ -6,6 +6,8 @@ class CreateLineItems < ActiveRecord::Migration
       t.column :amount,             :float
       t.column :paid_on,            :date
       t.column :confirmed_payment,  :boolean
+      t.column :confirmed_on,       :date
+      t.column :state,              :string, :state => "unpaid"
     end
   end
 

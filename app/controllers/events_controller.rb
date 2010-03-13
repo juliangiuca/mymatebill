@@ -45,6 +45,10 @@ class EventsController < ApplicationController
     @accounts = current_user.accounts
   end
 
+  def edit
+    @event = Event.find(params[:id])
+  end
+
   def auto_complete_for_actor_name
     actor = params[:term]
     @actors = current_user.actors.find(:all, :conditions => "name like '%" + actor + "%'")

@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.float   "amount"
     t.date    "paid_on"
     t.boolean "confirmed_payment"
+    t.date    "confirmed_on"
+    t.string  "state"
   end
 
   create_table "users", :force => true do |t|
