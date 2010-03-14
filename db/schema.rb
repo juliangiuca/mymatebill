@@ -33,8 +33,9 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.integer "owner_id"
     t.integer "user_id"
     t.string  "name"
-    t.float   "money_in",          :default => 0.0
-    t.float   "money_out",         :default => 0.0
+    t.float   "credit",            :default => 0.0
+    t.float   "debit",             :default => 0.0
+    t.float   "pending",           :default => 0.0
     t.float   "total"
     t.date    "befriended_on"
     t.string  "unique_magic_hash"
@@ -52,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.boolean "confirmed_payment"
     t.date    "confirmed_on"
     t.string  "state"
+    t.string  "unique_magic_hash"
   end
 
   create_table "users", :force => true do |t|

@@ -2,12 +2,16 @@
   %h1
     = "Details for #{@friend.name}"
   %div.label
-    Money In:
+    Will break your kneecaps if you don't pay:
     %div.tally
-      = number_to_currency @friend.money_in
+      = number_to_currency @friend.credit
   %div.label
-    Money Out:
+    Owes you:
     %div.tally
-      = number_to_currency @friend.money_out
+      = number_to_currency @friend.debit
+  %div.label
+    Money In Transit:
+    %div.tally
+      = number_to_currency @friend.pending
 
   = render :partial => "line_item", :collection => @friend.line_items

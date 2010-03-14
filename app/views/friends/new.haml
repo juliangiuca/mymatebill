@@ -1,0 +1,7 @@
+%div#new_friend_container{:class => "new container friend"}
+  %h1 Create a new friend!
+  - form_for @friend do |f|
+    = f.error_messages
+    = f.label :name
+    = f.text_field :name
+    = submit_tag

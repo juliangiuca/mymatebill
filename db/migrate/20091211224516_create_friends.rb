@@ -4,8 +4,9 @@ class CreateFriends < ActiveRecord::Migration
       t.column :owner_id,                     :integer
       t.column :user_id,                      :integer
       t.column :name,                         :string
-      t.column :money_in,                     :float, :default => 0
-      t.column :money_out,                    :float, :default => 0
+      t.column :credit,                       :float, :default => 0
+      t.column :debit,                        :float, :default => 0
+      t.column :pending,                      :float, :default => 0
       t.column :total,                        :float
       t.column :befriended_on,                :date
       t.column :unique_magic_hash,            :string

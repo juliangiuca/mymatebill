@@ -8,6 +8,8 @@ class CreateLineItems < ActiveRecord::Migration
       t.column :confirmed_payment,  :boolean
       t.column :confirmed_on,       :date
       t.column :state,              :string, :state => "unpaid"
+      t.column :unique_magic_hash,  :string
+      t.timestamp
     end
   end
 

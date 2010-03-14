@@ -8,7 +8,7 @@ end
 
 Factory.define :actor do |a|
   a.name                  "Rent"
-  a.user_id               {(User.first || Factoru(:user)).id}
+  a.user_id               {(User.first || Factory(:user)).id}
 end
 
 Factory.define :event do |e|
@@ -23,7 +23,7 @@ end
 
 Factory.define :friend do |f|
   f.name                  "Friendly name"
-  f.user_id               {(User.first || Factory.user).id}
+  f.user_id               {(User.first || Factory(:user)).id}
 end
 
 Factory.define :line_item do |l|

@@ -7,8 +7,9 @@
 #  owner_id          :integer(4)
 #  user_id           :integer(4)
 #  name              :string(255)
-#  money_in          :float           default(0.0)
-#  money_out         :float           default(0.0)
+#  credit            :float           default(0.0)
+#  debit             :float           default(0.0)
+#  pending           :float           default(0.0)
 #  total             :float
 #  befriended_on     :date
 #  unique_magic_hash :string(255)
@@ -54,12 +55,6 @@ describe Friend do
     friend = Friend.create!(:name => " spacy name ", :user_id => 1)
     friend.name.should == friend.name.strip
   end
-  
+
 end
-
-
-
-
-
-
 

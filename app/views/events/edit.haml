@@ -1,0 +1,63 @@
+:javascript
+
+  $(document).ready(function(){
+    $("#event_occured_on").datepicker();
+    $(".event_line_items_paid_on").datepicker();
+    var line_item_counter = 0;
+
+    var actor_name_autocomplete = { source:'/ac/actors_name' };
+    $("#actor_name").autocomplete(actor_name_autocomplete);
+
+    var friend_name_autocomplete = { source:'/ac/friends_name' };
+    $(".event_line_items_friend").autocomplete(friend_name_autocomplete);
+
+    $("div.add_line_item").click(function() {
+
+      $("#line_items_container > #line_items").append(
+        "<p>Amount <input id=\"new_line_items_" + line_item_counter + "_amount\" name=\"new_line_items[" + line_item_counter + "][amount]\" type=\"text\" />" +
+          " Friend <input id=\"new_line_items_" + line_item_counter + "_friend\" name=\"new_line_items[" + line_item_counter + "][friend]\" type=\"text\" class=\"event_line_items_friend\"/>" +
+            " paid on <input id=\"new_line_items_" + line_item_counter + "_paid_on\" name=\"new_line_items[" + line_item_counter + "][paid_on]\" type=\"text\" class=\"event_line_items_paid_on\" /></p>"
+        );
+
+      line_item_counter++;
+      $(".event_line_items_friend").autocomplete(friend_name_autocomplete);
+      $(".event_line_items_paid_on").datepicker();
+    });
+  });
+%div#edit_event_container
+  %h1 Edit a bill
+  - form_for @event do |f|
+    %div
+      = f.error_messages
+    %div
+      = f.label :amount
+      = f.text_field :amount, :size => 3
+    %div
+      = f.label :actor_id, 'Event'
+      = text_field_tag "actor[name]", @event.actor.name
+    %div
+      = f.label :description, 'Additional notes'
+      = f.text_field :description
+      = f.hidden_field :account_id
+
+    %div
+      = f.label :occured_on, 'Date'
+      = f.text_field :occured_on
+    %div
+      %h2 Line Items
+      %div#line_items_container
+        %div#line_items
+          - @event.line_items.each do |line_item|
+            %p
+              Amount
+              = text_field_tag "line_items[#{line_item.id}][amount]", line_item.amount
+              Friend
+              = text_field_tag "line_items[#{line_item.id}][friend]", line_item.friend.name, {:class => "event_line_items_friend"}
+              paid on
+              = text_field_tag "line_items[#{line_item.id}][paid_on]", line_item.paid_on, {:class => "event_line_items_paid_on"}
+        %div.add_line_item
+          Add Another
+
+    %div
+      = submit_tag
+

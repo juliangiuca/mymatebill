@@ -11,6 +11,7 @@
 #  confirmed_payment :boolean(1)
 #  confirmed_on      :date
 #  state             :string(255)
+#  unique_magic_hash :string(255)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
@@ -20,6 +21,7 @@
 #
 # two:
 #   column: value
+
 
 
 

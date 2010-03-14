@@ -1,3 +1,7 @@
 %div#friend
   %h1 Friends
   = render :partial => "/shared/friend", :collection => @friends
+  - if @friends.blank?
+    %p
+      Awwww, you have no friends!
+  = link_to "Create a friend.", new_friend_path

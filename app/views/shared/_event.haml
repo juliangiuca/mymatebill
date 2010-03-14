@@ -1,10 +1,13 @@
 %div
-  = text_field_tag 'amount', event.amount, :size => 3, :disabled => true
-  = text_field_tag 'actor[name]', event.actor.name, :disabled => true
-  = text_field_tag "description", event.description, :disabled => true 
-  = text_field_tag "occured_on", event.occured_on, :disabled => true 
+  = number_to_currency event.amount
+  = link_to event.actor.name, actor_path(:id => event.actor_id)
+  = event.description
+  = event.occured_on
+  = link_to "Edit", edit_event_path(:id => event.id)
   - if event.line_items.present?
-    %div.more_line_items{:onclick => "$('#line_item_#{event_counter}').slideToggle('slow')"} More
+    %div.more_line_items
+      %a{:onclick => "$('#line_item_#{event_counter}').slideToggle('slow'); return false", :href=>""}More
+
 - if event.line_items.present?
   %div.line_items{:id => "line_item_#{event_counter}"}
     = render :partial => "/shared/line_item", :collection => event.line_items
