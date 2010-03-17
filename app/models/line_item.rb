@@ -31,7 +31,7 @@ class LineItem < ActiveRecord::Base
 
   aasm_state :unpaid, :enter => :create_debit, :exit => :delete_debit
   aasm_state :pending, :enter => :create_pending, :exit => :delete_pending
-  aasm_state :paid
+  aasm_state :paid, :enter => :confirmed_payment, :exit => :unconfirm_payment
 
   aasm_event :pay do
     transitions :from => :unpaid, :to => :pending
@@ -66,12 +66,20 @@ class LineItem < ActiveRecord::Base
 
   def create_pending
     self.friend.sub_pending(self.amount)
+    self.update_attribute(:paid_on, Time.now)
   end
 
   def delete_pending
     self.friend.add_pending(self.amount)
   end
 
+  def confirm_payment
+    self.update_attribute(:confirmed_on, Time.now)
+  end
+
+  def unconfirm_payment
+    self.update_attribute(:confirmed_on, nil)
+  end
 
   protected
   def create_magic_hash

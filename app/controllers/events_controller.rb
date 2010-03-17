@@ -21,7 +21,7 @@ class EventsController < ApplicationController
         line_item_params.each do |key, line_item|
           next unless line_item["friend"].present? && line_item["amount"].present?
           friend = friends.find_by_name(line_item["friend"]) || friends.create!(:name => line_item["friend"])
-          @event.line_items << LineItem.create!(line_item.except("friend").merge(:friend_id => friend.id))
+          LineItem.create!(line_item.except("friend").merge({:friend_id => friend.id, :event_id => @event.id}))
         end
       end
 

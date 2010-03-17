@@ -21,29 +21,112 @@ describe LineItem do
     Factory(:line_item)
   end
 
-  it "should transition from unpaid to pending"
-  it "should transition from unpaid to paid"
-  it "should transition from pending to paid"
-  it "should transition from paid to pending"
 
   describe "when transitioning from paid to unpaid" do
     before(:each) do
-      @line_item = Factory(:line_item, :state => "paid", :amount => "80")
+      @line_item = Factory(:line_item, :amount => "80")
       @friend = @line_item.friend
+      @line_item.confirm_payment!
     end
 
-    it "should transition successfuly" do
-      @line_item.state.should == "paid"
+    it "should transition successfuly from paid to unpaid" do
       @line_item.unpay!
       @line_item.state.should == "unpaid"
     end
 
     it "should return the funds to a friend" do
       @friend.debit.should == 0
+      @friend.pending.should == 0
       @line_item.unpay!
       @friend.debit.should == -80
+      @friend.pending.should == 0
     end
   end
 
+  describe "when transitioning from paid to pending" do
+    before(:each) do
+      @line_item = Factory(:line_item, :amount => "80")
+      @friend = @line_item.friend
+      @line_item.pay!
+      @line_item.confirm_payment!
+    end
+
+    it "should transition successfuly from paid to pending" do
+      @line_item.unpay!
+      @line_item.state.should == "pending"
+    end
+
+    it "should return the funds to pending" do
+      @friend.debit.should == 0
+      @friend.pending.should == 0
+      @line_item.unpay!
+      @friend.debit.should == 0
+      @friend.pending.should == -80
+    end
+  end
+
+  describe "when transitioning from pending to paid" do
+    before(:each) do
+      @line_item = Factory(:line_item, :amount => "80")
+      @friend = @line_item.friend
+      @line_item.pay!
+    end
+
+    it "should transition successfuly from pending to paid" do
+      @line_item.state.should == "pending"
+      @line_item.confirm_payment!
+      @line_item.state.should == "paid"
+    end
+
+    it "should clear the debt" do
+      @friend.debit.should == 0
+      @friend.pending.should == -80
+      @line_item.confirm_payment!
+      @friend.debit.should == 0
+      @friend.pending.should == 0
+    end
+  end
+
+  describe "when transitioning from unpaid to pending" do
+    before(:each) do
+      @line_item = Factory(:line_item, :amount => "80")
+      @friend = @line_item.friend
+    end
+
+    it "should transition successfuly from pending to paid" do
+      @line_item.state.should == "unpaid"
+      @line_item.pay!
+      @line_item.state.should == "pending"
+    end
+
+    it "should clear the debt" do
+      @friend.debit.should == -80
+      @friend.pending.should == 0
+      @line_item.pay!
+      @friend.debit.should == 0
+      @friend.pending.should == -80
+    end
+  end
+
+  describe "when transitioning from unpaid to paid" do
+    before(:each) do
+      @line_item = Factory(:line_item, :amount => "80")
+      @friend = @line_item.friend
+    end
+
+    it "should transition successfuly from unpaid to paid" do
+      @line_item.state.should == "unpaid"
+      @line_item.confirm_payment!
+      @line_item.state.should == "paid"
+    end
+
+    it "should clear the debt" do
+      @friend.debit.should == -80
+      @friend.pending.should == 0
+      @line_item.confirm_payment!
+      @friend.debit.should == 0
+      @friend.pending.should == 0
+    end
+  end
 
 end

@@ -38,15 +38,15 @@ class Friend < ActiveRecord::Base
   end
 
   def add_debit(amount)
-    self.update_attribute(:debit, self.debit - amount)
+    self.update_attribute(:debit, self.debit + amount)
   end
 
   def sub_pending(amount)
-    self.update_attribute(:debit, self.debit - amount)
+    self.update_attribute(:pending, self.pending - amount)
   end
 
   def add_pending(amount)
-    self.update_attribute(:debit, self.debit - amount)
+    self.update_attribute(:pending, self.pending + amount)
   end
 
   protected
