@@ -2,6 +2,7 @@
 
   $(document).ready(function(){
     $("#event_occured_on").datepicker();
+    $(".event_line_items_paid_on").datepicker();
     var line_item_counter = 0;
 
     var actor_name_autocomplete = { source:'/ac/actors_name' };
@@ -25,10 +26,11 @@
         $("#line_items_container > #line_items").append(
           "<p>Amount <input id=\"line_items_" + line_item_counter + "_amount\" name=\"line_items[" + line_item_counter + "][amount]\" type=\"text\" />" +
             " Friend <input id=\"line_items_" + line_item_counter + "_friend\" name=\"line_items[" + line_item_counter + "][friend]\" type=\"text\" class=\"event_line_items_friend\"/>" +
-              " paid on <input id=\"line_items_" + line_item_counter + "_paid_on\" name=\"line_items[" + line_item_counter + "][paid_on]\" type=\"text\" /></p>"
+              " paid on <input id=\"line_items_" + line_item_counter + "_paid_on\" name=\"line_items[" + line_item_counter + "][paid_on]\" type=\"text\" class=\"event_line_items_paid_on\"/></p>"
           );
 
       $(".event_line_items_friend").autocomplete(friend_name_autocomplete);
+      $(".event_line_items_paid_on").datepicker();
       });
 
   });
