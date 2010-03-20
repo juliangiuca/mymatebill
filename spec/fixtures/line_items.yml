@@ -7,11 +7,13 @@
 #  event_id          :integer(4)
 #  friend_id         :integer(4)
 #  amount            :float
+#  due               :date
 #  paid_on           :date
-#  confirmed_payment :boolean(1)
 #  confirmed_on      :date
+#  confirmed_payment :boolean(1)
 #  state             :string(255)
 #  unique_magic_hash :string(255)
+#  self_referencing  :boolean(1)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
@@ -21,6 +23,9 @@
 #
 # two:
 #   column: value
+
+
+
 
 
 

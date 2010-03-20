@@ -11,6 +11,7 @@ class CreateFriends < ActiveRecord::Migration
       t.column :befriended_on,                :date
       t.column :unique_magic_hash,            :string
       t.column :email_address,                :string
+      t.column :hidden,                       :boolean, :default => 0
       t.timestamp
     end
 

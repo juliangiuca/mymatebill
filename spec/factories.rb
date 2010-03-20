@@ -11,14 +11,16 @@ Factory.define :actor do |a|
   a.user_id               {(User.first || Factory(:user)).id}
 end
 
+Factory.define :account do |a|
+  a.name                  'Test account'
+  a.user_id               {(User.find_by_name("test login") || Factory(:user)).id}
+end
+
 Factory.define :event do |e|
   e.description           'This is a test event'
   e.amount                '123'
   e.actor_id              {(Actor.first || Factory(:actor)).id}
-end
-
-Factory.define :account do |a|
-  a.name                  'Test account'
+  e.account_id            {(Account.first || Factory(:account)).id}
 end
 
 Factory.define :friend do |f|

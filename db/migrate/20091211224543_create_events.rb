@@ -3,7 +3,7 @@ class CreateEvents < ActiveRecord::Migration
     create_table "events", :force => true do |t|
       t.column :description,      :string
       t.column :account_id,       :integer
-      t.column :occured_on,       :date
+      t.column :due,              :date
       t.column :actor_id,         :integer
       t.column :amount,           :float
       t.timestamp

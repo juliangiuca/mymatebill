@@ -2,7 +2,7 @@
   = number_to_currency event.amount
   = link_to event.actor.name, actor_path(:id => event.actor_id)
   = event.description
-  = event.occured_on
+  = event.due
   = link_to "Edit", edit_event_path(:id => event.id)
   - if event.line_items.present?
     %div.more_line_items

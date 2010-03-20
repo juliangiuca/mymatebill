@@ -14,6 +14,7 @@
 #  befriended_on     :date
 #  unique_magic_hash :string(255)
 #  email_address     :string(255)
+#  hidden            :boolean(1)
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -32,10 +33,11 @@ describe Friend do
 
   it "should be able to be created attached to a user" do
     user = Factory(:user)
-    user.friends.should be_blank
+    user.friends.should have(1).record
     user.friends.create!(:name => "Trevor")
     Friend.first.should_not be_nil
-    User.find(user).friends.should be_present
+    User.find(user.id).friends.should be_present
+    user.friends.should have(2).record
   end
 
   it "should create a hash" do
@@ -57,4 +59,10 @@ describe Friend do
   end
 
 end
+
+
+
+
+
+
 

@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   has_many :events, :through => :accounts
 
   after_create :create_first_account
+  after_create :create_yourself_as_a_friend
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
@@ -80,9 +81,17 @@ class User < ActiveRecord::Base
     accounts.create!(:name => "My First Account")
   end
 
+  def create_yourself_as_a_friend
+    friends.create!(:name => "me", :owner_id => self.id, :hidden => 1)
+  end
+
   def line_items
     event_ids = self.events.map(&:id)
     line_items = LineItem.find(:all, :conditions => ["event_id in (?)", event_ids])
+  end
+
+  def myself_as_a_friend
+    friends.find_by_name("me")
   end
 
   protected

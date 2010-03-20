@@ -7,11 +7,13 @@
 #  event_id          :integer(4)
 #  friend_id         :integer(4)
 #  amount            :float
+#  due               :date
 #  paid_on           :date
-#  confirmed_payment :boolean(1)
 #  confirmed_on      :date
+#  confirmed_payment :boolean(1)
 #  state             :string(255)
 #  unique_magic_hash :string(255)
+#  self_referencing  :boolean(1)
 #
 
 class LineItem < ActiveRecord::Base
@@ -19,19 +21,19 @@ class LineItem < ActiveRecord::Base
   belongs_to  :event
   belongs_to  :friend
 
-  #after_create :tally_friends_spending
   before_destroy :set_state_to_paid
   before_create :create_magic_hash
 
   validates_presence_of :amount
   validates_presence_of :friend_id
+  validates_presence_of :event_id, :unless => Proc.new { |line_item| !line_item.event.nil? && line_item.event.new_record? }
 
   aasm_column :state
   aasm_initial_state :unpaid
 
-  aasm_state :unpaid, :enter => :create_debit, :exit => :delete_debit
-  aasm_state :pending, :enter => :create_pending, :exit => :delete_pending
-  aasm_state :paid, :enter => :confirmed_payment, :exit => :unconfirm_payment
+  aasm_state :unpaid,   :enter => :create_debit,      :exit => :delete_debit
+  aasm_state :pending,  :enter => :create_pending,    :exit => :delete_pending
+  aasm_state :paid,     :enter => :confirm_payment, :exit => :unconfirm_payment
 
   aasm_event :pay do
     transitions :from => :unpaid, :to => :pending
@@ -46,10 +48,6 @@ class LineItem < ActiveRecord::Base
     transitions :from => :paid, :to => :pending, :guard => Proc.new {|li| !li.paid_on.blank?}
     transitions :from => :paid, :to => :unpaid
   end
-
-  #def tally_friends_spending
-    #self.friend.update_attribute(:debit, self.friend.debit - (self.amount || 0))
-  #end
 
   def set_state_to_paid
     self.pay!
@@ -83,8 +81,8 @@ class LineItem < ActiveRecord::Base
 
   protected
   def create_magic_hash
-    string_to_be_hashed = "yohgurt is sometimes gooood" + self.event.actor.name + Time.now.to_f.to_s + rand().to_s
-
+    string_to_be_hashed = "yohgurt is sometimes gooood" + self.event_id.to_s + Time.now.to_f.to_s + rand().to_s
     self.unique_magic_hash = Digest::SHA1.hexdigest string_to_be_hashed
   end
+
 end

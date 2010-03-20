@@ -14,20 +14,22 @@
 #  befriended_on     :date
 #  unique_magic_hash :string(255)
 #  email_address     :string(255)
+#  hidden            :boolean(1)
 #
 
 class Friend < ActiveRecord::Base
   belongs_to  :user
+  has_one     :owner
   has_many    :line_items
 
   before_create :create_magic_hash
+  before_create :set_befriended_on
 
   validates_presence_of :user_id
   validates_presence_of :name
 
   before_validation :strip_blanks
   validates_uniqueness_of :name, :scope => :user_id
-
 
   def name
     return self['name'].capitalize
@@ -60,5 +62,15 @@ class Friend < ActiveRecord::Base
     self.unique_magic_hash = Digest::SHA1.hexdigest string_to_be_hashed
   end
 
+  def set_befriended_on
+    self.befriended_on = Time.now
+  end
+
 end
+
+
+
+
+
+
 

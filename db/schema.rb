@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
   create_table "events", :force => true do |t|
     t.string  "description"
     t.integer "account_id"
-    t.date    "occured_on"
+    t.date    "due"
     t.integer "actor_id"
     t.float   "amount"
   end
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.date    "befriended_on"
     t.string  "unique_magic_hash"
     t.string  "email_address"
+    t.boolean "hidden",            :default => false
   end
 
   add_index "friends", ["unique_magic_hash"], :name => "index_friends_on_unique_magic_hash"
@@ -49,11 +50,13 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.integer "event_id"
     t.integer "friend_id"
     t.float   "amount"
+    t.date    "due"
     t.date    "paid_on"
-    t.boolean "confirmed_payment"
     t.date    "confirmed_on"
+    t.boolean "confirmed_payment"
     t.string  "state"
     t.string  "unique_magic_hash"
+    t.boolean "self_referencing",  :default => false
   end
 
   create_table "users", :force => true do |t|
