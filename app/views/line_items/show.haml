@@ -1,0 +1,18 @@
+%h1
+  = number_to_currency(@line_item.amount)
+  for
+  = @event.name
+  from
+  = @owner.name
+
+%p
+  This is part if the bill
+  = @event.name
+  = ". Your part is due on the"
+  = @line_item.due
+  and the bill is due on the
+  = @event.due
+
+
+%div#bill_status
+  = render :partial => 'line_items/line_item_status'

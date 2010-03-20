@@ -94,6 +94,11 @@ class User < ActiveRecord::Base
     friends.find_by_name("me")
   end
 
+  def name
+    return login if self['name'].blank?
+    return self['name']
+  end
+
   protected
     
     def make_activation_code

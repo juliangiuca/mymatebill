@@ -1,0 +1,15 @@
+- if @line_item.unpaid?
+  %div Click to make this as paid!
+  %div 
+    = link_to_remote("Click", :url => {:controller => "line_items", :action => "update_line_item_status", :id => @line_item.unique_magic_hash})
+-elsif @line_item.pending?
+  %div
+    You marked this as paid on the
+    = "#{@line_item.paid_on}."
+  %div Click to mark it as unpaid
+  %div
+    = link_to_remote("Click", :url => {:controller => "line_items", :action => "update_line_item_status", :id => @line_item.unique_magic_hash})
+-elsif @line_item.paid?
+  %div Your money was recieved on
+  = @line_item.confirmed_on
+
