@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   has_many :accounts
   has_many :friends
   has_many :actors
-  has_many :events, :through => :accounts
+  has_many :transactions, :through => :accounts
 
   after_create :create_first_account
   after_create :create_yourself_as_a_friend
@@ -86,8 +86,8 @@ class User < ActiveRecord::Base
   end
 
   def line_items
-    event_ids = self.events.map(&:id)
-    line_items = LineItem.find(:all, :conditions => ["event_id in (?)", event_ids])
+    transaction_ids = self.transactions.map(&:id)
+    line_items = LineItem.find(:all, :conditions => ["transaction_id in (?)", transaction_ids])
   end
 
   def myself_as_a_friend

@@ -16,8 +16,8 @@ Factory.define :account do |a|
   a.user_id               {(User.find_by_name("test login") || Factory(:user)).id}
 end
 
-Factory.define :event do |e|
-  e.description           'This is a test event'
+Factory.define :transaction do |e|
+  e.description           'This is a test transaction'
   e.amount                '123'
   e.actor_id              {(Actor.first || Factory(:actor)).id}
   e.account_id            {(Account.first || Factory(:account)).id}
@@ -30,6 +30,6 @@ end
 
 Factory.define :line_item do |l|
   l.amount                1
-  l.event_id              {(Event.first || Factory(:event)).id}
+  l.transaction_id              {(Transaction.first || Factory(:transaction)).id}
   l.friend_id             {(Friend.first || Factory(:friend)).id}
 end

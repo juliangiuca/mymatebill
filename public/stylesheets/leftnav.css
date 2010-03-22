@@ -27,14 +27,14 @@ div.fieldWithErrors {
 }
 /* End body specific styles */
 
-/* Event specific styles */
+/* Transaction specific styles */
 .ui-datepicker { width: 17em; padding: .2em .2em 0; font-size: 12px !important;} 
 
 form div {
   padding:3px;
 }
 
-#new_event_container #line_items_container, div.line_items {
+#new_transaction_container #line_items_container, div.line_items {
   display: none;
 }
 
@@ -42,7 +42,7 @@ div.more_line_items {
   display:inline;
 }
 
-/*End Event specific styles*/
+/*End Transaction specific styles*/
 
 /*Friend specific styles*/
 div#friend div.label{

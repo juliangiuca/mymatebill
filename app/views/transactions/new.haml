@@ -1,15 +1,15 @@
 :javascript
 
   $(document).ready(function(){
-    $("#event_occured_on").datepicker();
-    $(".event_line_items_paid_on").datepicker();
+    $("#transaction_occured_on").datepicker();
+    $(".transaction_line_items_paid_on").datepicker();
     var line_item_counter = 0;
 
     var actor_name_autocomplete = { source:'/ac/actors_name' };
     $("#actor_name").autocomplete(actor_name_autocomplete);
 
     var friend_name_autocomplete = { source:'/ac/friends_name' };
-    $(".event_line_items_friend").autocomplete(friend_name_autocomplete);
+    $(".transaction_line_items_friend").autocomplete(friend_name_autocomplete);
 
     $("#line_items_button").toggle(function() {
       $("#line_items_container").slideToggle("slow");
@@ -25,27 +25,27 @@
 
         $("#line_items_container > #line_items").append(
           "<p>Amount <input id=\"line_items_" + line_item_counter + "_amount\" name=\"line_items[" + line_item_counter + "][amount]\" type=\"text\" />" +
-            " Friend <input id=\"line_items_" + line_item_counter + "_friend\" name=\"line_items[" + line_item_counter + "][friend]\" type=\"text\" class=\"event_line_items_friend\"/>" +
-              " paid on <input id=\"line_items_" + line_item_counter + "_due\" name=\"line_items[" + line_item_counter + "][due]\" type=\"text\" class=\"event_line_items_paid_on\"/></p>"
+            " Friend <input id=\"line_items_" + line_item_counter + "_friend\" name=\"line_items[" + line_item_counter + "][friend]\" type=\"text\" class=\"transaction_line_items_friend\"/>" +
+              " paid on <input id=\"line_items_" + line_item_counter + "_due\" name=\"line_items[" + line_item_counter + "][due]\" type=\"text\" class=\"transaction_line_items_paid_on\"/></p>"
           );
 
-      $(".event_line_items_friend").autocomplete(friend_name_autocomplete);
-      $(".event_line_items_paid_on").datepicker();
+      $(".transaction_line_items_friend").autocomplete(friend_name_autocomplete);
+      $(".transaction_line_items_paid_on").datepicker();
       });
 
   });
 
 
-%div#new_event_container{:class => "new container event"}
+%div#new_transaction_container{:class => "new container transaction"}
   %h1 Create a new bill
-  - form_for @event do |f|
+  - form_for @transaction do |f|
     %div
       = f.error_messages
     %div
       = f.label :amount
       = f.text_field :amount, :size => 3
     %div
-      = f.label :actor_id, 'Event'
+      = f.label :actor_id, 'Actor'
       = text_field_tag "actor[name]", @last_entered_name
     %div
       = f.label :description, 'Additional notes'

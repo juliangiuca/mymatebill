@@ -1,0 +1,14 @@
+%div
+  = number_to_currency transaction.amount
+  = link_to transaction.actor.name, actor_path(:id => transaction.actor_id)
+  = transaction.description
+  = transaction.due
+  = link_to "Edit", edit_transaction_path(:id => transaction.id)
+  - if transaction.line_items.present?
+    %div.more_line_items
+      %a{:onclick => "$('#line_item_#{transaction_counter}').slideToggle('slow'); return false", :href=>""}More
+
+- if transaction.line_items.present?
+  %div.line_items{:id => "line_item_#{transaction_counter}"}
+    = render :partial => "/shared/line_item", :collection => transaction.line_items
+

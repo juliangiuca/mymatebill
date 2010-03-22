@@ -21,14 +21,6 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.string  "name"
   end
 
-  create_table "events", :force => true do |t|
-    t.string  "description"
-    t.integer "account_id"
-    t.date    "due"
-    t.integer "actor_id"
-    t.float   "amount"
-  end
-
   create_table "friends", :force => true do |t|
     t.integer "owner_id"
     t.integer "user_id"
@@ -47,7 +39,7 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
   add_index "friends", ["user_id"], :name => "index_friends_on_user_id"
 
   create_table "line_items", :force => true do |t|
-    t.integer "event_id"
+    t.integer "transaction_id"
     t.integer "friend_id"
     t.float   "amount"
     t.date    "due"
@@ -57,6 +49,14 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.string  "state"
     t.string  "unique_magic_hash"
     t.boolean "self_referencing",  :default => false
+  end
+
+  create_table "transactions", :force => true do |t|
+    t.string  "description"
+    t.integer "account_id"
+    t.date    "due"
+    t.integer "actor_id"
+    t.float   "amount"
   end
 
   create_table "users", :force => true do |t|

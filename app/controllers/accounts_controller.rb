@@ -4,7 +4,7 @@ class AccountsController < ApplicationController
 
   def index
     @accounts = current_user.accounts
-    redirect_to events_path if @accounts.length == 1 && !params['force']
+    redirect_to transactions_path if @accounts.length == 1 && !params['force']
   end
 
   def new

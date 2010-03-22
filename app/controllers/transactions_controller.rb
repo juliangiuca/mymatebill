@@ -1,19 +1,19 @@
-class EventsController < ApplicationController
+class TransactionsController < ApplicationController
   layout "leftnav"
      #skip_before_filter :verify_authenticity_token, :only => [:auto_complete_for_actor_name]
 
   def new
     account = current_user.accounts.find(params[:account_id])
-    @event = Event.new(:account_id => account.id)
+    @transaction = Transaction.new(:account_id => account.id)
   end
 
   def create
-    account = current_user.accounts.find(params[:event][:account_id])
+    account = current_user.accounts.find(params[:transaction][:account_id])
     actor = current_user.actors.find_or_create_by_name(params[:actor])
     friends = current_user.friends
 
-    @event = account.events.new(params["event"].merge(:actor_id => actor.id))
-    if @event && @event.valid? && @event.errors.empty?
+    @transaction = account.transactions.new(params["transaction"].merge(:actor_id => actor.id))
+    if @transaction && @transaction.valid? && @transaction.errors.empty?
       line_item_params = params['line_items']
 
       #Since the first line item is automatically created, but invisible, make sure it's populated with a 'real' friend entry.
@@ -21,11 +21,11 @@ class EventsController < ApplicationController
         line_item_params.each do |key, line_item|
           next unless line_item["friend"].present? && line_item["amount"].present?
           friend = friends.find_by_name(line_item["friend"]) || friends.create!(:name => line_item["friend"])
-          @event.line_items.build(line_item.except("friend").merge({:friend_id => friend.id}))
+          @transaction.line_items.build(line_item.except("friend").merge({:friend_id => friend.id}))
         end
       end
 
-      @event.save!
+      @transaction.save!
 
       redirect_to :action => :index
     else
@@ -40,7 +40,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find(params[:id])
+    @transaction = Transaction.find(params[:id])
   end
 
   def index
@@ -49,25 +49,25 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = Event.find(params[:id])
+    @transaction = Transaction.find(params[:id])
   end
 
   def update
-    account = current_user.accounts.find(params[:event][:account_id])
+    account = current_user.accounts.find(params[:transaction][:account_id])
     actor = current_user.actors.find_or_create_by_name(params[:actor])
     friends = current_user.friends
 
-    @event = account.events.find(params[:id])
-    if @event.update_attributes(params[:event].merge(:actor_id => actor.id))
+    @transaction = account.transactions.find(params[:id])
+    if @transaction.update_attributes(params[:transaction].merge(:actor_id => actor.id))
       line_items = params['line_items']
       line_items.each do |key, updated_info|
         friend = friends.find_by_name(updated_info["friend"]) || friends.create!(:name => updated_info["friend"])
-        line_item = @event.line_items.find(key)
+        line_item = @transaction.line_items.find(key)
         #If we are changing who owes the debt, we need to balance the accounts. Easiest way is to delete the old
         #line item and create a new one for the new friend
         if friend != line_item.friend
           line_item.delete
-          @event.line_items << LineItem.create!(line_item.except("friend").merge(:friend_id => friend.id))
+          @transaction.line_items << LineItem.create!(line_item.except("friend").merge(:friend_id => friend.id))
         else
           line_item.update_attributes(updated_info.except("friend").merge(:friend_id => friend.id))
         end
@@ -79,7 +79,7 @@ class EventsController < ApplicationController
         new_line_items.each do |key, line_item|
           next unless line_item["friend"].present? && line_item["amount"].present?
           friend = friends.find_by_name(line_item["friend"]) || friends.create!(:name => line_item["friend"])
-          @event.line_items << LineItem.create!(line_item.except("friend").merge(:friend_id => friend.id))
+          @transaction.line_items << LineItem.create!(line_item.except("friend").merge(:friend_id => friend.id))
         end
       end
 

@@ -1,7 +1,7 @@
 # == Schema Information
 # Schema version: 20091211225425
 #
-# Table name: events
+# Table name: transactions
 #
 #  id          :integer(4)      not null, primary key
 #  description :string(255)
@@ -11,7 +11,7 @@
 #  amount      :float
 #
 
-class Event < ActiveRecord::Base
+class Transaction < ActiveRecord::Base
   belongs_to :account
   belongs_to :actor
   has_many   :line_items, :before_add => :remove_self_line_item_and_add_other
@@ -67,7 +67,7 @@ class Event < ActiveRecord::Base
   end
 
   def remove_self_line_item_and_add_other(line_item)
-    line_item.event = self if line_item.event.blank?
+    line_item.transaction = self if line_item.transaction.blank?
 
     if self_referencing_line_item && self_referencing_line_item != line_item
       self.self_referencing_line_item.destroy
@@ -75,5 +75,6 @@ class Event < ActiveRecord::Base
   end
   
 end
+
 
 

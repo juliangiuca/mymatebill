@@ -1,17 +1,17 @@
 %h1
   = number_to_currency(@line_item.amount)
   for
-  = @event.name
+  = @transaction.name
   from
   = @owner.name
 
 %p
   This is part if the bill
-  = @event.name
+  = @transaction.name
   = ". Your part is due on the"
   = @line_item.due
   and the bill is due on the
-  = @event.due
+  = @transaction.due
 
 
 %div#bill_status

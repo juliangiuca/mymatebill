@@ -9,8 +9,8 @@
 #
 
 class Account < ActiveRecord::Base
-  has_many :events
-  has_many :actors, :through => :events
+  has_many :transactions
+  has_many :actors, :through => :transactions
 
   belongs_to :user
 

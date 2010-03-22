@@ -1,7 +1,0 @@
-%p
-  = text_field_tag 'account', account.name, {:disabled => true}
-  = render :partial => '/shared/event', :collection => account.events
-%a{:href => new_event_path(:account_id => account.id)} New Event
-
-
-

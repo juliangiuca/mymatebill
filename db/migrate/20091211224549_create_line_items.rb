@@ -1,7 +1,7 @@
 class CreateLineItems < ActiveRecord::Migration
   def self.up
     create_table "line_items", :force => true do |t|
-      t.column :event_id,           :integer
+      t.column :transaction_id,     :integer
       t.column :friend_id,          :integer
       t.column :amount,             :float
       t.column :due,                :date

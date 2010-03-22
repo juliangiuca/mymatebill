@@ -1,6 +1,6 @@
-class CreateEvents < ActiveRecord::Migration
+class CreateTransactions < ActiveRecord::Migration
   def self.up
-    create_table "events", :force => true do |t|
+    create_table "transactions", :force => true do |t|
       t.column :description,      :string
       t.column :account_id,       :integer
       t.column :due,              :date
@@ -11,6 +11,6 @@ class CreateEvents < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table "events"
+    drop_table "transactions"
   end
 end

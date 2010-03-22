@@ -12,9 +12,9 @@ class LineItemsController < ApplicationController
     @line_item = LineItem.find_by_unique_magic_hash(params["id"])
     raise ActiveRecord::RecordNotFound unless @line_item
 
-    @event = @line_item.event
+    @transaction = @line_item.transaction
     @friend = @line_item.friend
-    @owner = @line_item.event.account.user
+    @owner = @line_item.transaction.account.user
 
   rescue ActiveRecord::RecordNotFound
     redirect_to login_path
@@ -30,9 +30,9 @@ class LineItemsController < ApplicationController
       @line_item.pay!
     end
 
-    @event = @line_item.event
+    @transaction = @line_item.transaction
     @friend = @line_item.friend
-    @owner = @line_item.event.account.user
+    @owner = @line_item.transaction.account.user
 
     render(:update) { |page| page.replace_html "bill_status", :partial => "line_item_status"  }
 

@@ -5,9 +5,9 @@ ActionController::Routing::Routes.draw do |map|
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.resources :users
 
-  map.connect '/ac/actors_name', :controller => :events, :action => :auto_complete_for_actor_name
-  map.connect '/ac/friends_name', :controller => :events, :action => :auto_complete_for_friend_name
-  map.resources :events
+  map.connect '/ac/actors_name', :controller => :transactions, :action => :auto_complete_for_actor_name
+  map.connect '/ac/friends_name', :controller => :transactions, :action => :auto_complete_for_friend_name
+  map.resources :transactions
   map.resource  :session
   map.resources :accounts
   map.resources :friends

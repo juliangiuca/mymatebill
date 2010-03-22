@@ -4,7 +4,7 @@
 # Table name: line_items
 #
 #  id                :integer(4)      not null, primary key
-#  event_id          :integer(4)
+#  transaction_id    :integer(4)
 #  friend_id         :integer(4)
 #  amount            :float
 #  due               :date
@@ -18,7 +18,7 @@
 
 class LineItem < ActiveRecord::Base
   include AASM 
-  belongs_to  :event
+  belongs_to  :transaction
   belongs_to  :friend
 
   before_destroy :set_state_to_paid
@@ -26,7 +26,7 @@ class LineItem < ActiveRecord::Base
 
   validates_presence_of :amount
   validates_presence_of :friend_id
-  validates_presence_of :event_id, :unless => Proc.new { |line_item| !line_item.event.nil? && line_item.event.new_record? }
+  validates_presence_of :transaction_id, :unless => Proc.new { |line_item| !line_item.transaction.nil? && line_item.transaction.new_record? }
 
   aasm_column :state
   aasm_initial_state :unpaid
@@ -81,8 +81,11 @@ class LineItem < ActiveRecord::Base
 
   protected
   def create_magic_hash
-    string_to_be_hashed = "yohgurt is sometimes gooood" + self.event_id.to_s + Time.now.to_f.to_s + rand().to_s
+    string_to_be_hashed = "yohgurt is sometimes gooood" + self.transaction_id.to_s + Time.now.to_f.to_s + rand().to_s
     self.unique_magic_hash = Digest::SHA1.hexdigest string_to_be_hashed
   end
 
 end
+
+
+
