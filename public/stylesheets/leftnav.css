@@ -33,9 +33,10 @@ div.fieldWithErrors {
 form div {
   padding:3px;
 }
+#new_transaction_container input {
+}
 
 #new_transaction_container #line_items_container, div.line_items {
-  display: none;
 }
 
 div.more_line_items {
@@ -53,4 +54,12 @@ div#friend div.label{
   float:right;
 }
 /*End friend specific styles*/
+/*Text add specific styles*/
+#text_add_container input[type=text] {
+  width: 300px;
+}
+#transaction_description {
+  display: inline;
+}
+/*End Text add specific styles*/
 

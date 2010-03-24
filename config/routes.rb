@@ -7,6 +7,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/ac/actors_name', :controller => :transactions, :action => :auto_complete_for_actor_name
   map.connect '/ac/friends_name', :controller => :transactions, :action => :auto_complete_for_friend_name
+  map.connect '/ut/understand_text', :controller => :transactions, :action => :understand
+  map.connect '/text/:account_id', :controller => :transactions, :action => :text_add
   map.resources :transactions
   map.resource  :session
   map.resources :accounts

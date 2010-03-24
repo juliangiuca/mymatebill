@@ -1,18 +1,46 @@
 grammar Oweing
   rule sentence
-    person verb person space amount joiner? description?  {
+    action space amount joiner? description?  {
+      def content
+        {:creditor    => action.creditor.content,
+         :debitor     => action.debitor.content,
+         :amount      => amount.content,
+         :description => (elements.last.respond_to?(:name) && elements.last.name == "description" ? elements.last.content : nil)}
+      end
+    }
+  end
+
+  rule debitor
+    ([A-Za-z0-9]+ / "me" / "I") {
+    def content
+      text_value
+    end
+    }
+  end
+
+  rule creditor
+    ([A-Za-z0-9]+ / "me" / "I") {
+    def content
+      text_value
+    end
+    }
+  end
+
+  rule action
+    (creditor gives_to debitor /
+    debitor takes_from creditor) {
       def content
         elements.map{|e| e.content if e.respond_to?(:content)}
       end
     }
   end
 
-  rule person
-    ([A-Za-z0-9]+ / "me" / "I") {
-    def content
-      [:person, text_value]
-    end
-    }
+  rule gives_to
+    space ("gave" / "lent") space
+  end
+
+  rule takes_from
+    space ("owes" / "owe") space
   end
 
   rule space
@@ -20,18 +48,10 @@ grammar Oweing
     }
   end
 
-  rule verb
-   space ("owes" / "owe") space {
-    def content
-      [:verb, text_value]
-    end
-    }
-  end
-
   rule amount
   [\$0-9\.]+ {
     def content
-      [:amount, text_value]
+      text_value
     end
   }
   end
@@ -47,7 +67,10 @@ grammar Oweing
   rule description
   [A-Za-z0-9]+ {
     def content
-      [:description, text_value]
+      text_value
+    end
+    def name
+    return "description"
     end
   }
   end

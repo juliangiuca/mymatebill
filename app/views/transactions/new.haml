@@ -56,8 +56,13 @@
       = f.label :due, 'Date'
       = f.text_field :due
     %div
-      = render :partial => "line_item_details"
+      = label_tag "line_items[0][friend]", "Who do you owe?"
+      = text_field_tag "line_items[0][friend]", nil, {:class => "transaction_line_items_friend"}
 
+    %div#line_items_container
+      %div#line_items
+      %div.add_line_item
+        Split this bill
     %div
       = submit_tag
 

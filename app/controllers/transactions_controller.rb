@@ -39,6 +39,16 @@ class TransactionsController < ApplicationController
     redirect_to accounts_path
   end
 
+  def text_add
+    account = current_user.accounts.find(params[:account_id])
+    @transaction = Transaction.new(:account_id => account.id)
+  end
+
+  def understand
+    understood_text = Understand.transaction(current_user, params['input'])
+    render :text => understood_text.to_json
+  end
+
   def show
     @transaction = Transaction.find(params[:id])
   end
@@ -88,6 +98,7 @@ class TransactionsController < ApplicationController
     end
     redirect_to :action => :index
   end
+
 
   def auto_complete_for_actor_name
     actor = params[:term]
