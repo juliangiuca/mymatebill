@@ -14,12 +14,17 @@ class Understand
           instance_variable_set("@#{role}", current_user.friends.find_by_name(parsed_string[role.to_sym]))
         end
       end
-      amount = parsed_string[:amount]
-      @creditor ||= {:name => parsed_string[:creditor]}
-      @debitor ||= {:name => parsed_string[:debitor]}
-      description = parsed_string[:description]
+      amount            = parsed_string[:amount]
+      unfound_creditor  = parsed_string[:creditor]
+      unfound_debitor   = parsed_string[:debitor]
+      description       = parsed_string[:description]
     end
 
-    return {:in_debt => @debitor.try(:name), :in_credit => @creditor.try(:name), :amount => amount, :description => description}
+    return {:in_debt => @debitor.try(:name),
+            :unknown_in_debt => unfound_debitor,
+            :in_credit => @creditor.try(:name),
+            :unknown_in_credit => unfound_creditor,
+            :amount => amount,
+            :description => description}
   end
 end

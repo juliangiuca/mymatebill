@@ -1,0 +1,35 @@
+:javascript
+  function are_you_watching(e) {
+    $.post("/ut/understand_text", { input: $(e).val() },
+    function(data) {
+      $("#debitor").text(data.in_debt);
+      $("#creditor").text(data.in_credit);
+      if (data.unknown_in_debt) {
+        $("#debitor").text(data.unknown_in_debt);
+        }
+      if (data.unknown_in_credit) {
+        $("#creditor").text(data.unknown_in_credit);
+        }
+      $("#how_much").text(data.amount);
+      $("#why").text(data.description);
+    }, "json");
+  }
+
+%div#text_add_container
+  %p Try to enter something below, like:
+  %p "I owe steve $50" or "Steve owes me $20"
+
+  %form
+    %input{:type => "text", :id => "observe_me", :onkeyup => "javascript:are_you_watching(this)"}
+      = submit_tag
+  %div#transaction_description
+    %div
+      in debt:
+      %div#debitor
+    %div
+      in credit:
+      %div#creditor
+    %div
+      %div#how_much
+    %div
+      %div#why
