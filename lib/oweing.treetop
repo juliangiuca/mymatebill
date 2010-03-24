@@ -1,0 +1,54 @@
+grammar Oweing
+  rule sentence
+    person verb person space amount joiner? description?  {
+      def content
+        elements.map{|e| e.content if e.respond_to?(:content)}
+      end
+    }
+  end
+
+  rule person
+    ([A-Za-z0-9]+ / "me" / "I") {
+    def content
+      [:person, text_value]
+    end
+    }
+  end
+
+  rule space
+    [ \t\n\r] {
+    }
+  end
+
+  rule verb
+   space ("owes" / "owe") space {
+    def content
+      [:verb, text_value]
+    end
+    }
+  end
+
+  rule amount
+  [\$0-9\.]+ {
+    def content
+      [:amount, text_value]
+    end
+  }
+  end
+
+  rule joiner
+  space "for" space {
+    def content
+      [:joiner, text_value.strip]
+    end
+  }
+  end
+
+  rule description
+  [A-Za-z0-9]+ {
+    def content
+      [:description, text_value]
+    end
+  }
+  end
+end
