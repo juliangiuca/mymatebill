@@ -6,6 +6,8 @@ class CreateTransactions < ActiveRecord::Migration
       t.column :due,              :date
       t.column :actor_id,         :integer
       t.column :amount,           :float
+      t.column :state,            :string, :state => "unpaid"
+      t.column :recipient_id,     :integer
       t.timestamp
     end
   end

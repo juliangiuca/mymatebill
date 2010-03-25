@@ -5,7 +5,7 @@ class CreateFriends < ActiveRecord::Migration
       t.column :user_id,                      :integer
       t.column :name,                         :string
       t.column :credit,                       :float, :default => 0
-      t.column :debit,                        :float, :default => 0
+      t.column :debt,                         :float, :default => 0
       t.column :pending,                      :float, :default => 0
       t.column :total,                        :float
       t.column :befriended_on,                :date
