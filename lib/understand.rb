@@ -5,18 +5,20 @@ class Understand
   def self.transaction(current_user, string)
     parser = OweingParser.new
     parsed_string = parser.parse(string).try(:content)
+    @creditor = nil
+    @debitor = nil
 
     if parsed_string
       %w(creditor debitor).each do |role|
-        if %w(I my me myself).include?(parsed_string[role.to_sym])
+        if %w(i my me myself).include?(parsed_string[role.to_sym].downcase)
           instance_variable_set("@#{role}", current_user.myself_as_a_friend)
         else
           instance_variable_set("@#{role}", current_user.friends.find_by_name(parsed_string[role.to_sym]))
         end
-      end
+      end #end role loop
       amount            = parsed_string[:amount]
-      unfound_creditor  = parsed_string[:creditor]
-      unfound_debitor   = parsed_string[:debitor]
+      unfound_creditor  = parsed_string[:creditor] unless @creditor
+      unfound_debitor   = parsed_string[:debitor] unless @debitor
       description       = parsed_string[:description]
     end
 
