@@ -16,7 +16,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :actor
   has_many   :line_items, :before_add => :remove_self_line_item_and_add_other
 
-  validates_presence_of :actor_id, :message => "can't be blank"
+  #validates_presence_of :actor_id, :message => "can't be blank"
   validates_numericality_of :amount
 
   before_validation :strip_spaces
@@ -47,7 +47,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self_referencing_line_item
-    line_items.find(:first, :conditions => "self_referencing = true")
+    line_items.find(:first, :conditions => "is_self_referencing = true")
   end
 
   protected
@@ -63,7 +63,7 @@ class Transaction < ActiveRecord::Base
     return nil if self.line_items.present?
     self.line_items.build(:friend_id => self.account.user.myself_as_a_friend.id, 
                             :amount => self.amount,
-                            :self_referencing => true)
+                            :is_self_referencing => true)
   end
 
   def remove_self_line_item_and_add_other(line_item)
