@@ -1,7 +1,7 @@
 :javascript
 
   $(document).ready(function(){
-    $("#transaction_occured_on").datepicker();
+    $("#transaction_due").datepicker();
     $(".transaction_line_items_paid_on").datepicker();
     var line_item_counter = 0;
 
@@ -33,16 +33,16 @@
       = f.label :amount
       = f.text_field :amount, :size => 3
     %div
-      = f.label :actor_id, 'Actor'
-      = text_field_tag "actor[name]", @transaction.actor.name
+      = f.label :actor_id, 'Recipient'
+      = text_field_tag "recipient[name]", @transaction.recipient.name
     %div
       = f.label :description, 'Additional notes'
       = f.text_field :description
       = f.hidden_field :account_id
 
     %div
-      = f.label :occured_on, 'Date'
-      = f.text_field :occured_on
+      = f.label :due, 'Date'
+      = f.text_field :due
     %div
       %h2 Line Items
       %div#line_items_container

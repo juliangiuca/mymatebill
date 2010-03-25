@@ -20,6 +20,7 @@ Factory.define :transaction do |e|
   e.description           'This is a test transaction'
   e.amount                '123'
   e.actor_id              {(Actor.first || Factory(:actor)).id}
+  e.recipient_id          {(Friend.last || Factory(:friend)).id}
   e.account_id            {(Account.first || Factory(:account)).id}
 end
 

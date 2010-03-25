@@ -3,21 +3,21 @@
 #
 # Table name: line_items
 #
-#  id                :integer(4)      not null, primary key
-#  transaction_id    :integer(4)
-#  friend_id         :integer(4)
-#  amount            :float
-#  due               :date
-#  paid_on           :date
-#  confirmed_on      :date
-#  confirmed_payment :boolean(1)
-#  state             :string(255)
-#  unique_magic_hash :string(255)
-#  self_referencing  :boolean(1)
+#  id                  :integer(4)      not null, primary key
+#  transaction_id      :integer(4)
+#  friend_id           :integer(4)
+#  amount              :float
+#  due                 :date
+#  paid_on             :date
+#  confirmed_on        :date
+#  confirmed_payment   :boolean(1)
+#  state               :string(255)
+#  unique_magic_hash   :string(255)
+#  is_self_referencing :boolean(1)
 #
 
 class LineItem < ActiveRecord::Base
-  include AASM 
+  include AASM
   belongs_to  :transaction
   belongs_to  :friend
 
@@ -55,11 +55,11 @@ class LineItem < ActiveRecord::Base
   end
 
   def create_debit
-    self.friend.sub_debit(self.amount)
+    self.friend.sub_debt(self.amount)
   end
 
   def delete_debit
-    self.friend.add_debit(self.amount)
+    self.friend.add_debt(self.amount)
   end
 
   def create_pending
@@ -79,6 +79,11 @@ class LineItem < ActiveRecord::Base
     self.update_attribute(:confirmed_on, nil)
   end
 
+  def mine?
+    return true if current_user && self.friend == current_user.myself_as_a_friend
+    return false
+  end
+
   protected
   def create_magic_hash
     string_to_be_hashed = "yohgurt is sometimes gooood" + self.transaction_id.to_s + Time.now.to_f.to_s + rand().to_s
@@ -86,6 +91,3 @@ class LineItem < ActiveRecord::Base
   end
 
 end
-
-
-

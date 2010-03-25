@@ -1,6 +1,6 @@
 %div
   = number_to_currency transaction.amount
-  = link_to transaction.actor.name, actor_path(:id => transaction.actor_id)
+  = link_to transaction.recipient.name, friend_path(:id => transaction.recipient_id)
   = transaction.description
   = transaction.due
   = link_to "Edit", edit_transaction_path(:id => transaction.id)

@@ -3,12 +3,14 @@
 #
 # Table name: transactions
 #
-#  id          :integer(4)      not null, primary key
-#  description :string(255)
-#  account_id  :integer(4)
-#  due         :date
-#  actor_id    :integer(4)
-#  amount      :float
+#  id           :integer(4)      not null, primary key
+#  description  :string(255)
+#  account_id   :integer(4)
+#  due          :date
+#  actor_id     :integer(4)
+#  amount       :float
+#  state        :string(255)
+#  recipient_id :integer(4)
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -18,13 +20,14 @@ describe Transaction do
     @user = Factory(:user)
     @user.accounts.length.should == 1
     @account = @user.accounts.first
+    @frog = @user.friends.create!(:name => "Frog")
   end
 
   it "should be able to create an transaction" do
     transaction = @account.transactions.create!(:description => "test transaction", :amount => "80", :name => "rent")
     transaction = Transaction.find(transaction.id)
-    transaction.name.should == "rent"
-    transaction.actor.name.should == "rent"
+    transaction.respond_to?(:name).should be_false
+    transaction.recipient.name.should == "Rent"
     transaction.amount.should == 80
   end
 
@@ -32,7 +35,7 @@ describe Transaction do
     transaction = @account.transactions.new
     transaction.description = "Test description"
     transaction.amount = "123"
-    transaction.actor_id = 1
+    transaction.recipient_id = @frog.id
 
     #line item
     line_item = transaction.line_items.build
@@ -56,7 +59,7 @@ describe Transaction do
     transaction = @account.transactions.new
     transaction.description = "Test description"
     transaction.amount = "123"
-    transaction.actor_id = 1
+    transaction.recipient_id = @frog.id
 
     #line item
     friend = Factory(:friend, :name => "other name")
@@ -73,34 +76,32 @@ describe Transaction do
   end
 
   describe "for non formal transactions between friends" do
-    before(:each) do
-      @frog = @user.friends.create!(:name => "Frog")
-    end
-
-    it "I owe Frog $20" do
-      transaction = @account.transactions.create!(:description => "I owe Frog $20",
-                              :amount => 20,
-                              :name => "friend")
-      transaction.line_items.create!(:amount => 20,
-                               :friend_id => @user.myself_as_a_friend.id)
-      transaction.line_items.create!(:amount => -20,
-                               :friend_id => @frog.id)
-
-      @user.myself_as_a_friend.debit.should == -20
-      @frog.credit.should == 20
-    end
 
     it "Frog owes me $20" do
+      transaction = @account.transactions.create!(:description => "Frog owes me $20",
+                              :amount => 20,
+                              :name => "Me")
+      transaction.line_items.create!(:amount => 20,
+                               :friend_id => @frog.id)
+
+      @user.myself_as_a_friend.credit.should == 20
+      @frog.reload
+      @frog.debt.should == -20
+    end
+
+     it "I owe Frog $20" do
       @account.transactions.create!(:description => "I owe Frog $20",
-                              :amount => -20,
-                              :name => "friend")
-      @user.myself_as_a_friend.debit.should == 20
+                              :amount => 20,
+                              :name => "Frog")
+      @user.myself_as_a_friend.debt.should == -20
+      @frog.reload
       @frog.credit.should == 20
 
     end
   end
 
 end
+
 
 
 

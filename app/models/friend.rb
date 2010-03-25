@@ -8,7 +8,7 @@
 #  user_id           :integer(4)
 #  name              :string(255)
 #  credit            :float           default(0.0)
-#  debit             :float           default(0.0)
+#  debt              :float           default(0.0)
 #  pending           :float           default(0.0)
 #  total             :float
 #  befriended_on     :date
@@ -35,12 +35,19 @@ class Friend < ActiveRecord::Base
     return self['name'].capitalize
   end
 
-  def sub_debit(amount)
-    self.update_attribute(:debit, self.debit - amount)
+  def sub_credit(amount)
+    self.update_attribute(:credit, self.credit - amount)
   end
 
-  def add_debit(amount)
-    self.update_attribute(:debit, self.debit + amount)
+  def add_credit(amount)
+    self.update_attribute(:credit, self.credit + amount)
+  end
+  def sub_debt(amount)
+    self.update_attribute(:debt, self.debt - amount)
+  end
+
+  def add_debt(amount)
+    self.update_attribute(:debt, self.debt + amount)
   end
 
   def sub_pending(amount)
@@ -67,6 +74,8 @@ class Friend < ActiveRecord::Base
   end
 
 end
+
+
 
 
 

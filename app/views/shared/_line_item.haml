@@ -1,3 +1,4 @@
 %div
-  = line_item.amount
+  = number_to_currency(line_item.amount)
   = link_to line_item.friend.name, friend_path(:id => line_item.friend.id)
+  = change_state_link(line_item)

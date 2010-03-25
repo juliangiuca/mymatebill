@@ -3,17 +3,17 @@
 #
 # Table name: line_items
 #
-#  id                :integer(4)      not null, primary key
-#  transaction_id    :integer(4)
-#  friend_id         :integer(4)
-#  amount            :float
-#  due               :date
-#  paid_on           :date
-#  confirmed_on      :date
-#  confirmed_payment :boolean(1)
-#  state             :string(255)
-#  unique_magic_hash :string(255)
-#  self_referencing  :boolean(1)
+#  id                  :integer(4)      not null, primary key
+#  transaction_id      :integer(4)
+#  friend_id           :integer(4)
+#  amount              :float
+#  due                 :date
+#  paid_on             :date
+#  confirmed_on        :date
+#  confirmed_payment   :boolean(1)
+#  state               :string(255)
+#  unique_magic_hash   :string(255)
+#  is_self_referencing :boolean(1)
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -70,8 +70,8 @@ describe LineItem do
         @friend_a.reload
         @friend_b.reload
         @transaction.line_items.should have(2).records
-        @friend_a.debit.should == -20
-        @friend_b.debit.should == -25
+        @friend_a.debt.should == -20
+        @friend_b.debt.should == -25
     end
 
       it "for an unpaid bill" do
@@ -79,8 +79,8 @@ describe LineItem do
         @transaction.reload
         @friend_a.reload
         @friend_b.reload
-        @friend_a.debit.should == -20
-        @friend_b.debit.should == 0
+        @friend_a.debt.should == -20
+        @friend_b.debt.should == 0
     end
 
       it "for a pending bill"
@@ -106,11 +106,11 @@ describe LineItem do
       end
 
       it "should return the funds to a friend" do
-        @friend.debit.should == 0
+        @friend.debt.should == 0
         @friend.pending.should == 0
         @line_item.unpay!
         @friend.reload
-        @friend.debit.should == -80
+        @friend.debt.should == -80
         @friend.pending.should == 0
       end
     end
@@ -128,11 +128,11 @@ describe LineItem do
       end
 
       it "should return the funds to pending" do
-        @friend.debit.should == 0
+        @friend.debt.should == 0
         @friend.pending.should == 0
         @line_item.unpay!
         @friend.reload
-        @friend.debit.should == 0
+        @friend.debt.should == 0
         @friend.pending.should == -80
       end
     end
@@ -150,11 +150,11 @@ describe LineItem do
       end
 
       it "should clear the debt" do
-        @friend.debit.should == 0
+        @friend.debt.should == 0
         @friend.pending.should == -80
         @line_item.confirm_payment!
         @friend.reload
-        @friend.debit.should == 0
+        @friend.debt.should == 0
         @friend.pending.should == 0
       end
     end
@@ -170,11 +170,11 @@ describe LineItem do
       end
 
       it "should clear the debt" do
-        @friend.debit.should == -80
+        @friend.debt.should == -80
         @friend.pending.should == 0
         @line_item.pay!
         @friend.reload
-        @friend.debit.should == 0
+        @friend.debt.should == 0
         @friend.pending.should == -80
       end
     end
@@ -190,17 +190,20 @@ describe LineItem do
       end
 
       it "should clear the debt" do
-        @friend.debit.should == -80
+        @friend.debt.should == -80
         @friend.pending.should == 0
         @line_item.confirm_payment!
         @friend.reload
-        @friend.debit.should == 0
+        @friend.debt.should == 0
         @friend.pending.should == 0
       end
     end
   end
 
 end
+
+
+
 
 
 

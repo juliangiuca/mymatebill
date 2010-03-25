@@ -9,10 +9,11 @@ class TransactionsController < ApplicationController
 
   def create
     account = current_user.accounts.find(params[:transaction][:account_id])
-    actor = current_user.actors.find_or_create_by_name(params[:actor])
+    recipient = current_user.friends.find_or_create_by_name(params[:recipient])
     friends = current_user.friends
+    debugger
 
-    @transaction = account.transactions.new(params["transaction"].merge(:actor_id => actor.id))
+    @transaction = account.transactions.new(params["transaction"].merge(:recipient_id => recipient.id))
     if @transaction && @transaction.valid? && @transaction.errors.empty?
       line_item_params = params['line_items']
 
@@ -20,7 +21,7 @@ class TransactionsController < ApplicationController
       if line_item_params
         line_item_params.each do |key, line_item|
           next unless line_item["friend"].present? && line_item["amount"].present?
-          friend = friends.find_by_name(line_item["friend"]) || friends.create!(:name => line_item["friend"])
+          friend = friends.find_or_create_by_name(:name => line_item["friend"])
           @transaction.line_items.build(line_item.except("friend").merge({:friend_id => friend.id}))
         end
       end
@@ -64,11 +65,11 @@ class TransactionsController < ApplicationController
 
   def update
     account = current_user.accounts.find(params[:transaction][:account_id])
-    actor = current_user.actors.find_or_create_by_name(params[:actor])
+    recipient = current_user.friends.find_or_create_by_name(params[:recipient])
     friends = current_user.friends
 
     @transaction = account.transactions.find(params[:id])
-    if @transaction.update_attributes(params[:transaction].merge(:actor_id => actor.id))
+    if @transaction.update_attributes(params[:transaction].merge(:recipient_id => recipient.id))
       line_items = params['line_items']
       line_items.each do |key, updated_info|
         friend = friends.find_by_name(updated_info["friend"]) || friends.create!(:name => updated_info["friend"])
