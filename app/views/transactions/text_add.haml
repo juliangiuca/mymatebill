@@ -1,35 +1,81 @@
 :javascript
+  function purge_values() {
+    $("#recipient_name").val("");
+    $("#line_items_0_friend").val("");
+    $("#line_items_0_amount").val("");
+    $("#transaction_description").val("");
+    $("#transaction_amount").val("");
+  };
+
   function are_you_watching(e) {
     $.post("/ut/understand_text", { input: $(e).val() },
     function(data) {
-      $("#debitor").text(data.in_debt);
-      $("#creditor").text(data.in_credit);
-      if (data.unknown_in_debt) {
-        $("#debitor").text(data.unknown_in_debt);
+    if (data.amount) {
+        $("#line_items_0_friend").val(data.in_debt);
+        $("#recipient_name").val(data.in_credit);
+        if (data.unknown_in_debt) {
+          $("#line_items_0_friend").val(data.unknown_in_debt);
+          }
+        if (data.unknown_in_credit) {
+          $("#recipient_name").val(data.unknown_in_credit);
+          }
+        $("#transaction_amount").val(data.amount.replace(/[^0-9\.]/,""));
+        $("#line_items_0_amount").val(data.amount.replace(/[^0-9\.]/,""));
+        $("#transaction_description").val(data.description);
+        $("#tick").show();
+        } else {
+        purge_values();
+        $("#tick").hide();
         }
-      if (data.unknown_in_credit) {
-        $("#creditor").text(data.unknown_in_credit);
-        }
-      $("#how_much").text(data.amount);
-      $("#why").text(data.description);
     }, "json");
   }
 
-%div#text_add_container
-  %p Try to enter something below, like:
-  %p "I owe steve $50" or "Steve owes me $20"
+  $(document).ready(function(){
+    $("#new_transaction").validate({
+      errorLabelContainer: "#messageBox",
+      wrapper: "li",
+      rules: {
+        "recipient[name]": {
+          required: true
+        },
+        "transaction[amount]": {
+        required: true
+        },
+        "line_items[0][friend]": {
+        required: true
+        },
+        "line_items[0][amount]": {
+        required: true
+        }
+      },
+      messages: {
+        "recipient[name]": {
+          required: "You need to specify who gets the money"
+        },
+        "transaction[amount]": {
+        required: "You need to say how much money was exchanged"
+        },
+        "line_items[0][friend]": {
+        required: "You need to specify who took the money"
+        }
+      }
+    });
+  });
 
-  %form
+%div#form_container
+  %p Try to enter something below, like:
+  %p "I owe steve $50" or "Steve owes me $20 for pizza"
+
+  %div#text_add_container
     %input{:type => "text", :id => "observe_me", :onkeyup => "javascript:are_you_watching(this)"}
-      = submit_tag
-  %div#transaction_description
-    %div
-      in debt:
-      %div#debitor
-    %div
-      in credit:
-      %div#creditor
-    %div
-      %div#how_much
-    %div
-      %div#why
+    %div#tick
+      = image_tag "tick-icon-small.png"
+
+  - form_for @transaction do |t|
+    = hidden_field_tag "line_items[0][amount]"
+    = hidden_field_tag "line_items[0][friend]"
+    = hidden_field_tag "recipient[name]"
+    = t.hidden_field :amount
+    = t.hidden_field :description
+    = t.hidden_field :account_id
+    = submit_tag

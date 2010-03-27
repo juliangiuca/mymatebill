@@ -1,6 +1,72 @@
 :javascript
+  function check_recipient() {
+    if ($("#recipient_name").val().toLowerCase() == "me")  {
+    $("#line_items_0_friend").val("");
+    }
+  }
+
+  function transfer_amount(amount) {
+    if ($("#line_items_1_amount").length == 0) {
+      $("#line_items_0_amount").val(amount);
+    }
+  }
+
+  function remove_a_new_line_item(e, counter) {
+    $(".line_item:last").remove()
+
+    $(".line_item:last").append(
+      "<div class=\"icons\"><img src=\"/images/plus-icon-small.png\" onclick=\"add_a_new_line_item(this," + (counter + 1) + ")\">" +
+      "<img src=\"/images/delete-icon-small.png\" onclick=\"remove_a_new_line_item(this," + counter + ")\"></div>" +
+      "</div>"
+      );
+
+      if ($(".line_item:last").length == 0) {
+        $("#line_items_container").before(
+          "<div onclick=\"add_a_new_line_item(this,1);$(this).remove();\">Split this bill</div>"
+        )
+      }
+
+  }
+
+  function add_a_new_line_item(e, counter) {
+    $(e).parent(".icons").remove()
+
+    $("#line_items_container").append(
+      "<div class=\"line_item\">Amount <input id=\"line_items_" + counter + "_amount\" name=\"line_items[" + counter + "][amount]\" type=\"text\" />" +
+      " Friend <input id=\"line_items_" + counter + "_friend\" name=\"line_items[" + counter + "][friend]\" type=\"text\" class=\"transaction_line_items_friend\"/>" +
+      " Due <input id=\"line_items_" + counter + "_due\" name=\"line_items[" + counter + "][due]\" type=\"text\" class=\"transaction_line_items_paid_on\"/>" +
+      "<div class=\"icons\"><img src=\"/images/plus-icon-small.png\" onclick=\"add_a_new_line_item(this," + (counter + 1) + ")\">" +
+      "<img src=\"/images/delete-icon-small.png\" onclick=\"remove_a_new_line_item(this," + counter + ")\"></div>" +
+      "</div>"
+      );
+
+      $("#line_items_" + counter + "_amount").rules("add", {required: true});
+      $("#line_items_" + counter + "_friend").rules("add", {required: true});
+
+    var friend_name_autocomplete = { source:'/ac/friends_name' };
+    $(".transaction_line_items_friend").autocomplete(friend_name_autocomplete);
+    $(".transaction_line_items_paid_on").datepicker();
+  }
 
   $(document).ready(function(){
+
+    $("#new_transaction").validate({
+      rules: {
+        "recipient[name]": {
+          required: true
+        },
+        "line_items[0][amount]": {
+          required: true
+        },
+        "line_items[0][friend]": {
+          required: true
+        },
+        "transaction[amount]": {
+        required: true
+        }
+      }
+    });
+
     $("#transaction_due").datepicker();
     $(".transaction_line_items_paid_on").datepicker();
     var line_item_counter = 0;
@@ -19,20 +85,6 @@
       $("#line_items_container").slideToggle("slow");
       $("#line_items_button > a").text("Show Transaction Details");
     });
-
-      $("div.add_line_item").click(function() {
-
-        $("#line_items_container > #line_items").append(
-          "<p>Amount <input id=\"line_items_" + line_item_counter + "_amount\" name=\"line_items[" + line_item_counter + "][amount]\" type=\"text\" />" +
-            " Friend <input id=\"line_items_" + line_item_counter + "_friend\" name=\"line_items[" + line_item_counter + "][friend]\" type=\"text\" class=\"transaction_line_items_friend\"/>" +
-              " paid on <input id=\"line_items_" + line_item_counter + "_due\" name=\"line_items[" + line_item_counter + "][due]\" type=\"text\" class=\"transaction_line_items_paid_on\"/></p>"
-          );
-
-        line_item_counter++
-      $(".transaction_line_items_friend").autocomplete(friend_name_autocomplete);
-      $(".transaction_line_items_paid_on").datepicker();
-      });
-
   });
 
 
@@ -41,25 +93,28 @@
   - form_for @transaction do |f|
     %div
       = f.error_messages
+    %h2 Bill Description
     %div
       = f.label :amount
-      = f.text_field :amount, :size => 3
+      = f.text_field :amount, :size => 3, :class => "required", :minlength => 1, :onkeyup => "transfer_amount(this.value)"
     %div
       = f.label :recipient_id, 'Recipient'
-      = text_field_tag "recipient[name]", @last_entered_name
+      = text_field_tag "recipient[name]", @last_entered_name, :minlength => 2, :onkeyup => "check_recipient()"
     %div
       = f.label :description, 'Additional notes'
       = f.text_field :description
       = f.hidden_field :account_id
-
     %div
-      = f.label :due, 'Date'
+      = f.label :due, 'Due'
       = f.text_field :due
 
+    %h2 Payer Description
+    = render :partial => "line_item_details"
+
+    %div{:onclick => "add_a_new_line_item(this,1);$(this).remove();"}
+      Split this bill
     %div#line_items_container
-      %div#line_items
-      %div.add_line_item
-        Split this bill
+
     %div
       = submit_tag
 
