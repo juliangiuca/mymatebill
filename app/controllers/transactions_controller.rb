@@ -1,3 +1,6 @@
+class NoAmountSet < StandardError; end
+class NoPayeredSet < StandardError; end
+
 class TransactionsController < ApplicationController
   layout "leftnav"
      #skip_before_filter :verify_authenticity_token, :only => [:auto_complete_for_actor_name]
@@ -11,11 +14,17 @@ class TransactionsController < ApplicationController
     account = current_user.accounts.find(params[:transaction][:account_id])
     recipient = current_user.friends.find_or_create_by_name(params[:recipient])
     friends = current_user.friends
-    debugger
+    line_item_params = params['line_items']
 
+    raise NoPayeredSet, "You need to specify the payer" unless line_item_params
+
+    key, line_item = line_item_params.shift
     @transaction = account.transactions.new(params["transaction"].merge(:recipient_id => recipient.id))
+    friend = friends.find_or_create_by_name(:name => line_item["friend"])
+    @transaction.line_items.build(line_item.except("friend").merge({:friend_id => friend.id}))
+
+    raise NoAmountSet, "You need an amount set" if @transaction.amount.nil?
     if @transaction && @transaction.valid? && @transaction.errors.empty?
-      line_item_params = params['line_items']
 
       #Since the first line item is automatically created, but invisible, make sure it's populated with a 'real' friend entry.
       if line_item_params
@@ -28,16 +37,21 @@ class TransactionsController < ApplicationController
 
       @transaction.save!
 
-      redirect_to :action => :index
+      redirect_to accounts_path
     else
-      flash[:error] = "You didn't pass the validation on this form"
-      @last_entered_name = params["actor"]["name"]
+      @last_entered_name = params["recipient"]["name"]
       render :action => "new"
     end
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = "Owie! That wasn't your account!"
     redirect_to accounts_path
+
+  rescue NoAmountSet, NoPayeredSet
+      flash[:error] = "You didn't pass the validation on this form"
+      @transaction ||= Transaction.new(:account_id => account.id)
+      @last_entered_name = params["recipient"]["name"] if params && params["recipient"]["name"]
+    render :action => "new"
   end
 
   def text_add

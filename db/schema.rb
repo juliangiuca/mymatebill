@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.integer "user_id"
     t.string  "name"
     t.float   "credit",            :default => 0.0
-    t.float   "debit",             :default => 0.0
+    t.float   "debt",              :default => 0.0
     t.float   "pending",           :default => 0.0
     t.float   "total"
     t.date    "befriended_on"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.boolean "confirmed_payment"
     t.string  "state"
     t.string  "unique_magic_hash"
-    t.boolean "self_referencing",  :default => false
+    t.boolean "is_self_referencing", :default => false
   end
 
   create_table "transactions", :force => true do |t|
@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
     t.date    "due"
     t.integer "actor_id"
     t.float   "amount"
+    t.string  "state"
+    t.integer "recipient_id"
   end
 
   create_table "users", :force => true do |t|

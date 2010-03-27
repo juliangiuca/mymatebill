@@ -21,8 +21,10 @@ class Transaction < ActiveRecord::Base
   belongs_to :recipient, :class_name => "Friend"
 
   validates_numericality_of :amount
+  validates_presence_of :amount
   validates_presence_of :recipient_id
   validates_presence_of :account_id
+  validate :a_line_item_exists_if_im_the_recipient
 
   before_validation :strip_spaces_from_desc
   before_validation :make_sure_a_date_is_set
@@ -36,8 +38,8 @@ class Transaction < ActiveRecord::Base
   aasm_column :state
   aasm_initial_state :unpaid
 
-  aasm_state :unpaid,   :enter => :create_credit,     :exit => :delete_credit
-  aasm_state :paid,     :enter => :clear_all_line_items,        :exit => :revert_line_items
+  aasm_state :unpaid,   :enter => :create_credit,         :exit => :delete_credit
+  aasm_state :paid,     :enter => :clear_all_line_items,  :exit => :revert_line_items
 
   aasm_event :confirm_payment do
     transitions :from => :unpaid, :to => :paid
@@ -71,6 +73,11 @@ class Transaction < ActiveRecord::Base
     return unless @name
     our_recipient = self.account.user.friends.find_or_create_by_name(@name)
     self.recipient_id = our_recipient.id
+  end
+
+  def a_line_item_exists_if_im_the_recipient
+    errors.add_to_base("If you're the recipient, you need to set someone to pay you!") if self.account.user.myself_as_a_friend == recipient && line_items.empty?
+    return true
   end
 
   def recipient_name
@@ -117,7 +124,3 @@ class Transaction < ActiveRecord::Base
   end
 
 end
-
-
-
-

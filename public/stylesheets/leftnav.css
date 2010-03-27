@@ -43,6 +43,25 @@ div.more_line_items {
   display:inline;
 }
 
+div#me_as_recipient {
+  display:none;
+  padding: 0px;
+  margin: 0px
+}
+
+div#me_as_recipient div{
+  display:inline;
+}
+
+.line_items {
+  display:none
+}
+#line_items_container .line_item {
+}
+.icons {
+  display:inline;
+}
+
 /*End Transaction specific styles*/
 
 /*Friend specific styles*/
@@ -55,11 +74,16 @@ div#friend div.label{
 }
 /*End friend specific styles*/
 /*Text add specific styles*/
-#text_add_container input[type=text] {
+#form_container input[type=text] {
   width: 300px;
 }
-#transaction_description {
-  display: inline;
+
+#text_add_container {
+  width:330px;
+}
+div#tick {
+  display:none;
+  float:right;
 }
 /*End Text add specific styles*/
 

@@ -78,11 +78,12 @@ describe Transaction do
   describe "for non formal transactions between friends" do
 
     it "Frog owes me $20" do
-      transaction = @account.transactions.create!(:description => "Frog owes me $20",
+      transaction = @account.transactions.new(:description => "Frog owes me $20",
                               :amount => 20,
                               :name => "Me")
-      transaction.line_items.create!(:amount => 20,
+      transaction.line_items.build(:amount => 20,
                                :friend_id => @frog.id)
+      transaction.save!
 
       @user.myself_as_a_friend.credit.should == 20
       @frog.reload

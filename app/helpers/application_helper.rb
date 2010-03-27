@@ -5,13 +5,19 @@ module ApplicationHelper
 
     if line_item.mine?
       output += "#{line_item.state} - "
-      output += "pay & close" if !line_item.paid? && line_item.transaction.mine?
-      output += "pay" if !line_item.paid? && !line_item.transaction.mine?
-      output += "unpay" if (line_item.paid? || line_item.pending?) && !line_item.transaction.mine?
+      if line_item.transaction.mine?
+        output += "pay & close" if !line_item.paid?
+      else
+        output += "pay" if !line_item.paid?
+        output += "unpay" if (line_item.paid? || line_item.pending?)
+      end
     else
-      output += "#{line_item.state} - "
-      output += "mark as recieved" if !line_item.paid?
-      output += "mark as unpaid" if line_item.paid?
+      output += "#{line_item.state}"
+      if line_item.transaction.mine?
+        output += " - "
+        output += "mark as recieved" if !line_item.paid?
+        output += "mark as unpaid" if line_item.paid?
+      end
     end
 
     return output

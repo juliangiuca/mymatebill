@@ -8,7 +8,7 @@
 #  user_id           :integer(4)
 #  name              :string(255)
 #  credit            :float           default(0.0)
-#  debit             :float           default(0.0)
+#  debt              :float           default(0.0)
 #  pending           :float           default(0.0)
 #  total             :float
 #  befriended_on     :date
@@ -59,6 +59,9 @@ describe Friend do
   end
 
 end
+
+
+
 
 
 
