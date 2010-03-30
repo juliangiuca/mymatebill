@@ -14,4 +14,12 @@
     %div.tally
       = number_to_currency @friend.pending
 
-  = render :partial => "line_item", :collection => @friend.line_items
+  %table
+    %tr
+      %th Created On
+      %th Amount
+      %th Description
+      %th Due
+      %th Status
+      %th &nbsp;
+    = render :partial => "/shared/line_item", :collection => @friend.line_items

@@ -1,0 +1,6 @@
+%td= I18n.l(line_item_details.created_at.to_date)
+%td= number_to_currency line_item_details.amount
+%td= line_item_details.transaction.description
+%td= I18n.l(line_item_details.due.try(:to_date) || line_item_details.transaction.due.to_date)
+%td= line_item_details.state
+%td= line_item_state_actions(line_item_details, line_item_details.id)

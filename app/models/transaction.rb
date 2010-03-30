@@ -11,6 +11,8 @@
 #  amount       :float
 #  state        :string(255)
 #  recipient_id :integer(4)
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 
 class Transaction < ActiveRecord::Base
@@ -124,3 +126,4 @@ class Transaction < ActiveRecord::Base
   end
 
 end
+

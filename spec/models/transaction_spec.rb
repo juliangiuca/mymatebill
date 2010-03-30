@@ -11,6 +11,8 @@
 #  amount       :float
 #  state        :string(255)
 #  recipient_id :integer(4)
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -102,6 +104,7 @@ describe Transaction do
   end
 
 end
+
 
 
 

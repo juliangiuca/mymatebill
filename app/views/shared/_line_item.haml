@@ -1,4 +1,2 @@
-%div
-  = number_to_currency(line_item.amount)
-  = link_to line_item.friend.name, friend_path(:id => line_item.friend.id)
-  = change_state_link(line_item)
+%tr{:id => "line_item_#{line_item.id}"}
+  = render :partial => 'shared/line_item_details', :object => line_item

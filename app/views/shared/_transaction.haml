@@ -1,14 +1,26 @@
-%div
-  = number_to_currency transaction.amount
-  = link_to transaction.recipient.name, friend_path(:id => transaction.recipient_id)
-  = transaction.description
-  = transaction.due
-  = link_to "Edit", edit_transaction_path(:id => transaction.id)
-  - if transaction.line_items.present?
-    %div.more_line_items
-      %a{:onclick => "$('#line_item_#{transaction_counter}').slideToggle('slow'); return false", :href=>""}More
+%tr{:class => cycle("even","odd")}
+  %td= I18n.l(transaction.created_at.to_date)
+  %td= link_to transaction.recipient.name, friend_path(:id => transaction.recipient_id)
+  %td= number_to_currency transaction.amount
+  %td= I18n.l(transaction.due.to_date)
+  %td= transaction.state
+  %td
+    = link_to "Edit", edit_transaction_path(:id => transaction.id)
+    - if transaction.line_items.present?
+      %div.more_line_items
+        %a{:onclick => "$('#hide_line_item_#{transaction_counter}').slideToggle('slow'); return false", :href=>""}More
 
-- if transaction.line_items.present?
-  %div.line_items{:id => "line_item_#{transaction_counter}"}
-    = render :partial => "/shared/line_item", :collection => transaction.line_items
+%tr
+  %td{:colspan => "6"}
+    - if transaction.line_items.present?
+      %div.line_items{:id => "hide_line_item_#{transaction_counter}"}
+        %table
+          %tr
+            %th Created On
+            %th Amount
+            %th Description
+            %th Due
+            %th Status
+            %th &nbsp;
+          = render :partial => "shared/line_item", :collection => transaction.line_items
 

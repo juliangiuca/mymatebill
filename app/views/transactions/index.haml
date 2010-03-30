@@ -1,6 +1,21 @@
-%h1 Transactions
-= render :partial => "account", :collection => @accounts
+%div#transaction_list_container
+  %h1 Transactions
+  %table{:cellpadding => "0", :cellspacing => "0"}
+    %tr
+      %th Created On
+      %th Recipient
+      %th Amount
+      %th Due
+      %th Status
+      %th &nbsp;
+    = render :partial => '/shared/transaction', :collection => @transactions
 
-%a{:href => new_account_path} Create a new account
-- if @accounts.length > 1
-  %a{:href => accounts_path} Back to Accounts
+
+%div#add_transaction_container
+  %h3 Add Transaction
+  %div
+    = link_to(image_tag("plus-icon-small.png", :border => 0) + " (simple)", :controller => "transactions", :action => "text_add", :account_id => @accounts.first.id)
+  %div
+    %a{:href => new_transaction_path(:account_id => @accounts.first.id)}
+      = image_tag("plus-icon-small.png", :border => 0)
+      (advanced)

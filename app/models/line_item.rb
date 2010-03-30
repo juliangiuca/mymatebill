@@ -14,6 +14,8 @@
 #  state               :string(255)
 #  unique_magic_hash   :string(255)
 #  is_self_referencing :boolean(1)
+#  created_at          :datetime
+#  updated_at          :datetime
 #
 
 class LineItem < ActiveRecord::Base
@@ -91,4 +93,7 @@ class LineItem < ActiveRecord::Base
   end
 
 end
+
+
+
 

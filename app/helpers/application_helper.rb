@@ -22,4 +22,16 @@ module ApplicationHelper
 
     return output
   end
+
+  def line_item_state_actions(line_item, counter)
+    output = String.new
+    if line_item.mine?
+      output += "mark as paid"
+      output += "mark as unpaid" if line_item.paid?
+    else
+      output += "Mark as received" if !line_item.paid?
+      output += "mark as unpaid" if line_item.paid?
+    end
+    return link_to_remote(output, :url => {:controller => "line_items", :action => "update_line_item_status", :id => line_item.unique_magic_hash, :counter => counter})
+  end
 end

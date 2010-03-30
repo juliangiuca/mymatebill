@@ -11,7 +11,7 @@ class CreateLineItems < ActiveRecord::Migration
       t.column :state,                :string, :state => "unpaid"
       t.column :unique_magic_hash,    :string
       t.column :is_self_referencing,  :boolean, :default => false
-      t.timestamp
+      t.timestamps
     end
   end
 

@@ -69,8 +69,8 @@ class TransactionsController < ApplicationController
   end
 
   def index
-    #@events = current_user.events
     @accounts = current_user.accounts
+    @transactions = current_user.accounts.map(&:transactions).flatten(1)
   end
 
   def edit

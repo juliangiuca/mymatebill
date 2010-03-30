@@ -2,7 +2,7 @@ class FriendsController < ApplicationController
   layout "leftnav"
 
   def index
-    @friends = current_user.friends
+    @friends = current_user.visible_friends
   end
 
   def show

@@ -58,10 +58,38 @@ div#me_as_recipient div{
 }
 #line_items_container .line_item {
 }
+
 .icons {
   display:inline;
 }
 
+#transaction_list_container {
+  float:left;
+  width:60%;
+}
+
+#transaction_list_container table {
+  width: 100%;
+}
+
+#transaction_list_container table th{
+  text-align:left;
+}
+
+#transaction_list_container table tr.even {
+  background-color:#CEEAF5;
+}
+
+#transaction_list_container table tr.odd {
+  background-color:white;
+}
+
+
+#add_transaction_container {
+  float:right;
+  width:40%;
+  padding-top:20px;
+}
 /*End Transaction specific styles*/
 
 /*Friend specific styles*/

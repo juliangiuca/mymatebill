@@ -39,26 +39,30 @@ ActiveRecord::Schema.define(:version => 20091211225425) do
   add_index "friends", ["user_id"], :name => "index_friends_on_user_id"
 
   create_table "line_items", :force => true do |t|
-    t.integer "transaction_id"
-    t.integer "friend_id"
-    t.float   "amount"
-    t.date    "due"
-    t.date    "paid_on"
-    t.date    "confirmed_on"
-    t.boolean "confirmed_payment"
-    t.string  "state"
-    t.string  "unique_magic_hash"
-    t.boolean "is_self_referencing", :default => false
+    t.integer  "transaction_id"
+    t.integer  "friend_id"
+    t.float    "amount"
+    t.date     "due"
+    t.date     "paid_on"
+    t.date     "confirmed_on"
+    t.boolean  "confirmed_payment"
+    t.string   "state"
+    t.string   "unique_magic_hash"
+    t.boolean  "is_self_referencing", :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "transactions", :force => true do |t|
-    t.string  "description"
-    t.integer "account_id"
-    t.date    "due"
-    t.integer "actor_id"
-    t.float   "amount"
-    t.string  "state"
-    t.integer "recipient_id"
+    t.string   "description"
+    t.integer  "account_id"
+    t.date     "due"
+    t.integer  "actor_id"
+    t.float    "amount"
+    t.string   "state"
+    t.integer  "recipient_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
