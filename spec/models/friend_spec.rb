@@ -1,22 +1,3 @@
-# == Schema Information
-# Schema version: 20091211225425
-#
-# Table name: friends
-#
-#  id                :integer(4)      not null, primary key
-#  owner_id          :integer(4)
-#  user_id           :integer(4)
-#  name              :string(255)
-#  credit            :float           default(0.0)
-#  debt              :float           default(0.0)
-#  pending           :float           default(0.0)
-#  total             :float
-#  befriended_on     :date
-#  unique_magic_hash :string(255)
-#  email_address     :string(255)
-#  hidden            :boolean(1)
-#
-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Friend do
@@ -74,4 +55,27 @@ end
 
 
 
+
+
+
+
+
+
+# == Schema Information
+#
+# Table name: friends
+#
+#  id                :integer(4)      not null, primary key
+#  owner_id          :integer(4)
+#  user_id           :integer(4)
+#  name              :string(255)
+#  credit            :float           default(0.0)
+#  debt              :float           default(0.0)
+#  pending           :float           default(0.0)
+#  total             :float
+#  befriended_on     :date
+#  unique_magic_hash :string(255)
+#  email_address     :string(255)
+#  hidden            :boolean(1)      default(FALSE)
+#
 

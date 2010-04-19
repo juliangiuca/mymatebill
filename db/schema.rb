@@ -9,16 +9,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091211225425) do
+ActiveRecord::Schema.define(:version => 20091211224549) do
 
   create_table "accounts", :force => true do |t|
     t.string  "name"
     t.integer "user_id"
-  end
-
-  create_table "actors", :force => true do |t|
-    t.integer "user_id"
-    t.string  "name"
   end
 
   create_table "friends", :force => true do |t|

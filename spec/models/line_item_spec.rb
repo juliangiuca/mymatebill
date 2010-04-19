@@ -1,23 +1,3 @@
-# == Schema Information
-# Schema version: 20091211225425
-#
-# Table name: line_items
-#
-#  id                  :integer(4)      not null, primary key
-#  transaction_id      :integer(4)
-#  friend_id           :integer(4)
-#  amount              :float
-#  due                 :date
-#  paid_on             :date
-#  confirmed_on        :date
-#  confirmed_payment   :boolean(1)
-#  state               :string(255)
-#  unique_magic_hash   :string(255)
-#  is_self_referencing :boolean(1)
-#  created_at          :datetime
-#  updated_at          :datetime
-#
-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe LineItem do
@@ -215,4 +195,28 @@ end
 
 
 
+
+
+
+
+
+
+# == Schema Information
+#
+# Table name: line_items
+#
+#  id                  :integer(4)      not null, primary key
+#  transaction_id      :integer(4)
+#  friend_id           :integer(4)
+#  amount              :float
+#  due                 :date
+#  paid_on             :date
+#  confirmed_on        :date
+#  confirmed_payment   :boolean(1)
+#  state               :string(255)
+#  unique_magic_hash   :string(255)
+#  is_self_referencing :boolean(1)      default(FALSE)
+#  created_at          :datetime
+#  updated_at          :datetime
+#
 

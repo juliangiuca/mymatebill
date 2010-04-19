@@ -6,11 +6,6 @@ Factory.define :user do |u|
   u.password_confirmation 'test123'
 end
 
-Factory.define :actor do |a|
-  a.name                  "Rent"
-  a.user_id               {(User.first || Factory(:user)).id}
-end
-
 Factory.define :account do |a|
   a.name                  'Test account'
   a.user_id               {(User.find_by_name("test login") || Factory(:user)).id}
@@ -19,7 +14,6 @@ end
 Factory.define :transaction do |e|
   e.description           'This is a test transaction'
   e.amount                '123'
-  e.actor_id              {(Actor.first || Factory(:actor)).id}
   e.recipient_id          {(Friend.last || Factory(:friend)).id}
   e.account_id            {(Account.first || Factory(:account)).id}
 end
@@ -31,6 +25,6 @@ end
 
 Factory.define :line_item do |l|
   l.amount                1
-  l.transaction_id              {(Transaction.first || Factory(:transaction)).id}
+  l.transaction_id        {(Transaction.first || Factory(:transaction)).id}
   l.friend_id             {(Friend.first || Factory(:friend)).id}
 end

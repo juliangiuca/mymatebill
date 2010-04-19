@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20091211225425
+# Schema version: 20091211224549
 #
 # Table name: transactions
 #
@@ -18,7 +18,6 @@
 class Transaction < ActiveRecord::Base
   include AASM
   belongs_to :account
-  belongs_to :actor
   has_many   :line_items, :before_add => :remove_self_line_item_and_add_other
   belongs_to :recipient, :class_name => "Friend"
 
@@ -26,6 +25,7 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :amount
   validates_presence_of :recipient_id
   validates_presence_of :account_id
+
   validate :a_line_item_exists_if_im_the_recipient
 
   before_validation :strip_spaces_from_desc
@@ -33,7 +33,6 @@ class Transaction < ActiveRecord::Base
   before_validation :change_name_to_recipient
 
   before_create :create_self_representing_line_item
-  before_create :set_actor_id
 
   attr_writer :name
 
@@ -51,6 +50,7 @@ class Transaction < ActiveRecord::Base
     transitions :from => :paid, :to => :unpaid
   end
 
+  ###### AASM methods
   def create_credit
     self.recipient.add_credit(self.amount)
   end
@@ -71,6 +71,8 @@ class Transaction < ActiveRecord::Base
     end
   end
 
+  ###### End AASM methods
+
   def change_name_to_recipient
     return unless @name
     our_recipient = self.account.user.friends.find_or_create_by_name(@name)
@@ -85,10 +87,6 @@ class Transaction < ActiveRecord::Base
   def recipient_name
     return nil unless @name || self.recipient
     @name || self.recipient.name
-  end
-
-  def set_actor_id
-     self.account.user.actors.find_or_create_by_name("payment")
   end
 
   def self_referencing_line_item

@@ -1,5 +1,5 @@
+class LineItem < ActiveRecord::Base
 # == Schema Information
-# Schema version: 20091211225425
 #
 # Table name: line_items
 #
@@ -13,12 +13,10 @@
 #  confirmed_payment   :boolean(1)
 #  state               :string(255)
 #  unique_magic_hash   :string(255)
-#  is_self_referencing :boolean(1)
+#  is_self_referencing :boolean(1)      default(FALSE)
 #  created_at          :datetime
 #  updated_at          :datetime
 #
-
-class LineItem < ActiveRecord::Base
   include AASM
   belongs_to  :transaction
   belongs_to  :friend
@@ -51,6 +49,7 @@ class LineItem < ActiveRecord::Base
     transitions :from => :paid, :to => :unpaid
   end
 
+  ##### AASM Methods
   def set_state_to_paid
     self.pay!
     self.confirm_payment!
@@ -80,6 +79,7 @@ class LineItem < ActiveRecord::Base
   def unconfirm_payment
     self.update_attribute(:confirmed_on, nil)
   end
+  ##### End AASM Methods
 
   def mine?
     return true if current_user && self.friend == current_user.myself_as_a_friend
@@ -96,4 +96,24 @@ end
 
 
 
+
+
+# == Schema Information
+#
+# Table name: line_items
+#
+#  id                  :integer(4)      not null, primary key
+#  transaction_id      :integer(4)
+#  friend_id           :integer(4)
+#  amount              :float
+#  due                 :date
+#  paid_on             :date
+#  confirmed_on        :date
+#  confirmed_payment   :boolean(1)
+#  state               :string(255)
+#  unique_magic_hash   :string(255)
+#  is_self_referencing :boolean(1)      default(FALSE)
+#  created_at          :datetime
+#  updated_at          :datetime
+#
 
