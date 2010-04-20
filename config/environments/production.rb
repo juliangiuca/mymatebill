@@ -29,9 +29,9 @@ config.action_view.cache_template_loading            = true
 
 require 'smtp-tls'
 
-ExceptionNotifier.exception_recipients = %w(inara_support@hoolio.net)
+ExceptionNotifier.exception_recipients = %w(kaylee_support@hoolio.net)
 ExceptionNotifier.sender_address = %(error@hoolio.net)
-ExceptionNotifier.email_prefix = "[Inara - Error] "
+ExceptionNotifier.email_prefix = "[Kaylee - Error] "
 
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
