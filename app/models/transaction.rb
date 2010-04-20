@@ -3,16 +3,17 @@
 #
 # Table name: transactions
 #
-#  id           :integer(4)      not null, primary key
-#  description  :string(255)
-#  account_id   :integer(4)
-#  due          :date
-#  actor_id     :integer(4)
-#  amount       :float
-#  state        :string(255)
-#  recipient_id :integer(4)
-#  created_at   :datetime
-#  updated_at   :datetime
+#  id                :integer(4)      not null, primary key
+#  description       :string(255)
+#  account_id        :integer(4)
+#  due               :date
+#  actor_id          :integer(4)
+#  amount            :float
+#  state             :string(255)
+#  recipient_id      :integer(4)
+#  unique_magic_hash :string(255)
+#  created_at        :datetime
+#  updated_at        :datetime
 #
 
 class Transaction < ActiveRecord::Base
@@ -33,6 +34,7 @@ class Transaction < ActiveRecord::Base
   before_validation :change_name_to_recipient
 
   before_create :create_self_representing_line_item
+  before_create :create_magic_hash
 
   attr_writer :name
 
@@ -121,6 +123,11 @@ class Transaction < ActiveRecord::Base
     if self_referencing_line_item && self_referencing_line_item != line_item
       self.self_referencing_line_item.destroy
     end
+  end
+
+  def create_magic_hash
+    string_to_be_hashed = "yohgurt is sometimes goood" + self.amount.to_s + Time.now.to_f.to_s + rand().to_s
+    self.unique_magic_hash = Digest::SHA1.hexdigest string_to_be_hashed
   end
 
 end

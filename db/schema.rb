@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20091211224549) do
     t.float    "amount"
     t.string   "state"
     t.integer  "recipient_id"
+    t.string   "unique_magic_hash"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

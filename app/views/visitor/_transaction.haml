@@ -1,0 +1,11 @@
+%tr{:id => "tr_#{transaction.id}"}
+  %td= I18n.l(transaction.created_at.to_date)
+  %td= number_to_currency transaction.amount
+  %td
+    - transaction.line_items.each do |li|
+      = is_it_me(li.friend)
+  %td= transaction.description
+  %td= I18n.l(transaction.due.to_date)
+  %td= transaction.state
+  %td= view_and_update_state_actions(transaction, "tr_#{transaction.id}")
+

@@ -1,7 +1,9 @@
+
 class Friend < ActiveRecord::Base
-  belongs_to  :user
-  has_one     :owner
+  belongs_to  :creator, :class_name => "User", :foreign_key => "user_id"
+  has_one     :owner, :class_name => "User", :foreign_key => "id"
   has_many    :line_items
+  has_many    :transactions, :foreign_key => "recipient_id"
 
   before_create :create_magic_hash
   before_create :set_befriended_on
@@ -55,22 +57,6 @@ class Friend < ActiveRecord::Base
   end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,12 +1,12 @@
 %div#friend
   %h1
-    = "Details for #{@friend.name}"
+    = "Welcome #{@friend.name}"
   %div.label
-    You owe them:
+    You owe are owed:
     %div.tally
       = number_to_currency @friend.credit
   %div.label
-    Owes you:
+    You owe
     %div.tally
       = number_to_currency @friend.debt
   %div.label
@@ -14,14 +14,29 @@
     %div.tally
       = number_to_currency @friend.pending
 
+  %br
+  = "You owe #{@friend.creator.name}:"
   %table
     %tr
       %th Created On
       %th Amount
+      %th To
       %th Description
       %th Due
       %th Status
       %th &nbsp;
-    = render :partial => "/shared/line_item", :collection => @friend.line_items
+    = render :partial => "line_item", :collection => @friend.line_items
 
+  %br
+  = "#{@friend.creator.name.capitalize} owes you:"
+  %table
+    %tr
+      %th Created On
+      %th Amount
+      %th From
+      %th Description
+      %th Due
+      %th Status
+      %th &nbsp;
+    = render :partial => "transaction", :collection => @friend.transactions
 

@@ -1,8 +1,10 @@
-%tr{:id => "line_item_#{line_item.id}"}
-  %td= I18n.l(line_item.created_at.to_date)
+%tr{:id => "li_#{line_item.id}"}
+  %td= I18n.l(line_item.transaction.created_at.to_date)
   %td= number_to_currency line_item.amount
+  %td= is_it_me(line_item.transaction.recipient)
   %td= line_item.transaction.description
   %td= I18n.l(line_item.due.try(:to_date) || line_item.transaction.due.to_date)
   %td= line_item.state
   %td= view_and_update_state_actions(line_item, "li_#{line_item.id}")
+
 

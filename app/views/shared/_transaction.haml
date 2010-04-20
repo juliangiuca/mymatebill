@@ -1,6 +1,6 @@
 %tr{:class => cycle("even","odd")}
   %td= I18n.l(transaction.created_at.to_date)
-  %td= link_to transaction.recipient.name, friend_path(:id => transaction.recipient_id)
+  %td= link_to is_it_me(transaction.recipient), friend_path(:id => transaction.recipient_id)
   %td= number_to_currency transaction.amount
   %td= I18n.l(transaction.due.to_date)
   %td= transaction.state

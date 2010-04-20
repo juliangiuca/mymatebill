@@ -3,16 +3,17 @@
 #
 # Table name: transactions
 #
-#  id           :integer(4)      not null, primary key
-#  description  :string(255)
-#  account_id   :integer(4)
-#  due          :date
-#  actor_id     :integer(4)
-#  amount       :float
-#  state        :string(255)
-#  recipient_id :integer(4)
-#  created_at   :datetime
-#  updated_at   :datetime
+#  id                :integer(4)      not null, primary key
+#  description       :string(255)
+#  account_id        :integer(4)
+#  due               :date
+#  actor_id          :integer(4)
+#  amount            :float
+#  state             :string(255)
+#  recipient_id      :integer(4)
+#  unique_magic_hash :string(255)
+#  created_at        :datetime
+#  updated_at        :datetime
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')

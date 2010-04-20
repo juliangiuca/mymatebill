@@ -20,10 +20,10 @@ class LineItemsController < ApplicationController
     redirect_to login_path
   end
 
-  def update_line_item_status
+  def update_status
     @line_item = LineItem.find_by_unique_magic_hash(params["id"])
-    counter = params['counter'] || 0
-    raise ActiveRecord::RecordNotFound unless @line_item
+    object_to_update = params['object_to_update']
+    raise ActiveRecord::RecordNotFound unless @line_item && object_to_update
 
     if @line_item.mine?
       if @line_item.paid?
@@ -43,7 +43,7 @@ class LineItemsController < ApplicationController
     @friend = @line_item.friend
     @owner = @line_item.transaction.account.user
 
-    render(:update) { |page| page.replace_html "line_item_#{counter}", :partial => "/shared/line_item_details", :object => @line_item }
+    render(:update) { |page| page.replace_html object_to_update, :partial => "/shared/line_item", :object => @line_item }
 
   rescue ActiveRecord::RecordNotFound
   end
