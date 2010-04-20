@@ -1,3 +1,4 @@
 .svn
 .DS_Store
 log/*
+vendor/plugins/annotate_models
