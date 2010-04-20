@@ -1,0 +1,100 @@
+language: romana
+homepage: blogpub.ro
+homepage_personal_blog: blog
+homepage_pubbers: pubberi
+homepage_articles: articole
+homepage_magazine: revista
+homepage_caffee: cafeaua de dimineata
+please_log_in: te rugam sa te loghezi
+specify_name: va rugam sa introduceti numele
+already_taken_username: acest username este deja folosit. va rugam sa alegeti altul
+minimum_username_len: numele trebuie sa aiba o lungime de minim 2 caractere
+empty_email: va rugam sa introduceti adresa de email
+already_takem_email: aceasta adresa de email este deja folosita. va rugam sa alegeti alta
+invalid_email: va rugam introduceti o adresa de email valida
+empty_password: ati uitat sa introduceti parola?
+minimum_pass_len: parola trebuie sa aiba minim 4 caractere
+empty_password_confirm: ati uitat sa confirmati parola?
+different_pass_and_conf: parola si confirmarea parolei sunt diferite
+password_changed: parola a fost schimbata
+error_on_password_change: eroare la schimbarea parolei
+login_failed: combinatia nume/parola este gresita!
+name: nume
+email: email
+url: pagina web
+password: parola
+repeat: repeta
+role: rol
+state: stare
+greeting: bine ai revenit
+logged_out: te-ai delogat cu succes
+admin_area_title: te afli in aria de administrare
+login_area_title: introdu numele si parola pentru a te loga
+administer_users: administreaza utilizatori
+add_new_user: adauga un nou utilizator
+confirm_user_deletion: esti sigur ca vrei sa stergi acest utilizator?
+administer_global_categories: administreaza categoriile globale
+confirm_category_deletion: esti sigur ca vrei sa stergi aceasta categorie?
+choose_category: alege categoria pentru acest articol
+admin_area_title: administrator
+articles_and_uploads: articole si fisiere uploadate
+articles: articole
+other_articles: articole scrise de ceilalti utilizatori
+not_your_article: articolul cerut nu este al tau
+latest_articles: ultimele articole
+no_articles: nici un articol existent
+article_title: titlu
+article_author: autor
+article_date: adaugat in
+article_written_by: scris de
+add_a_new_article: adauga un nou articol
+confirm_article_deletion: esti sigur ca vrei sa stergi acest articol?
+read_entire_article: citeste tot
+add_new_category: adauga o noua categorie
+administer_existing_articles: modifica articolele existente
+administer_comments: administreaza comentarii
+administer_uploaded_files: administreaza fisierele uploadate
+comments: comentarii
+said: a spus
+new_comment_added: a fost adaugat un nou comentariu
+confirm_comment_deletion: esti sigur ca vrei sa stergi acest comentariu?
+edit_theme: modifica tema blogului
+edit_sidebar: modifica sidebar-ul blogului
+edit_header: modifica header-ul blogului
+edit_footer: modifica footer-ul blogului
+import_export: importa/exporta
+import_articles_from_file: importa articole dintr-un fisier
+export_articles_to_file: exporta articolele intr-un fisier
+no_registered_users: nu exista nici un utilizator inregistrat
+user_does_not_exist: acest utilizator nu exista
+change_profile_and_theme_settings: setari profil si tema blogului
+change_password: schimba parola
+change_settings: configurari personale si tema blogului
+invite_a_friend_to_join: invita un prieten sa-si deschida cont
+update: modifica
+delete: sterge
+save: salveaza
+invitation_message: mesajul de invitatie
+open_account_message_title: te invita sa-ti deschizi cont
+to_activate_account_click_on: pentru a-ti activa contul, da click pe linkul urmator
+send_invitation: trimite invitatia
+invitation_sent_successfully: invitatia a fost trimisa
+error_when_sending_invitation: invitatia nu a putut fi trimisa. te rog incearca mai tarziu
+invite_multiple_friends: daca vrei sa trimiti la mai multi prieteni, scrie adresele de email despartite de virgula
+account_created: contul tau a fost creat cu succes
+add_a_comment: adauga comentariul tau
+no_existing_comment: nici un comentariu
+comment_incomplete: ai uitat sa scrii numele sau comentariul
+comment_added: comentariul a fost adaugat cu succes
+upload_successful: fisierul a fost uploadat cu succes
+upload_error: fisierul nu a putut fi uploadat. asigurati-va ca e o imagine, si ca nu e mai mare de 500 KB
+no_available_uploads: nu ai facut upload la nici un fisier
+confirm_upload_deletion: esti sigur ca vrei sa stergi acest fisier?
+modify_profile: modifica setarile din profil
+choose_avatar: introdu URL-ul unei poze uploadate pentru a folosi ca avatar
+choose_theme: alege tema pentru blog
+notify_by_mail_for_comments: anunta-ma pe mail cand cineva posteaza un comentariu la articolele mele
+profile_updated: profilul a fost modificat
+error_updating_profile: profilul nu a putut fi modificat. te rog asigura-te ca ai ales o poza uploadata in sistem
+
+ 

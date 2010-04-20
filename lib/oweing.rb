@@ -5,7 +5,7 @@ module Oweing
   include Treetop::Runtime
 
   def root
-    @root || :sentence
+    @root ||= :sentence
   end
 
   module Sentence0

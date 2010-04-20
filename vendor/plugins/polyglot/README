@@ -1,0 +1,89 @@
+Polyglot
+=========
+====
+This plugin offers the simple function of localizing your custom messages inside a Rails application. 
+In order to support multiple languages, you'll need a yml file for each language. 
+
+The Polyglot plugin offers you several functions for localization. They are available in your Models, Views, Controllers and Tests. The functions are:
+
+_(key, lang)        - returns the message in the required language
+available_languages - tells you what are the supported languages 
+current_language    - tells you what is set as the current language
+current_language=   - to change the default language
+
+How to use
+==========
+==========
+Add your own language files
+===========================
+In the plugin root directory, you can see a languages folder. Inside this folder, you'll have to add your own language files in yml format. they contain simple key-value pairs, like this:
+
+message_to_display: Hello!
+greeting: How are you today?
+
+For English, use an 'en.yml' file, for French 'fr.en', for German 'de.yml', for Romanian 'ro.yml', and so on.
+
+Right now there are two sample files with a few messages, en.yml and ro.yml. You can change/remove these files according to your needs.
+
+That's it. Now you can start using it.
+
+Example of usage
+=================
+=================
+How to translate the messages
+==============================
+_('message_key', 'en') returns the message in English corresponding to this key
+_('message_key', 'ro') returns the message in Romanian corresponding to this key
+
+You can call the "_()" method with a string or with a variable. And if you're using the default language, you don't have to specify the language anymore, just the message_key, like this:
+
+_ 'message_key' 
+or
+_ @message_key
+
+and it will return the localized version.
+
+Using parameters and placeholders inside the strings
+=====================================================
+
+As the order of words differs in different languages, you can use placeholders inside your localized strings. For example:
+
+1. Fill the dictionaries
+-------------------------
+
+inside en.yml
+greetings: Hi {0}! how are you and your friend {1} today?
+
+inside es.yml
+greetings: Hola {0} e {1}! Comos estan ustedes hoy?
+
+2. Call the localization function
+----------------------------------
+
+_('greetings', 'Sergiu', 'George')
+
+3. The output will be:
+-----------------------
+
+"Hi Sergiu! how are you and your friend George today?" for english, and
+"Hola Sergiu e George! Comos estan ustedes hoy?" for spanish. 
+
+I couldn't think of a better example right now :))
+
+How to change the default language
+===================================
+In order to change the default language, from example from a controller, all you have to do is this:
+
+self.default_language = 'en' or some other language.
+
+If you forget the self, then it will be just a local variable declaration, and it will not change the default language. SO DON'T FORGET IT :).
+
+For more technical explanation, see the comments inside polyglot.rb
+
+Other localization plugins
+===========================
+===========================
+If you need more features for localization, check out Simple Localization (http://simple-localization.arkanis.de/), Gibberish(http://errtheblog.com/post/4396) or Globalize (http://www.globalize-rails.org/globalize/).
+
+
+Copyright (c) 2008 Sergiu Truta (http://www.rorails.ro), released under the MIT license.
