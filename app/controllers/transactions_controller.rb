@@ -70,7 +70,7 @@ class TransactionsController < ApplicationController
 
   def index
     @accounts = current_user.accounts
-    @transactions = current_user.accounts.map(&:transactions).flatten(1)
+    @transactions = current_user.accounts.map(&:transactions).flatten
   end
 
   def edit
