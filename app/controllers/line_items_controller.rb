@@ -13,7 +13,6 @@ class LineItemsController < ApplicationController
 
     @transaction = @line_item.transaction
     @friend = @line_item.friend
-    debugger
     @friend.update_attribute(:owner_id, current_user.id)
     @owner = @line_item.transaction.account.user
 

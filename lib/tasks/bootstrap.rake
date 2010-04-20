@@ -8,13 +8,13 @@ namespace :site do
 
   desc "wipe and recreate the site"
   task :bootstrap => :environment do
-    system 'rake site:nuke && rake db:migrate && rake db:seed && rake site:friend:create && rake db:test:prepare'
-    #Rake::Task["site:nuke"].invoke
-    #Rake::Task["db:migrate"].invoke
-    #Rake::Task["db:seed"].invoke
-    #Rake::Task["site:friend:create"].invoke
+    #system 'rake site:nuke && rake db:setup && rake site:friend:create && rake db:test:prepare'
+    Rake::Task["db:drop:all"].invoke rescue
+    Rake::Task["db:create:all"].invoke
+    Rake::Task["db:setup"].invoke
+    Rake::Task["site:friend:create"].invoke
     ##for some reason, this prevents the account from being created. GG.
-    #Rake::Task["db:test:prepare"].invoke
+    Rake::Task["db:test:prepare"].invoke
   end
 
 end

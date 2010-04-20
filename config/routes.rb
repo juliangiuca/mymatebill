@@ -13,6 +13,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource  :session
   map.resources :accounts
   map.resources :friends
+  map.resources :visitor
   map.resources :actors
   map.resources :line_items
 
