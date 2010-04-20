@@ -135,4 +135,7 @@ class TransactionsController < ApplicationController
     end
   end
   
+  def broken
+    raise "OH NOES ITS BROKED"
+  end
 end
