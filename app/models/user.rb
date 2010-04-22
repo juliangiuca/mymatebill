@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
 
   has_many :accounts
   has_many :friends
-  has_many :visible_friends, :class_name => "Friend", :conditions => "hidden = 0"
+  has_many :visible_friends, :class_name => "Friend", :conditions => "hidden = false"
   has_many :actors
   has_many :transactions, :through => :accounts
 
