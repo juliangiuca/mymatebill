@@ -1,4 +1,6 @@
 :javascript
+  var timeout_t;
+
   function purge_values() {
     $("#recipient_name").val("");
     $("#line_items_0_friend").val("");
@@ -8,7 +10,13 @@
   };
 
   function are_you_watching(e) {
-    $.post("/ut/understand_text", { input: $(e).val() },
+    text_input = $(e).val()
+    clearTimeout(timeout_t);
+    timeout_t = setTimeout("shootAjax(text_input)", 1000);
+  }
+
+  function shootAjax(text_input) {
+    $.post("/ut/understand_text", { input: text_input },
     function(data) {
     if (data.amount) {
         $("#line_items_0_friend").val(data.in_debt);
