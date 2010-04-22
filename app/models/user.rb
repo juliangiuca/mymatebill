@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
   end
 
   def create_yourself_as_a_friend
-    friends.create!(:name => "me", :owner_id => self.id, :hidden => 1)
+    friends.create!(:name => "Me", :owner_id => self.id, :hidden => 1)
   end
 
   def line_items
@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
   end
 
   def myself_as_a_friend
-    friends.find_by_name("me")
+    friends.find_by_name("Me")
   end
 
   def name
