@@ -1,18 +1,5 @@
-%h1
-  = "Hey #{@line_item.friend.name}, you owe #{@owner.name} #{number_to_currency(@line_item.amount)}!"
+- %w(unpaid pending paid).each do |state|
+  = link_to state, line_item_path(state)
 
-%p
-  = @owner.name.capitalize
-  - if @transaction.description.present?
-    says it's for
-    = @transaction.description
-  - else
-    didn't mention what it was for.
-
-%p
-  It is due by
-  = @transaction.due
-
-
-%div{:id => "line_item_#{@line_item.id}"}
-  = render :partial => 'shared/line_item_details', :object => @line_item
+%table
+  = render :partial => "shared/line_item", :collection => @line_items

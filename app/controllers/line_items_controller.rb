@@ -1,22 +1,20 @@
 class LineItemsController < ApplicationController
   skip_before_filter :login_required, :only => [:show, :update_line_item_status]
 
-  layout "basic"
+  layout "leftnav"
 
   def index
-    @line_items = current_user.line_items
+    @line_items = current_user.myself_as_a_friend.line_items.find_by_state(params[:id])
+    render :action => :show, :id => "unpaid"
   end
 
   def show
-    @line_item = LineItem.find_by_unique_magic_hash(params["id"])
-    raise ActiveRecord::RecordNotFound unless @line_item
+    raise ActiveRecord::RecordNotFound unless LineItem.aasm_states.map(&:name).include?(params[:id].to_sym)
 
-    @transaction = @line_item.transaction
-    @friend = @line_item.friend
-    @friend.update_attribute(:owner_id, current_user.id)
-    @owner = @line_item.transaction.account.user
+    @line_items = current_user.myself_as_a_friend.line_items.find_all_by_state(params[:id])
 
   rescue ActiveRecord::RecordNotFound
+    redirect_to transaction_path if current_user
     redirect_to login_path
   end
 
