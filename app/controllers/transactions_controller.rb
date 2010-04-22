@@ -134,8 +134,4 @@ class TransactionsController < ApplicationController
       render :text => "".to_json
     end
   end
-  
-  def broken
-    raise "OH NOES ITS BROKED"
-  end
 end
