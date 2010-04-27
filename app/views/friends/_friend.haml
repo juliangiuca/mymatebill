@@ -1,0 +1,8 @@
+%tr
+  %td
+    = link_to friend.name, friend_path(:id => friend.id)
+  %td
+    = number_to_currency(friend.credit - friend.debt)
+  %td
+    = link_to "edit", edit_friend_path(friend.id)
+    delete

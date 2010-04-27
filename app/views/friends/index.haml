@@ -1,6 +1,11 @@
 %div#friend
   %h1 Friends
-  = render :partial => "/shared/friend", :collection => @friends
+  %table
+    %tr
+      %th Name
+      %th Amount
+      %th Controls
+    = render :partial => "friend", :collection => @friends
   - if @friends.blank?
     %p
       Awwww, you have no friends!

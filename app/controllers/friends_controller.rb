@@ -15,6 +15,12 @@ class FriendsController < ApplicationController
     @friend = current_user.friends.new
   end
 
+  def edit
+    @friend = current_user.friends.find(params[:id])
+    raise ActiveRecord::RecordNotFound unless @friend
+
+  end
+
   def create
     @friend = current_user.friends.new(params[:friend])
     if @friend && @friend.valid? && @friend.save! && @friend.errors.empty?
