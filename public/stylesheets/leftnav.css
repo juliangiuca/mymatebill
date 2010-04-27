@@ -93,6 +93,16 @@ div#me_as_recipient div{
 /*End Transaction specific styles*/
 
 /*Friend specific styles*/
+tr.friend td.del {
+  color: black;
+  text-decoration: line-through;
+}
+
+
+tr.friend td.del div{
+  color: #e4e4e4;
+}
+
 div#friend div.label{
   width:400px;
 }

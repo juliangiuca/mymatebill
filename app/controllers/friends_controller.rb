@@ -37,9 +37,12 @@ class FriendsController < ApplicationController
   end
 
   def destroy
-    @friend = current_user.friends.find(params[:id]).destroy
+    @friend = current_user.friends.find(params[:id])
+    raise ActiveRecord::RecordNotFound unless @friend
+
+    @friend.destroy
     render :partial => "del_friend", :object => @friend
-  rescue
-    render :partial => "something_broke", :status => :error
+  rescue ActiveRecord::RecordNotFound
+    render :partial => "friend", :status => :error, :object => @friend
   end
 end

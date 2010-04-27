@@ -1,15 +1,14 @@
-%tr{:id => del_friend.id}
-  %td
-    %del
-      = del_friend.name
-  %td
-    %del
-      = number_to_currency(del_friend.credit - friend.debt)
-  %td
-    %del
-      = del_friend.email_address.present? ? "Yes" : "No"
-  %td
-    %del
-      Edit
-      = image_tag("subtract-icon.png", :border => 0, :alt => "Delete", :title => "Delete"
+%td.del
+  %div
+    = del_friend.name
+%td.del
+  %div
+    = number_to_currency(del_friend.credit - del_friend.debt)
+%td.del
+  %div
+    = del_friend.email_address.present? ? "Yes" : "No"
+%td.del
+  %div
+    Edit
+    = image_tag("subtract-icon.png", :border => 0, :alt => "Delete", :title => "Delete")
 

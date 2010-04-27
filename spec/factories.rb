@@ -1,3 +1,7 @@
+Factory.sequence :name do |n|
+  "Name_#{n}"
+end
+
 Factory.define :user do |u|
   u.name                  'test login'
   u.login                 'test_login'
@@ -19,7 +23,7 @@ Factory.define :transaction do |e|
 end
 
 Factory.define :friend do |f|
-  f.name                  "Friendly name"
+  f.name                  {Factory.next(:name)}
   f.user_id               {(User.first || Factory(:user)).id}
 end
 

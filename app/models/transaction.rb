@@ -102,7 +102,7 @@ class Transaction < ActiveRecord::Base
 
   protected
   def strip_spaces_from_desc
-    self.description = self.description.strip
+    self.description = self.description.strip if self.description
   end
 
   def make_sure_a_date_is_set

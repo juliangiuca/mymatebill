@@ -39,31 +39,34 @@ describe Friend do
     friend.name.should == friend.name.strip
   end
 
+  describe "friends being deleted with transactions" do
+    before(:each) do
+      @user = Factory(:user)
+      @account = Factory(:account, :user_id => @user.id)
+      @friend_1 = Factory(:friend)
+      @transaction_to_someone = Factory(:transaction, :recipient_id => @friend_1.id, :amount => "20")
+      Transaction.find(@transaction_to_someone.id).line_items.should have(1).record
+
+      @friend_2 = Factory(:friend, :user_id => @user.id)
+      @transaction_from_someone = @account.transactions.new(:amount => "50")
+      @transaction_from_someone.recipient_id = @user.myself_as_a_friend.id
+      @transaction_from_someone.line_items.build(:amount => "50", :friend_id => @friend_2.id)
+      @transaction_from_someone.save!
+      Transaction.find(@transaction_from_someone.id).line_items.should have(1).record
+      @user.myself_as_a_friend.credit.should == 50
+      @user.myself_as_a_friend.debt.should == -20
+      @user.friends.should have(2).records
+    end
+
+    it "should delete any transactions when a friend is deleted" do
+      @friend_1.destroy
+      @user.friends.should have(1).records
+    end
+
+    it "should reset any funds when a friend is deleted"
+  end
+
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # == Schema Information
 #

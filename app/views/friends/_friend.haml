@@ -1,4 +1,4 @@
-%tr{:id => friend.id}
+%tr{:id => "tr_#{friend.id}", :class => "friend"}
   %td
     = link_to friend.name, friend_path(:id => friend.id)
   %td
@@ -9,7 +9,7 @@
     = link_to "edit", edit_friend_path(friend.id)
     %div{:id => "delete_link#{friend.id}", :class => "icons"}
       = link_to_remote(image_tag("subtract-icon.png", :border => 0, :alt => "Delete", :title => "Delete"),  |
-        :url => { :action => "destroy", :id => friend.id },           |
+        :url => { :controller => "friends", :action => "destroy", :id => friend.id }, :method => "delete",           |
         :update => { :success => "tr_#{friend.id}",                   |
                      :failure => "delete_link_#{friend.id}" },        |
         :confirm => "you sure?")                                      |
