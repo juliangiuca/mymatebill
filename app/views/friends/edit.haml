@@ -4,9 +4,12 @@
     = @friend.name
   - form_for @friend do |f|
     = f.error_messages
-    = f.label :name
-    = f.text_field :name
-    = f.label :email
-    = f.text_field :email_address
-    = submit_tag
+    %div
+      = f.label :name
+      = f.text_field :name
+    %div
+      = f.label :email
+      = f.text_field :email_address
+    %div
+      = submit_tag
 

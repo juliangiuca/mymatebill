@@ -1,8 +1,15 @@
-%tr
+%tr{:id => friend.id}
   %td
     = link_to friend.name, friend_path(:id => friend.id)
   %td
     = number_to_currency(friend.credit - friend.debt)
   %td
+    = friend.email_address.present? ? "Yes" : "No"
+  %td
     = link_to "edit", edit_friend_path(friend.id)
-    delete
+    %div{:id => "delete_link#{friend.id}", :class => "icons"}
+      = link_to_remote(image_tag("subtract-icon.png", :border => 0, :alt => "Delete", :title => "Delete"),  |
+        :url => { :action => "destroy", :id => friend.id },           |
+        :update => { :success => "tr_#{friend.id}",                   |
+                     :failure => "delete_link_#{friend.id}" },        |
+        :confirm => "you sure?")                                      |

@@ -18,7 +18,13 @@ class FriendsController < ApplicationController
   def edit
     @friend = current_user.friends.find(params[:id])
     raise ActiveRecord::RecordNotFound unless @friend
+  end
 
+  def update
+    @friend = current_user.friends.find(params[:id])
+    @friend.update_attributes(params[:friend])
+    @friends = current_user.friends
+    render :action => :index
   end
 
   def create
@@ -28,5 +34,12 @@ class FriendsController < ApplicationController
     else
       render :action => "new"
     end
+  end
+
+  def destroy
+    @friend = current_user.friends.find(params[:id]).destroy
+    render :partial => "del_friend", :object => @friend
+  rescue
+    render :partial => "something_broke", :status => :error
   end
 end
