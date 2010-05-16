@@ -6,4 +6,4 @@ development:
   :url: "localhost:3000"
 production:
   :name: "MyMateBill"
-  :url: "inara.kaylee.com"
+  :url: "inara.heroku.com"
