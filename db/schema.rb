@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20091211224549) do
     t.datetime "activated_at"
     t.string   "state",                                    :default => "passive"
     t.datetime "deleted_at"
+    t.string   "password_reset_code",       :limit => 40
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true

@@ -1,0 +1,9 @@
+test:
+  :name: test
+  :url: "localhost:3000"
+development:
+  :name: "MyMateBill Dev"
+  :url: "localhost:3000"
+production:
+  :name: "MyMateBill"
+  :url: "inara.kaylee.com"

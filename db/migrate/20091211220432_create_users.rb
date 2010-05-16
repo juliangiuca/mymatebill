@@ -14,6 +14,7 @@ class CreateUsers < ActiveRecord::Migration
       t.column :activated_at,              :datetime
       t.column :state,                     :string, :null => :no, :default => 'passive'
       t.column :deleted_at,                :datetime
+      t.column :password_reset_code,       :string, :limit => 40
     end
     add_index :users, :login, :unique => true
   end

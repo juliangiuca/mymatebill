@@ -1,0 +1,14 @@
+- form_tag url_for(:action => "update", :id => params[:id]) do
+
+  %p
+    %label{:for => "password", :class => "block"}
+      Password
+  = password_field_tag 'password', {}, :size => 45
+
+  %p
+    %label{:for => "password_confirmation", :class => "block"}
+      Confirm password
+  = password_field_tag 'password_confirmation', {}, :size => 45
+
+  = submit_tag 'Change password'
+

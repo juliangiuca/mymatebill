@@ -1,14 +1,21 @@
 ActionController::Routing::Routes.draw do |map|
-  map.logout    '/logout',            :controller => 'sessions', :action => 'destroy'
+
+  map.logout    '/logout',            :controller => 'sessions',  :action => 'destroy'
   map.login     '/login',             :controller => 'sessions',  :action => 'new'
   map.register  '/register',          :controller => 'users',     :action => 'create'
   map.signup    '/signup',            :controller => 'users',     :action => 'new'
+
+  map.activate  '/activate/:activation_code',      :controller => 'users',     :action => 'activate'
+  map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
+  map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit'
+  map.change_password '/change_password', :controller => 'accounts', :action => 'edit'
+
   map.resources :users
 
-  map.connect '/ac/actors_name', :controller => :transactions, :action => :auto_complete_for_actor_name
-  map.connect '/ac/friends_name', :controller => :transactions, :action => :auto_complete_for_friend_name
-  map.connect '/ut/understand_text', :controller => :transactions, :action => :understand
-  map.connect '/text/:account_id', :controller => :transactions, :action => :text_add
+  map.connect   '/ac/actors_name',    :controller => :transactions, :action => :auto_complete_for_actor_name
+  map.connect   '/ac/friends_name',   :controller => :transactions, :action => :auto_complete_for_friend_name
+  map.connect   '/ut/understand_text',:controller => :transactions, :action => :understand
+  map.connect   '/text/:account_id',  :controller => :transactions, :action => :text_add
   map.resources :transactions
   map.resource  :session
   map.resources :accounts

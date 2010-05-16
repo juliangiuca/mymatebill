@@ -22,6 +22,7 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
+  include AASM
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken
@@ -49,7 +50,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :email
   validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message
 
-  
+
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
@@ -100,13 +101,42 @@ class User < ActiveRecord::Base
     return self['name']
   end
 
-  protected
-    
-    def make_activation_code
-        self.deleted_at = nil
-        self.activation_code = self.class.make_token
-    end
+  def forgot_password
+    @forgotten_password = true
+    self.make_password_reset_code
+  end
 
+  def reset_password
+    # First update the password_reset_code before setting the
+    # reset_password flag to avoid duplicate email notifications.
+    update_attribute(:password_reset_code, nil)
+    @reset_password = true
+  end
+
+  def recently_forgot_password?
+    @forgotten_password
+  end
+
+  def recently_reset_password?
+    @reset_password
+  end
+
+ def self.find_for_forget(email)
+    find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]
+  end
+
+  protected
+
+  def make_activation_code
+    self.deleted_at = nil
+    self.activation_code = self.class.make_token
+  end
+
+ def make_password_reset_code
+    self.password_reset_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+  end
+
+ 
 
 end
 

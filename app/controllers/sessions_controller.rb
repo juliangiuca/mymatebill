@@ -2,6 +2,10 @@
 class SessionsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   skip_before_filter :login_required
+  before_filter :login_required, :only => :destroy
+  #before_filter :not_logged_in_required, :only => [:new, :create]
+
+  layout "basic"
 
   # render new.rhtml
   def new

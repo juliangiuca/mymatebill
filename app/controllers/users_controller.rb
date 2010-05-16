@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   skip_before_filter :login_required
+  layout "basic"
   
   # Protect these actions behind an admin login
   # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
-  
+  before_filter :not_logged_in_required, :only => [:forgot, :reset] 
 
   # render new.rhtml
   def new
@@ -18,7 +19,6 @@ class UsersController < ApplicationController
     @user.register! if @user && @user.valid?
     success = @user && @user.valid?
     if success && @user.errors.empty?
-      @user.activate!
       redirect_back_or_default('/')
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
     @user.destroy
     redirect_to users_path
   end
-  
+
   # There's no page here to update or destroy a user.  If you add those, be
   # smart -- make sure you check that the visitor is authorized to do so, that they
   # supply their old password along with a new one to update it, etc.
