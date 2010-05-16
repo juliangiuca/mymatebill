@@ -3,12 +3,12 @@
   %table{:cellpadding => "0", :cellspacing => "0"}
     %tr
       %th Created On
-      %th Recipient
+      %th Transaction
       %th Amount
       %th Due
       %th Status
       %th &nbsp;
-    = render :partial => '/shared/transaction', :collection => @transactions
+    = render :partial => 'transaction', :collection => @transactions
 
 
 %div#add_transaction_container

@@ -1,6 +1,10 @@
 %tr{:class => cycle("even","odd")}
   %td= I18n.l(transaction.created_at.to_date)
-  %td= link_to is_it_me(transaction.recipient), friend_path(:id => transaction.recipient_id)
+  %td
+    = link_to(is_it_me(transaction.line_items.first.friend), friend_path(:id => transaction.recipient_id))
+    = "(+#{transaction.line_items.length - 1})" if transaction.line_items.length > 1
+    \-&gt;
+    = link_to(is_it_me(transaction.recipient), friend_path(:id => transaction.recipient_id))
   %td= number_to_currency transaction.amount
   %td= I18n.l(transaction.due.to_date)
   %td= transaction.state
@@ -16,11 +20,10 @@
       %div.line_items{:id => "hide_line_item_#{transaction_counter}"}
         %table
           %tr
-            %th Created On
+            %th From
             %th Amount
             %th Description
             %th Due
-            %th Status
-            %th &nbsp;
-          = render :partial => "shared/line_item", :collection => transaction.line_items
+            %th State
+          = render :partial => "line_item", :collection => transaction.line_items
 

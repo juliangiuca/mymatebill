@@ -104,6 +104,34 @@ describe Transaction do
     end
   end
 
+  it "should mark all line_items as paid when setting a transaction to paid"
+  it "should automatically be set to paid when all line_items are paid"
+
+  describe "for transactions" do
+    before(:each) do
+      @transaction = @account.transactions.new(:description => "Frog owes me $20",
+                              :amount => 20,
+                              :name => "Me")
+      @transaction.line_items.build(:amount => 20,
+                               :friend_id => @frog.id)
+      @transaction.save!
+
+        Transaction.all.should have(1).record
+    end
+
+    it "should transition from unpaid to paid" do
+      @transaction.confirm_payment!
+      Transaction.last.paid?.should be_true
+    end
+
+    it "should transition from paid to unpaid"
+
+    it "should transition to paid when being deleted" do
+      @transaction.destroy
+      Transaction.all.should be_blank
+    end
+  end
+
 end
 
 

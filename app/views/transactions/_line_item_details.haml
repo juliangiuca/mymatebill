@@ -1,9 +1,6 @@
-%div
-  = label_tag "Amount"
-  = text_field_tag "line_items[0][amount]"
-%div
-  = label_tag "Friend"
-  = text_field_tag "line_items[0][friend]", "Me", {:class => "transaction_line_items_friend"}
-%div
-  = label_tag "Due"
-  = text_field_tag "line_items[0][due]", nil, {:class => "transaction_line_items_paid_on"}
+%td= link_to(is_it_me(line_item_details.friend), friend_path(:id => line_item_details.friend_id))
+%td= number_to_currency line_item_details.amount
+%td= line_item_details.transaction.description
+%td= I18n.l(line_item_details.due.try(:to_date) || line_item_details.transaction.due.to_date)
+%td= line_item_state(line_item_details, "line_item_#{line_item_details.id}")
+

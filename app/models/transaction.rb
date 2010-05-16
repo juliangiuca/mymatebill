@@ -19,7 +19,7 @@
 class Transaction < ActiveRecord::Base
   include AASM
   belongs_to :account
-  has_many   :line_items, :before_add => :remove_self_line_item_and_add_other
+  has_many   :line_items, :before_add => :remove_self_line_item_and_add_other, :dependent => :destroy
   belongs_to :recipient, :class_name => "Friend"
 
   validates_numericality_of :amount
@@ -35,6 +35,8 @@ class Transaction < ActiveRecord::Base
 
   before_create :create_self_representing_line_item
   before_create :create_magic_hash
+
+  #before_destroy :clear_all_line_items
 
   attr_writer :name
 
@@ -128,6 +130,10 @@ class Transaction < ActiveRecord::Base
   def create_magic_hash
     string_to_be_hashed = "yohgurt is sometimes goood" + self.amount.to_s + Time.now.to_f.to_s + rand().to_s
     self.unique_magic_hash = Digest::SHA1.hexdigest string_to_be_hashed
+  end
+
+  def set_state_to_paid
+    self.confirm_payment!
   end
 
 end

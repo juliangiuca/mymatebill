@@ -1,0 +1,9 @@
+%div
+  = label_tag "Amount"
+  = text_field_tag "line_items[0][amount]"
+%div
+  = label_tag "Friend"
+  = text_field_tag "line_items[0][friend]", "Me", {:class => "transaction_line_items_friend"}
+%div
+  = label_tag "Due"
+  = text_field_tag "line_items[0][due]", nil, {:class => "transaction_line_items_paid_on"}

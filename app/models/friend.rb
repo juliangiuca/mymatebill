@@ -3,10 +3,12 @@ class Friend < ActiveRecord::Base
   belongs_to  :creator, :class_name => "User", :foreign_key => "user_id"
   has_one     :owner, :class_name => "User", :foreign_key => "id"
   has_many    :line_items
-  has_many    :transactions, :foreign_key => "recipient_id"
+  has_many    :transactions, :foreign_key => "recipient_id", :dependent => :destroy
 
   before_create :create_magic_hash
   before_create :set_befriended_on
+
+  before_destroy :reset_debts
 
   validates_presence_of :user_id
   validates_presence_of :name
@@ -54,6 +56,21 @@ class Friend < ActiveRecord::Base
 
   def set_befriended_on
     self.befriended_on = Time.now
+  end
+
+  def reset_debts
+    #transactions.each do |transaction|
+      #transaction.destroy
+    #end
+    
+    line_items.each do |line_item|
+      if line_item.transaction.line_items.length == 1
+        line_item.transaction.destroy
+      else
+        line_item.destroy
+      end
+    end
+
   end
 
 end

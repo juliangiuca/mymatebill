@@ -23,21 +23,21 @@ module ApplicationHelper
     return output
   end
 
-  def view_and_update_state_actions(object, object_to_update)
+  def line_item_state(object, object_to_update)
     output = String.new
-    if object.mine?
-      output += "mark as paid"
-      output += "mark as unpaid" if object.paid?
-    else
-      output += "Mark as received" if !object.paid?
-      output += "mark as unpaid" if object.paid?
-    end
-    return link_to_remote(output, :url => {
-      :controller => "line_items",
-      :action => "update_status",
-      :id => object.unique_magic_hash,
-      :object_to_update => object_to_update
-    })
+    #if object.mine?
+      #output += "Mark as paid" if !object.paid?
+      #output += "Mark as unpaid" if object.paid?
+    #else
+      #output += "Mark as received" if !object.paid?
+      #output += "Mark as unpaid" if object.paid?
+    #end
+    return link_to_remote(object.state, 
+          :url => {
+                  :action => "update_line_item_status",
+                  :id => object.unique_magic_hash,
+                  :object_to_update => object_to_update
+                  })
   end
 
   def is_it_me(friend)

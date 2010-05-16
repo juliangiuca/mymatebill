@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(:version => 20091211224549) do
     t.string   "description"
     t.integer  "account_id"
     t.date     "due"
-    t.integer  "actor_id"
     t.float    "amount"
     t.string   "state"
     t.integer  "recipient_id"

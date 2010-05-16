@@ -51,8 +51,8 @@ class LineItem < ActiveRecord::Base
 
   ##### AASM Methods
   def set_state_to_paid
-    self.pay!
-    self.confirm_payment!
+      self.pay!
+      self.confirm_payment!
   end
 
   def create_debit
@@ -77,7 +77,7 @@ class LineItem < ActiveRecord::Base
   end
 
   def unconfirm_payment
-    self.update_attribute(:confirmed_on, nil)
+    self.update_attribute(:confirmed_on, nil) unless self.frozen?
   end
   ##### End AASM Methods
 
