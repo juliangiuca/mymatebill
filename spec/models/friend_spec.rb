@@ -43,14 +43,14 @@ describe Friend do
     before(:each) do
       @user = Factory(:user)
       @account = Factory(:account, :user_id => @user.id)
-      @friend_1 = Factory(:friend, :user_id => @user.id)
-      @transaction_to_someone = Factory(:transaction, :recipient_id => @friend_1.id, :amount => "20")
+      @friend_1_receiving = Factory(:friend, :user_id => @user.id)
+      @transaction_to_someone = Factory(:transaction, :recipient_id => @friend_1_receiving.id, :amount => "20")
       Transaction.find(@transaction_to_someone.id).line_items.should have(1).record
 
-      @friend_2 = Factory(:friend, :user_id => @user.id)
+      @friend_2_giving = Factory(:friend, :user_id => @user.id)
       @transaction_from_someone = @account.transactions.new(:amount => "50")
       @transaction_from_someone.recipient_id = @user.myself_as_a_friend.id
-      @transaction_from_someone.line_items.build(:amount => "50", :friend_id => @friend_2.id)
+      @transaction_from_someone.line_items.build(:amount => "50", :friend_id => @friend_2_giving.id)
       @transaction_from_someone.save!
       Transaction.find(@transaction_from_someone.id).line_items.should have(1).record
 
@@ -62,10 +62,10 @@ describe Friend do
 
     it "should delete any transactions when a friend is deleted" do
       @user.myself_as_a_friend.transactions.should have(1).records
-      #@friend_1.destroy
+      #@friend_1_receiving.destroy
       #@user.reload
       #@user.myself_as_a_friend.debt.should == 0
-      @friend_2.destroy
+      @friend_2_giving.destroy
       @user.reload
       @user.myself_as_a_friend.credit.should == 0
     end

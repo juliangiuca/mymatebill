@@ -2,15 +2,15 @@ development:
   :enable_starttls_auto: true
   :address: smtp.gmail.com
   :port: 587
-  :domain: hoolio.net
+  :domain: mymatebill.com
   :authentication: plain
-  :user_name: error@hoolio.net
-  :password: errpassorword
+  :user_name: support@mymatebill.com
+  :password: W9wddp6lMSvl
 production:
   :enable_starttls_auto: true
   :address: smtp.gmail.com
   :port: 587
-  :domain: hoolio.net
+  :domain: mymatebill.com
   :authentication: plain
-  :user_name: error@hoolio.net
-  :password: errpassorword
+  :user_name: support@mymatebill.com
+  :password: W9wddp6lMSvl

@@ -30,16 +30,7 @@ config.action_view.cache_template_loading            = true
 require 'smtp-tls'
 
 ExceptionNotifier.exception_recipients = "inara_support@hoolio.net"
-ExceptionNotifier.sender_address = "error@hoolio.net"
+ExceptionNotifier.sender_address = "support@mymatebill.com"
 ExceptionNotifier.email_prefix = "[Inara - Error] "
 
 ActionMailer::Base.delivery_method = :smtp
-#ActionMailer::Base.smtp_settings = {
-  #:enable_starttls_auto => true,
-  #:address => "smtp.gmail.com",
-  #:port => 587,
-  #:domain => "hoolio.net",
-  #:authentication => :plain,
-  #:user_name => "error@hoolio.net",
-  #:password => "errpassorword"
-#}
