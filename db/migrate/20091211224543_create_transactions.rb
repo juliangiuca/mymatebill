@@ -1,6 +1,6 @@
 class CreateTransactions < ActiveRecord::Migration
   def self.up
-    create_table "transactions", :force => true do |t|
+    create_table "dealings", :force => true do |t|
       t.column :parent_id,            :integer
       t.column :from_associate_id,    :integer
       t.column :to_associate_id,      :integer
@@ -13,10 +13,10 @@ class CreateTransactions < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :transactions, :unique_magic_hash
+    add_index :dealings, :unique_magic_hash
   end
 
   def self.down
-    drop_table "transactions"
+    drop_table "dealings"
   end
 end

@@ -37,6 +37,22 @@ ActiveRecord::Schema.define(:version => 20091211224543) do
     t.datetime "deleted_at"
   end
 
+  create_table "dealings", :force => true do |t|
+    t.integer  "parent_id"
+    t.integer  "from_associate_id"
+    t.integer  "to_associate_id"
+    t.integer  "owner_id"
+    t.string   "description"
+    t.date     "due"
+    t.float    "amount"
+    t.string   "state"
+    t.string   "unique_magic_hash"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dealings", ["unique_magic_hash"], :name => "index_dealings_on_unique_magic_hash"
+
   create_table "identities", :force => true do |t|
     t.integer  "account_id"
     t.string   "name"
@@ -52,21 +68,5 @@ ActiveRecord::Schema.define(:version => 20091211224543) do
 
   add_index "identities", ["account_id"], :name => "index_identities_on_account_id"
   add_index "identities", ["unique_magic_hash"], :name => "index_identities_on_unique_magic_hash"
-
-  create_table "transactions", :force => true do |t|
-    t.integer  "parent_id"
-    t.integer  "from_associate_id"
-    t.integer  "to_associate_id"
-    t.integer  "owner_id"
-    t.string   "description"
-    t.date     "due"
-    t.float    "amount"
-    t.string   "state"
-    t.string   "unique_magic_hash"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "transactions", ["unique_magic_hash"], :name => "index_transactions_on_unique_magic_hash"
 
 end
