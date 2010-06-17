@@ -1,50 +1,35 @@
-# == Schema Information
-# Schema version: 20091211224549
-#
-# Table name: transactions
-#
-#  id                :integer(4)      not null, primary key
-#  description       :string(255)
-#  account_id        :integer(4)
-#  due               :date
-#  actor_id          :integer(4)
-#  amount            :float
-#  state             :string(255)
-#  recipient_id      :integer(4)
-#  unique_magic_hash :string(255)
-#  created_at        :datetime
-#  updated_at        :datetime
-#
-
 class Transaction < ActiveRecord::Base
   include AASM
   belongs_to :account
-  has_many   :line_items, :before_add => :remove_self_line_item_and_add_other, :dependent => :destroy
-  belongs_to :recipient, :class_name => "Friend"
+  belongs_to :owner, :class_name => "Identity"
+  belongs_to :to, :foreign_key => "to_associate_id", :class_name => "Identity"
+  belongs_to :from, :foreign_key => "from_associate_id", :class_name => "Identity"
+  has_many :steps, :foreign_key => "parent_id", :class_name => "Transaction"
+  belongs_to :summary, :foreign_key => "parent_id", :class_name => "Transaction"
 
-  validates_numericality_of :amount
   validates_presence_of :amount
-  validates_presence_of :recipient_id
-  validates_presence_of :account_id
+  validates_numericality_of :amount
+  validates_presence_of :to_associate_id => Proc.new {|x| x.parent_id.blank? }
+  validates_presence_of :from_associate_id => Proc.new {|x| x.steps.blank? }
+  validates_presence_of :owner_id => Proc.new {|x| x.parent_id.blank? }
+  validates_presence_of :parent_id => Proc.new {|x| x.owner_id.blank? }
 
-  validate :a_line_item_exists_if_im_the_recipient
+  #validate :a_line_item_exists_if_im_the_recipient
 
-  before_validation :strip_spaces_from_desc
-  before_validation :make_sure_a_date_is_set
-  before_validation :change_name_to_recipient
+  #before_validation :strip_spaces_from_desc
+  #before_validation :make_sure_a_date_is_set
 
-  before_create :create_self_representing_line_item
-  before_create :create_magic_hash
-
-  #before_destroy :clear_all_line_items
-
-  attr_writer :name
+  before_save :create_steps
+  before_destroy :remove_steps
+  #before_create :adjust_summary_total_parent
+  #after_create :adjust_summary_total_step
 
   aasm_column :state
   aasm_initial_state :unpaid
 
-  aasm_state :unpaid,   :enter => :create_credit,         :exit => :delete_credit
-  aasm_state :paid,     :enter => :clear_all_line_items,  :exit => :revert_line_items
+  aasm_state :unpaid
+  aasm_state :pending
+  aasm_state :paid,     :enter => :tally_transaction,  :exit => :revert_transaction
 
   aasm_event :confirm_payment do
     transitions :from => :unpaid, :to => :paid
@@ -55,51 +40,45 @@ class Transaction < ActiveRecord::Base
   end
 
   ###### AASM methods
-  def create_credit
-    self.recipient.add_credit(self.amount)
+  def tally_transaction
+    self.to.add_credit(self.amount)
+    self.from.sub_debt(self.amount)
   end
 
-  def delete_credit
-    self.recipient.sub_credit(self.amount)
-  end
-
-  def clear_all_line_items
-    self.line_items.each do |li|
-      li.confirm_payment!
-    end
-  end
-
-  def revert_line_items
-    self.line_items.each do |li|
-      li.unpay!
-    end
+  def revert_transaction
+    self.to.sub_credit(self.amount)
+    self.from.add_debt(self.amount)
   end
 
   ###### End AASM methods
 
-  def change_name_to_recipient
-    return unless @name
-    our_recipient = self.account.user.friends.find_or_create_by_name(@name)
-    self.recipient_id = our_recipient.id
+  #def a_line_item_exists_if_im_the_recipient
+    #errors.add_to_base("If you're the recipient, you need to set someone to pay you!") if self.account.user.myself_as_a_friend == recipient && line_items.empty?
+    #return true
+  #end
+
+  def adjust_total
   end
 
-  def a_line_item_exists_if_im_the_recipient
-    errors.add_to_base("If you're the recipient, you need to set someone to pay you!") if self.account.user.myself_as_a_friend == recipient && line_items.empty?
-    return true
+  #def self_referencing_line_item
+    #line_items.find(:first, :conditions => "is_self_referencing = true")
+  #end
+
+  #def mine?
+    #return true if current_user && self.recipient == current_user.myself_as_a_friend
+    #return false
+  #end
+
+  def summary?
+    return true if self.summary.blank?
   end
 
-  def recipient_name
-    return nil unless @name || self.recipient
-    @name || self.recipient.name
-  end
-
-  def self_referencing_line_item
-    line_items.find(:first, :conditions => "is_self_referencing = true")
-  end
-
-  def mine?
-    return true if current_user && self.recipient == current_user.myself_as_a_friend
-    return false
+  def amount
+    if self.steps.present?
+      self.steps.map(&:amount).sum
+    else
+      self[:amount]
+    end
   end
 
   protected
@@ -108,23 +87,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def make_sure_a_date_is_set
-    self.due ||= Time.now
-  end
-
-  def create_self_representing_line_item
-    return nil if self.line_items.present? || self.recipient == self.account.user.myself_as_a_friend.id
-    # Build the self debt
-    self.line_items.build(:friend_id => self.account.user.myself_as_a_friend.id,
-                          :amount => self.amount,
-                          :is_self_referencing => true)
-  end
-
-  def remove_self_line_item_and_add_other(line_item)
-    line_item.transaction = self if line_item.transaction.blank?
-
-    if self_referencing_line_item && self_referencing_line_item != line_item
-      self.self_referencing_line_item.destroy
-    end
+    self.due ||= 1.week.since
   end
 
   def create_magic_hash
@@ -134,6 +97,35 @@ class Transaction < ActiveRecord::Base
 
   def set_state_to_paid
     self.confirm_payment!
+  end
+
+  def create_steps
+    debugger
+    if self.summary?
+      self.steps.build(:to => self.to, :from => self.from, :amount => self.amount)
+      self.from = nil if steps.length > 1
+      self.amount = nil
+    end
+  end
+
+  def remove_steps
+    if self.summary.present? && self.summary.steps.length == 2
+      self.summary.from = (self.summary.steps - self)
+    end
+  end
+
+  def adjust_summary_total_parent
+    if self.summary.blank?
+      total = self.steps.map(&:amount).sum
+      self.amount = total
+    end
+  end
+
+  def adjust_summary_total_step
+    if self.summary.present?
+      total = self.steps.map(&:amount).sum
+      Transaction.find(self.summary.id).update_attribute(:amount, total)
+    end
   end
 
 end

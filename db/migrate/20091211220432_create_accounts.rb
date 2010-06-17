@@ -1,6 +1,6 @@
-class CreateUsers < ActiveRecord::Migration
+class CreateAccounts < ActiveRecord::Migration
   def self.up
-    create_table "users", :force => true do |t|
+    create_table "accounts", :force => true do |t|
       t.column :login,                     :string, :limit => 40
       t.column :name,                      :string, :limit => 100, :default => '', :null => true
       t.column :email,                     :string, :limit => 100
@@ -16,10 +16,14 @@ class CreateUsers < ActiveRecord::Migration
       t.column :deleted_at,                :datetime
       t.column :password_reset_code,       :string, :limit => 40
     end
-    add_index :users, :login, :unique => true
+
+    add_index :accounts, :login
   end
 
   def self.down
-    drop_table "users"
+
+    remove_index :accounts, :column => :login
+
+    drop_table "accounts"
   end
 end

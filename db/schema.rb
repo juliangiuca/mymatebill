@@ -9,58 +9,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091211224549) do
+ActiveRecord::Schema.define(:version => 20091211224543) do
 
   create_table "accounts", :force => true do |t|
-    t.string  "name"
-    t.integer "user_id"
-  end
-
-  create_table "friends", :force => true do |t|
-    t.integer "owner_id"
-    t.integer "user_id"
-    t.string  "name"
-    t.float   "credit",            :default => 0.0
-    t.float   "debt",              :default => 0.0
-    t.float   "pending",           :default => 0.0
-    t.float   "total"
-    t.date    "befriended_on"
-    t.string  "unique_magic_hash"
-    t.string  "email_address"
-    t.boolean "hidden",            :default => false
-  end
-
-  add_index "friends", ["unique_magic_hash"], :name => "index_friends_on_unique_magic_hash"
-  add_index "friends", ["user_id"], :name => "index_friends_on_user_id"
-
-  create_table "line_items", :force => true do |t|
-    t.integer  "transaction_id"
-    t.integer  "friend_id"
-    t.float    "amount"
-    t.date     "due"
-    t.date     "paid_on"
-    t.date     "confirmed_on"
-    t.boolean  "confirmed_payment"
-    t.string   "state"
-    t.string   "unique_magic_hash"
-    t.boolean  "is_self_referencing", :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "transactions", :force => true do |t|
-    t.string   "description"
-    t.integer  "account_id"
-    t.date     "due"
-    t.float    "amount"
-    t.string   "state"
-    t.integer  "recipient_id"
-    t.string   "unique_magic_hash"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40
     t.string   "name",                      :limit => 100, :default => ""
     t.string   "email",                     :limit => 100
@@ -77,6 +28,45 @@ ActiveRecord::Schema.define(:version => 20091211224549) do
     t.string   "password_reset_code",       :limit => 40
   end
 
-  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+  add_index "accounts", ["login"], :name => "index_accounts_on_login"
+
+  create_table "associations", :id => false, :force => true do |t|
+    t.integer  "identity_id"
+    t.integer  "associate_id"
+    t.string   "nickname"
+    t.datetime "deleted_at"
+  end
+
+  create_table "identities", :force => true do |t|
+    t.integer  "account_id"
+    t.string   "name"
+    t.float    "cash_in",           :default => 0.0
+    t.float    "cash_out",          :default => 0.0
+    t.float    "cash_pending",      :default => 0.0
+    t.float    "total"
+    t.date     "befriended_on"
+    t.string   "unique_magic_hash"
+    t.string   "email"
+    t.datetime "deleted_at"
+  end
+
+  add_index "identities", ["account_id"], :name => "index_identities_on_account_id"
+  add_index "identities", ["unique_magic_hash"], :name => "index_identities_on_unique_magic_hash"
+
+  create_table "transactions", :force => true do |t|
+    t.integer  "parent_id"
+    t.integer  "from_associate_id"
+    t.integer  "to_associate_id"
+    t.integer  "owner_id"
+    t.string   "description"
+    t.date     "due"
+    t.float    "amount"
+    t.string   "state"
+    t.string   "unique_magic_hash"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "transactions", ["unique_magic_hash"], :name => "index_transactions_on_unique_magic_hash"
 
 end

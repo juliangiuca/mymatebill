@@ -1,12 +1,12 @@
 namespace :site do
-  namespace :user do
+  namespace :account do
     desc "add a default user"
     task :create => :environment do
-      admin = User.find_by_login("admin")
+      admin = Account.find_by_login("admin")
       if admin
         puts "Admin already exists"
       else
-        admin = User.create!(
+        admin = Account.create!(
           :login      => "admin",
           :email      => "julian@giuca.com",
           :password   => "test123",

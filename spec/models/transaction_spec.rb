@@ -20,121 +20,136 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Transaction do
   before(:each) do
-    @user = Factory(:user)
-    @user.accounts.length.should == 1
-    @account = @user.accounts.first
-    @frog = @user.friends.create!(:name => "Frog")
+    @identity = Factory(:identity)
+    @frog = @identity.associates.create!(:name => "Frog")
+    @rabbit = @identity.associates.create!(:name => "Rabbit")
+    @frenchie = @identity.associates.create!(:name => "Frenchie")
   end
 
-  it "should be able to create an transaction" do
-    transaction = @account.transactions.create!(:description => "test transaction", :amount => "80", :name => "rent")
-    transaction = Transaction.find(transaction.id)
-    transaction.respond_to?(:name).should be_false
-    transaction.recipient.name.should == "Rent"
-    transaction.amount.should == 80
-  end
+  #it "should have an owner" do
+    #transaction = @identity.transactions.create!(:description => "test transaction", :amount => "80", :from => @frog, :to => @identity)
+    #transaction.owner.should == @identity
+  #end
 
-  it "should be able to create an transaction with some line items" do
-    transaction = @account.transactions.new
-    transaction.description = "Test description"
-    transaction.amount = "123"
-    transaction.recipient_id = @frog.id
+  #it "should have a 'to'" do
+    #transaction = @identity.transactions.create!(:description => "test transaction", :amount => "80", :from => @frog, :to => @identity)
+    #transaction.to.should == @identity
+  #end
 
-    #line item
-    line_item = transaction.line_items.build
-    line_item.friend_id = Factory(:friend).id
-    line_item.amount = "12"
+  #it "should have a 'from'" do
+    #transaction = @identity.transactions.create!(:description => "test transaction", :amount => "80", :from => @frog, :to => @identity)
+    #transaction.from.should == @frog
+  #end
 
-    transaction.save!
-    Transaction.find(transaction.id).line_items.should be_present
-    Transaction.find(transaction.id).line_items.should have(1).record
-    LineItem.last.transaction.should be_present
-  end
+  #it "should have a 'from'" do
+    #transaction = @identity.transactions.create!(:description => "test transaction", :amount => "80", :from => @frog, :to => @identity)
+    #transaction.amount.should == 80
+  #end
 
-  it "should create a self referencing line item" do
-    transaction = Factory(:transaction)
-    transaction.line_items.should be_present
-    transaction.line_items.should have(1).record
-    transaction.self_referencing_line_item.should == transaction.line_items.first
-  end
+  #it "should create a self referencing line item" do
+    #transaction = @identity.transactions.create!(:description => "test transaction", :amount => "80", :from => @frog, :to => @identity)
+    #transaction.steps.should be_present
+    #transaction.steps.should have(1).record
+    #transaction.steps.last.amount.should == 80
+  #end
 
-  it "should not create a self referencing line item if other line items exist" do
-    transaction = @account.transactions.new
-    transaction.description = "Test description"
-    transaction.amount = "123"
-    transaction.recipient_id = @frog.id
+  #describe "for simple two person transactions" do
 
-    #line item
-    friend = Factory(:friend, :name => "other name")
-    friend.should_not == transaction.account.user.id
+    #it "Frog owes me $20" do
+      #transaction = @identity.transactions.new(:description => "Frog owes me $20",
+                              #:amount => 20,
+                              #:from => @frog,
+                              #:to => @identity)
+      #transaction.save!
+      #transaction.confirm_payment!
 
-    line_item = transaction.line_items.build
-    line_item.friend_id = friend.id
-    line_item.amount = "12"
+      #@identity.cash_in.should == 20
+      #@frog.reload
+      #@frog.cash_out.should == -20
+    #end
 
-    transaction.save!
-    Transaction.find(transaction.id).line_items.should be_present
-    Transaction.find(transaction.id).line_items.should have(1).record
-    Transaction.find(transaction.id).self_referencing_line_item.should be_blank
-  end
+     #it "I owe Frog $20" do
+      #transaction = @identity.transactions.create!(:description => "I owe Frog $20",
+                              #:amount => 20,
+                              #:to => @frog,
+                              #:from => @identity)
 
-  describe "for non formal transactions between friends" do
+      #transaction.confirm_payment!
 
-    it "Frog owes me $20" do
-      transaction = @account.transactions.new(:description => "Frog owes me $20",
-                              :amount => 20,
-                              :name => "Me")
-      transaction.line_items.build(:amount => 20,
-                               :friend_id => @frog.id)
-      transaction.save!
+      #@identity.cash_out.should == -20
+      #@frog.reload
+      #@frog.cash_in.should == 20
 
-      @user.myself_as_a_friend.credit.should == 20
-      @frog.reload
-      @frog.debt.should == -20
-    end
+    #end
 
-     it "I owe Frog $20" do
-      @account.transactions.create!(:description => "I owe Frog $20",
-                              :amount => 20,
-                              :name => "Frog")
-      @user.myself_as_a_friend.debt.should == -20
-      @frog.reload
-      @frog.credit.should == 20
+  #end
 
-    end
-  end
+  #describe "transaction states" do
+    #before(:each) do
+      #@transaction = @identity.transactions.create!(:description => "I owe Frog $20",
+                              #:amount => 20,
+                              #:to => @frog,
+                              #:from => @identity)
 
-  it "should mark all line_items as paid when setting a transaction to paid"
-  it "should automatically be set to paid when all line_items are paid"
+    #end
+    #it "should transition from unpaid to paid" do
+      #@transaction.confirm_payment!
+      #Transaction.last.paid?.should be_true
+    #end
 
-  describe "for transactions" do
+    #it "should transition from paid to unpaid"
+
+    #it "should transition to paid when being deleted" do
+      #@transaction.destroy
+      #Transaction.all.should be_blank
+    #end
+  #end
+
+  #it "should mark all line_items as paid when setting a transaction to paid"
+  #it "should automatically be set to paid when all line_items are paid"
+
+  describe "for multi person transactions" do
     before(:each) do
-      @transaction = @account.transactions.new(:description => "Frog owes me $20",
-                              :amount => 20,
-                              :name => "Me")
-      @transaction.line_items.build(:amount => 20,
-                               :friend_id => @frog.id)
+      @transaction = @identity.transactions.new
+      @transaction.description = "Test description"
+      @transaction.amount = "123"
+      @transaction.to = @identity
+      @transaction.from = @frog
+
+      #line item
+      line_item = @transaction.steps.build
+      line_item.to = @identity
+      line_item.from = @rabbit
+      line_item.amount = "12"
+
       @transaction.save!
-
-        Transaction.all.should have(1).record
+      @transaction.reload
     end
 
-    it "should transition from unpaid to paid" do
-      @transaction.confirm_payment!
-      Transaction.last.paid?.should be_true
+    #it "should have two steps and one summary" do
+      #Transaction.find(@transaction.id).steps.should be_present
+      #@transaction.steps.should have(2).record
+      #@transaction.steps.first.summary.should == @transaction
+      #Transaction.all.should have(3).records
+    #end
+
+    it "should tally the sum of the steps" do
+      @transaction.amount.should == 135
     end
 
-    it "should transition from paid to unpaid"
+    #it "should update the tally when a new step is added" do
+      #@transaction.steps.create!(:to => @identity, :from => @frenchie, :amount => "14")
+      #@transaction.reload
+      #@transaction.amount.should == 149
+    #end
 
-    it "should transition to paid when being deleted" do
-      @transaction.destroy
-      Transaction.all.should be_blank
-    end
+    #it "should update the tally then a step is removed"
+    #it "should remove itself when all steps are removed"
+
+    #it "should set the summary to be blank" do
+      #@transaction.from.should be_blank
+    #end
+
+    #it "should set the summary from blank to the last step when steps are removed"
   end
-
 end
-
-
-
-
-
