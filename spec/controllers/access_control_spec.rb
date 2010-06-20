@@ -33,7 +33,7 @@ end
 ACCESS_CONTROL_FORMATS = [
   ['',     "success"],
   ['xml',  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<hash>\n  <success>xml</success>\n</hash>\n"],
-  ['json', "{\"success\":\"json\"}"],]
+  ['json', "{\"success\": \"json\"}"],]
 ACCESS_CONTROL_AM_I_LOGGED_IN = [
   [:i_am_logged_in,     :quentin],
   [:i_am_not_logged_in, nil],]
@@ -50,12 +50,12 @@ describe AccessControlTestController do
   end
 
   ACCESS_CONTROL_FORMATS.each do |format, success_text|
-    ACCESS_CONTROL_AM_I_LOGGED_IN.each do |logged_in_status, user_login|
+    ACCESS_CONTROL_AM_I_LOGGED_IN.each do |logged_in_status, account_login|
       ACCESS_CONTROL_IS_LOGIN_REQD.each do |login_reqd_status|
         describe "requesting #{format.blank? ? 'html' : format}; #{logged_in_status.to_s.humanize} and #{login_reqd_status.to_s.humanize}" do
           before do
             logout_keeping_session!
-            @user = format.blank? ? login_as(user_login) : authorize_as(user_login)
+            @account = format.blank? ? login_as(account_login) : authorize_as(account_login)
             get login_reqd_status.to_s, :format => format
           end
 

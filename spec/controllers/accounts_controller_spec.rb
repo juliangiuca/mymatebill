@@ -9,26 +9,26 @@ describe AccountsController do
 
   it 'allows signup' do
     lambda do
-      create_user
+      create_account
       response.should be_redirect
     end.should change(Account, :count).by(1)
   end
 
   
-  #it 'signs up user in pending state' do
-    #create_user
-    #assigns(:user).reload
-    #assigns(:user).should be_pending
-  #end
+  it 'signs up user in pending state' do
+    create_account
+    assigns(:account).reload
+    assigns(:account).should be_pending
+  end
 
-  #it 'signs up user with activation code' do
-    #create_user
-    #assigns(:user).reload
-    #assigns(:user).activation_code.should_not be_nil
-  #end
+  it 'signs up user with activation code' do
+    create_account
+    assigns(:account).reload
+    assigns(:account).activation_code.should_not be_nil
+  end
   it 'requires login on signup' do
     lambda do
-      create_user(:login => nil)
+      create_account(:login => nil)
       assigns[:account].errors.on(:login).should_not be_nil
       response.should be_success
     end.should_not change(Account, :count)
@@ -36,7 +36,7 @@ describe AccountsController do
   
   it 'requires password on signup' do
     lambda do
-      create_user(:password => nil)
+      create_account(:password => nil)
       assigns[:account].errors.on(:password).should_not be_nil
       response.should be_success
     end.should_not change(Account, :count)
@@ -44,7 +44,7 @@ describe AccountsController do
   
   it 'requires password confirmation on signup' do
     lambda do
-      create_user(:password_confirmation => nil)
+      create_account(:password_confirmation => nil)
       assigns[:account].errors.on(:password_confirmation).should_not be_nil
       response.should be_success
     end.should_not change(Account, :count)
@@ -52,7 +52,7 @@ describe AccountsController do
 
   it 'requires email on signup' do
     lambda do
-      create_user(:email => nil)
+      create_account(:email => nil)
       assigns[:account].errors.on(:email).should_not be_nil
       response.should be_success
     end.should_not change(Account, :count)
@@ -86,7 +86,7 @@ describe AccountsController do
     flash[:error ].should_not be_nil
   end
   
-  def create_user(options = {})
+  def create_account(options = {})
     post :create, :account => { :login => 'quire', :email => 'quire@example.com',
       :password => 'quire69', :password_confirmation => 'quire69' }.merge(options)
   end
@@ -94,11 +94,11 @@ end
 
 describe AccountsController do
   describe "route generation" do
-    it "should route users's 'index' action correctly" do
+    it "should route accounts's 'index' action correctly" do
       route_for(:controller => 'accounts', :action => 'index').should == "/accounts"
     end
     
-    it "should route users's 'new' action correctly" do
+    it "should route accounts's 'new' action correctly" do
       route_for(:controller => 'accounts', :action => 'new').should == "/signup"
     end
     
@@ -106,59 +106,59 @@ describe AccountsController do
       route_for(:controller => 'accounts', :action => 'create').should == "/register"
     end
     
-    it "should route users's 'show' action correctly" do
+    it "should route accounts's 'show' action correctly" do
       route_for(:controller => 'accounts', :action => 'show', :id => '1').should == "/accounts/1"
     end
     
-    it "should route users's 'edit' action correctly" do
+    it "should route accounts's 'edit' action correctly" do
       route_for(:controller => 'accounts', :action => 'edit', :id => '1').should == "/accounts/1/edit"
     end
     
-    it "should route users's 'update' action correctly" do
-      route_for(:controller => 'accounts', :action => 'update', :id => '1').should == {:path => "/accounts/1", :method => :put}
+    it "should route accounts's 'update' action correctly" do
+      route_for(:controller => 'accounts', :action => 'update', :id => '1').should == "/accounts/1"
     end
     
-    it "should route users's 'destroy' action correctly" do
-      route_for(:controller => 'accounts', :action => 'destroy', :id => '1').should == {:path => "/accounts/1", :method => :delete}
+    it "should route accounts's 'destroy' action correctly" do
+      route_for(:controller => 'accounts', :action => 'destroy', :id => '1').should == "/accounts/1"
     end
   end
   
   describe "route recognition" do
-    it "should generate params for users's index action from GET /users" do
+    it "should generate params for accounts's index action from GET /accounts" do
       params_from(:get, '/accounts').should == {:controller => 'accounts', :action => 'index'}
       params_from(:get, '/accounts.xml').should == {:controller => 'accounts', :action => 'index', :format => 'xml'}
       params_from(:get, '/accounts.json').should == {:controller => 'accounts', :action => 'index', :format => 'json'}
     end
     
-    it "should generate params for users's new action from GET /users" do
+    it "should generate params for accounts's new action from GET /accounts" do
       params_from(:get, '/accounts/new').should == {:controller => 'accounts', :action => 'new'}
       params_from(:get, '/accounts/new.xml').should == {:controller => 'accounts', :action => 'new', :format => 'xml'}
       params_from(:get, '/accounts/new.json').should == {:controller => 'accounts', :action => 'new', :format => 'json'}
     end
     
-    it "should generate params for users's create action from POST /users" do
+    it "should generate params for accounts's create action from POST /accounts" do
       params_from(:post, '/accounts').should == {:controller => 'accounts', :action => 'create'}
       params_from(:post, '/accounts.xml').should == {:controller => 'accounts', :action => 'create', :format => 'xml'}
       params_from(:post, '/accounts.json').should == {:controller => 'accounts', :action => 'create', :format => 'json'}
     end
     
-    it "should generate params for users's show action from GET /users/1" do
+    it "should generate params for accounts's show action from GET /accounts/1" do
       params_from(:get , '/accounts/1').should == {:controller => 'accounts', :action => 'show', :id => '1'}
       params_from(:get , '/accounts/1.xml').should == {:controller => 'accounts', :action => 'show', :id => '1', :format => 'xml'}
       params_from(:get , '/accounts/1.json').should == {:controller => 'accounts', :action => 'show', :id => '1', :format => 'json'}
     end
     
-    it "should generate params for users's edit action from GET /users/1/edit" do
+    it "should generate params for accounts's edit action from GET /accounts/1/edit" do
       params_from(:get , '/accounts/1/edit').should == {:controller => 'accounts', :action => 'edit', :id => '1'}
     end
     
-    it "should generate params {:controller => 'users', :action => update', :id => '1'} from PUT /accounts/1" do
+    it "should generate params {:controller => 'accounts', :action => update', :id => '1'} from PUT /accounts/1" do
       params_from(:put , '/accounts/1').should == {:controller => 'accounts', :action => 'update', :id => '1'}
       params_from(:put , '/accounts/1.xml').should == {:controller => 'accounts', :action => 'update', :id => '1', :format => 'xml'}
       params_from(:put , '/accounts/1.json').should == {:controller => 'accounts', :action => 'update', :id => '1', :format => 'json'}
     end
     
-    it "should generate params for users's destroy action from DELETE /accounts/1" do
+    it "should generate params for accounts's destroy action from DELETE /accounts/1" do
       params_from(:delete, '/accounts/1').should == {:controller => 'accounts', :action => 'destroy', :id => '1'}
       params_from(:delete, '/accounts/1.xml').should == {:controller => 'accounts', :action => 'destroy', :id => '1', :format => 'xml'}
       params_from(:delete, '/accounts/1.json').should == {:controller => 'accounts', :action => 'destroy', :id => '1', :format => 'json'}
@@ -172,20 +172,20 @@ describe AccountsController do
     
     it "should route accounts_path() to /accounts" do
       accounts_path().should == "/accounts"
-      accounts_path(:format => 'xml').should == "/accounts.xml"
-      accounts_path(:format => 'json').should == "/accounts.json"
+      formatted_accounts_path(:format => 'xml').should == "/accounts.xml"
+      formatted_accounts_path(:format => 'json').should == "/accounts.json"
     end
     
     it "should route new_account_path() to /accounts/new" do
       new_account_path().should == "/accounts/new"
-      new_account_path(:format => 'xml').should == "/accounts/new.xml"
-      new_account_path(:format => 'json').should == "/accounts/new.json"
+      formatted_new_account_path(:format => 'xml').should == "/accounts/new.xml"
+      formatted_new_account_path(:format => 'json').should == "/accounts/new.json"
     end
     
-    it "should route user_(:id => '1') to /accounts/1" do
+    it "should route account_(:id => '1') to /accounts/1" do
       account_path(:id => '1').should == "/accounts/1"
-      account_path(:id => '1', :format => 'xml').should == "/accounts/1.xml"
-      account_path(:id => '1', :format => 'json').should == "/accounts/1.json"
+      formatted_account_path(:id => '1', :format => 'xml').should == "/accounts/1.xml"
+      formatted_account_path(:id => '1', :format => 'json').should == "/accounts/1.json"
     end
     
     it "should route edit_account_path(:id => '1') to /accounts/1/edit" do

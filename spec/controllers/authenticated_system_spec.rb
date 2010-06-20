@@ -7,7 +7,7 @@ include AuthenticatedSystem
 def action_name() end
 
 describe SessionsController do
-  fixtures :users
+  fixtures :accounts
   
   before do
     # FIXME -- sessions controller not testing xml logins 
@@ -20,18 +20,18 @@ describe SessionsController do
     end
     it 'resets the session'         do should_receive(:reset_session);         logout_killing_session! end
     it 'kills my auth_token cookie' do should_receive(:kill_remember_cookie!); logout_killing_session! end
-    it 'nils the current user'      do logout_killing_session!; current_user.should be_nil end
-    it 'kills :user_id session' do
+    it 'nils the current account'      do logout_killing_session!; current_account.should be_nil end
+    it 'kills :account_id session' do
       session.stub!(:[]=)
-      session.should_receive(:[]=).with(:user_id, nil).at_least(:once)
+      session.should_receive(:[]=).with(:account_id, nil).at_least(:once)
       logout_killing_session!
     end
     it 'forgets me' do    
-      current_user.remember_me
-      current_user.remember_token.should_not be_nil; current_user.remember_token_expires_at.should_not be_nil
-      User.find(1).remember_token.should_not be_nil; User.find(1).remember_token_expires_at.should_not be_nil
+      current_account.remember_me
+      current_account.remember_token.should_not be_nil; current_account.remember_token_expires_at.should_not be_nil
+      Account.find(1).remember_token.should_not be_nil; Account.find(1).remember_token_expires_at.should_not be_nil
       logout_killing_session!
-      User.find(1).remember_token.should     be_nil; User.find(1).remember_token_expires_at.should     be_nil
+      Account.find(1).remember_token.should     be_nil; Account.find(1).remember_token_expires_at.should     be_nil
     end
   end
 
@@ -42,18 +42,18 @@ describe SessionsController do
     end
     it 'does not reset the session' do should_not_receive(:reset_session);   logout_keeping_session! end
     it 'kills my auth_token cookie' do should_receive(:kill_remember_cookie!); logout_keeping_session! end
-    it 'nils the current user'      do logout_keeping_session!; current_user.should be_nil end
-    it 'kills :user_id session' do
+    it 'nils the current account'      do logout_keeping_session!; current_account.should be_nil end
+    it 'kills :account_id session' do
       session.stub!(:[]=)
-      session.should_receive(:[]=).with(:user_id, nil).at_least(:once)
+      session.should_receive(:[]=).with(:account_id, nil).at_least(:once)
       logout_keeping_session!
     end
     it 'forgets me' do    
-      current_user.remember_me
-      current_user.remember_token.should_not be_nil; current_user.remember_token_expires_at.should_not be_nil
-      User.find(1).remember_token.should_not be_nil; User.find(1).remember_token_expires_at.should_not be_nil
+      current_account.remember_me
+      current_account.remember_token.should_not be_nil; current_account.remember_token_expires_at.should_not be_nil
+      Account.find(1).remember_token.should_not be_nil; Account.find(1).remember_token_expires_at.should_not be_nil
       logout_keeping_session!
-      User.find(1).remember_token.should     be_nil; User.find(1).remember_token_expires_at.should     be_nil
+      Account.find(1).remember_token.should     be_nil; Account.find(1).remember_token_expires_at.should     be_nil
     end
   end
   
@@ -68,12 +68,12 @@ describe SessionsController do
   #
   describe "Logging in by cookie" do
     def set_remember_token token, time
-      @user[:remember_token]            = token; 
-      @user[:remember_token_expires_at] = time
-      @user.save!
+      @account[:remember_token]            = token; 
+      @account[:remember_token_expires_at] = time
+      @account.save!
     end    
     before do 
-      @user = User.find(:first); 
+      @account = Account.find(:first); 
       set_remember_token 'hello!', 5.minutes.from_now
     end    
     it 'logs in with cookie' do
