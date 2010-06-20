@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
 
   before_filter :login_required
-  before_filter :set_current_user
   skip_before_filter :login_required, :only => [:update_line_item_status]
 
   helper :all # include all helpers, all the time
