@@ -43,9 +43,4 @@ class ApplicationController < ActionController::Base
   rescue ActiveRecord::RecordNotFound
   end
 
-  protected
-  def set_current_user
-    Thread.current['user'] = current_user
-  end
-
 end
