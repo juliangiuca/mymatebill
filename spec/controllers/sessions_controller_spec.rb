@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 include AuthenticatedTestHelper
 
 describe SessionsController do
-  fixtures        :users
+  fixtures        :accounts
   before do 
     @user  = mock_user
     @login_params = { :login => 'quentin', :password => 'test' }

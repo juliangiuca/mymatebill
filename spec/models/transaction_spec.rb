@@ -131,7 +131,9 @@ describe Transaction do
       Transaction.find(@transaction.id).steps.should be_present
       @transaction.steps.should have(2).record
       @transaction.steps.first.transaction.should == @transaction
-      Transaction.all.should have(3).records
+      Transaction.all.should have(1).records
+      Step.all.should have(2).records
+      Dealing.all.should have(3).records
     end
 
     it "should tally the sum of the steps" do

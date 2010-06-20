@@ -1,8 +1,6 @@
 class Step < Dealing
   belongs_to :transaction, :foreign_key => "parent_id", :class_name => "Transaction"
 
-  #validates_presence_of :parent_id
-
   ###### AASM methods
   def tally_transaction
     self.to.add_credit(self.amount)

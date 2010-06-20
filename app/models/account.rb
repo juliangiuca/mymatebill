@@ -8,11 +8,10 @@ class Account < ActiveRecord::Base
   include Authorization::AasmRoles
 
   has_one :identity
-  has_many :friends
   has_many :visible_friends, :class_name => "Friend", :conditions => "hidden = false"
   has_many :transactions, :through => :accounts
 
-  after_create :create_yourself_as_a_friend
+  after_create :create_yourself_as_an_identity
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 3..40
@@ -56,7 +55,7 @@ class Account < ActiveRecord::Base
     write_attribute :email, (value ? value.downcase : nil)
   end
 
-  def create_yourself_as_a_friend
+  def create_yourself_as_an_identity
   identity || create_identity(:name => self.name,
                            :email => self.email)
   end

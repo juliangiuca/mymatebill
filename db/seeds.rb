@@ -6,11 +6,11 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Major.create(:name => 'Daley', :city => cities.first)
 
-      admin = User.find_by_login("admin")
+      admin = Account.find_by_login("admin")
       if admin
         puts "Admin already exists"
       else
-        admin = User.create!(
+        admin = Account.create!(
           :login      => "admin",
           :email      => "julian@giuca.com",
           :password   => "test123",

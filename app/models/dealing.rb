@@ -9,6 +9,7 @@ class Dealing < ActiveRecord::Base
   validates_numericality_of :amount
   validates_presence_of :to_associate_id => Proc.new {|x| x.parent_id.blank? }
   validates_presence_of :from_associate_id => Proc.new {|x| x.steps.blank? }
+  validates_presence_of :parent_id => Proc.new {|x| x.owner_id.blank? }
 
   aasm_column :state
   aasm_initial_state :unpaid
