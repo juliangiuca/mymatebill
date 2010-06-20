@@ -5,7 +5,7 @@ include AuthenticatedTestHelper
 
 describe AccountsHelper do
   before do
-    @user = mock_user
+    @account = mock_account
   end
   
   describe "if_authorized" do 
@@ -19,34 +19,34 @@ describe AccountsHelper do
     end
   end
   
-  describe "link_to_user" do
-    it "should give an error on a nil user" do
-      lambda { link_to_user(nil) }.should raise_error('Invalid user')
+  describe "link_to_account" do
+    it "should give an error on a nil account" do
+      lambda { link_to_account(nil) }.should raise_error('Invalid account')
     end
-    it "should link to the given user" do
-      should_receive(:user_path).at_least(:once).and_return('/users/1')
-      link_to_user(@user).should have_tag("a[href='/users/1']")
+    it "should link to the given account" do
+      should_receive(:account_path).at_least(:once).and_return('/accounts/1')
+      link_to_account(@account).should have_tag("a[href='/accounts/1']")
     end
     it "should use given link text if :content_text is specified" do
-      link_to_user(@user, :content_text => 'Hello there!').should have_tag("a", 'Hello there!')
+      link_to_account(@account, :content_text => 'Hello there!').should have_tag("a", 'Hello there!')
     end
     it "should use the login as link text with no :content_method specified" do
-      link_to_user(@user).should have_tag("a", 'user_name')
+      link_to_account(@account).should have_tag("a", 'user_name')
     end
     it "should use the name as link text with :content_method => :name" do
-      link_to_user(@user, :content_method => :name).should have_tag("a", 'U. Surname')
+      link_to_account(@account, :content_method => :name).should have_tag("a", 'U. Surname')
     end
     it "should use the login as title with no :title_method specified" do
-      link_to_user(@user).should have_tag("a[title='user_name']")
+      link_to_account(@account).should have_tag("a[title='user_name']")
     end
     it "should use the name as link title with :content_method => :name" do
-      link_to_user(@user, :title_method => :name).should have_tag("a[title='U. Surname']")
+      link_to_account(@account, :title_method => :name).should have_tag("a[title='U. Surname']")
     end
     it "should have nickname as a class by default" do
-      link_to_user(@user).should have_tag("a.nickname")
+      link_to_account(@account).should have_tag("a.nickname")
     end
     it "should take other classes and no longer have the nickname class" do
-      result = link_to_user(@user, :class => 'foo bar')
+      result = link_to_account(@account, :class => 'foo bar')
       result.should have_tag("a.foo")
       result.should have_tag("a.bar")
     end
@@ -79,60 +79,60 @@ describe AccountsHelper do
     end
   end
 
-  describe "link_to_current_user, When logged in" do
+  describe "link_to_current_account, When logged in" do
     before do
-      stub!(:current_user).and_return(@user)
+      stub!(:current_account).and_return(@account)
     end
-    it "should link to the given user" do
-      should_receive(:user_path).at_least(:once).and_return('/users/1')
-      link_to_current_user().should have_tag("a[href='/users/1']")
+    it "should link to the given account" do
+      should_receive(:account_path).at_least(:once).and_return('/accounts/1')
+      link_to_current_account().should have_tag("a[href='/accounts/1']")
     end
     it "should use given link text if :content_text is specified" do
-      link_to_current_user(:content_text => 'Hello there!').should have_tag("a", 'Hello there!')
+      link_to_current_account(:content_text => 'Hello there!').should have_tag("a", 'Hello there!')
     end
     it "should use the login as link text with no :content_method specified" do
-      link_to_current_user().should have_tag("a", 'user_name')
+      link_to_current_account().should have_tag("a", 'user_name')
     end
     it "should use the name as link text with :content_method => :name" do
-      link_to_current_user(:content_method => :name).should have_tag("a", 'U. Surname')
+      link_to_current_account(:content_method => :name).should have_tag("a", 'U. Surname')
     end
     it "should use the login as title with no :title_method specified" do
-      link_to_current_user().should have_tag("a[title='user_name']")
+      link_to_current_account().should have_tag("a[title='user_name']")
     end
     it "should use the name as link title with :content_method => :name" do
-      link_to_current_user(:title_method => :name).should have_tag("a[title='U. Surname']")
+      link_to_current_account(:title_method => :name).should have_tag("a[title='U. Surname']")
     end
     it "should have nickname as a class" do
-      link_to_current_user().should have_tag("a.nickname")
+      link_to_current_account().should have_tag("a.nickname")
     end
     it "should take other classes and no longer have the nickname class" do
-      result = link_to_current_user(:class => 'foo bar')
+      result = link_to_current_account(:class => 'foo bar')
       result.should have_tag("a.foo")
       result.should have_tag("a.bar")
     end
   end
 
-  describe "link_to_current_user, When logged out" do
+  describe "link_to_current_account, When logged out" do
     before do
-      stub!(:current_user).and_return(nil)
+      stub!(:current_account).and_return(nil)
     end
     it "should link to the login_path" do
-      link_to_current_user().should have_tag("a[href='/login']")
+      link_to_current_account().should have_tag("a[href='/login']")
     end
     it "should use given link text if :content_text is specified" do
-      link_to_current_user(:content_text => 'Hello there!').should have_tag("a", 'Hello there!')
+      link_to_current_account(:content_text => 'Hello there!').should have_tag("a", 'Hello there!')
     end
     it "should use 'not signed in' as link text with no :content_method specified" do
-      link_to_current_user().should have_tag("a", 'not signed in')
+      link_to_current_account().should have_tag("a", 'not signed in')
     end
     it "should use the ip address as title" do
-      link_to_current_user().should have_tag("a[title='0.0.0.0']")
+      link_to_current_account().should have_tag("a[title='0.0.0.0']")
     end
     it "should by default be like school in summer and have no class" do
-      link_to_current_user().should_not have_tag("a.nickname")
+      link_to_current_account().should_not have_tag("a.nickname")
     end
     it "should have some class if you tell it to" do
-      result = link_to_current_user(:class => 'foo bar')
+      result = link_to_current_account(:class => 'foo bar')
       result.should have_tag("a.foo")
       result.should have_tag("a.bar")
     end
