@@ -1,6 +1,6 @@
 class AccountsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
-  #skip_before_filter :login_required
+  skip_before_filter :login_required
   layout "basic"
   
   # Protect these actions behind an admin login

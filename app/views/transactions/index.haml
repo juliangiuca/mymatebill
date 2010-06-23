@@ -14,8 +14,8 @@
 %div#add_transaction_container
   %h3 Add Transaction
   %div
-    = link_to(image_tag("plus-icon-small.png", :border => 0) + " (simple)", :controller => "transactions", :action => "text_add", :account_id => @accounts.first.id)
+    = link_to(image_tag("plus-icon-small.png", :border => 0) + " (simple)", :controller => "transactions", :action => "text_add")
   %div
-    %a{:href => new_transaction_path(:account_id => @accounts.first.id)}
+    %a{:href => new_transaction_path}
       = image_tag("plus-icon-small.png", :border => 0)
       (advanced)

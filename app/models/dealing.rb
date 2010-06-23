@@ -6,10 +6,13 @@ class Dealing < ActiveRecord::Base
   belongs_to :from, :foreign_key => "from_associate_id", :class_name => "Identity"
 
   validates_presence_of :amount
+  validates_presence_of :due
   validates_numericality_of :amount
   validates_presence_of :to_associate_id => Proc.new {|x| x.parent_id.blank? }
   validates_presence_of :from_associate_id => Proc.new {|x| x.steps.blank? }
   validates_presence_of :parent_id => Proc.new {|x| x.owner_id.blank? }
+
+  before_validation :set_due_date
 
   aasm_column :state
   aasm_initial_state :unpaid
@@ -34,5 +37,8 @@ class Dealing < ActiveRecord::Base
   end
 
   ###### End AASM methods
-  
+
+  def set_due_date
+    self[:due] ||= Date.today
+  end
 end

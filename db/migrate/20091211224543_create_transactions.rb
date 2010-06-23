@@ -8,7 +8,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.column :description,          :string
       t.column :due,                  :date
       t.column :amount,               :float
-      t.column :state,                :string, :state => "unpaid"
+      t.column :state,                :string, :default => "unpaid"
       t.column :unique_magic_hash,    :string
       t.column :type,                 :string
       t.timestamps

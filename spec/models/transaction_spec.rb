@@ -24,6 +24,7 @@ describe Transaction do
     @frog = @identity.associates.create!(:name => "Frog")
     @rabbit = @identity.associates.create!(:name => "Rabbit")
     @frenchie = @identity.associates.create!(:name => "Frenchie")
+    @rent = @identity.associates.create!(:name => "Rent")
   end
 
   it "should have an owner" do
@@ -112,38 +113,44 @@ describe Transaction do
   describe "for multi person transactions" do
     before(:each) do
       @transaction = @identity.transactions.new
-      @transaction.description = "Test description"
-      @transaction.amount = "123"
-      @transaction.to = @identity
-      @transaction.from = @frog
+      @transaction.description = "Test rent deposit"
+      @transaction.amount = "1300"
+      @transaction.to = @rent
+      @transaction.from = @identity
 
       #line item
       line_item = @transaction.steps.build
       line_item.to = @identity
       line_item.from = @rabbit
-      line_item.amount = "12"
+      line_item.amount = "260"
 
+      line_item_2 = @transaction.steps.build
+      line_item_2.to = @identity
+      line_item_2.from = @frog
+      line_item_2.amount = "260"
       @transaction.save!
       @transaction.reload
     end
 
     it "should have two steps and one summary" do
-      Transaction.find(@transaction.id).steps.should be_present
       @transaction.steps.should have(2).record
       @transaction.steps.first.transaction.should == @transaction
       Transaction.all.should have(1).records
       Step.all.should have(2).records
       Dealing.all.should have(3).records
+
+      @transaction.to.should == @rent
+      @transaction.from.should be_blank
     end
 
     it "should tally the sum of the steps" do
-      @transaction.amount.should == 135
+      @transaction.amount.should == 520
     end
 
     it "should update the tally when a new step is added" do
-      @transaction.steps.create!(:to => @identity, :from => @frenchie, :amount => "14")
+      @transaction.steps.create!(:to => @rent, :from => @identity, :amount => "260")
       @transaction.reload
-      @transaction.amount.should == 149
+      @transaction.amount.should == 780
     end
 
     it "should update the tally then a step is removed"

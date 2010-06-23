@@ -46,7 +46,7 @@ describe Understand do
     ]
 
     sentences.each do |sentence|
-      translation = Understand.transaction(@user, sentence[:text])
+      translation = Understand.transaction(@user.identity, sentence[:text])
 
       (translation[:in_debt] || translation[:unknown_in_debt]).should == sentence[:debitor]
       (translation[:in_credit] || translation[:unknown_in_credit]).should == sentence[:creditor]

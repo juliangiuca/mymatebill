@@ -32,9 +32,9 @@
     $(e).parent(".icons").remove()
 
     $("#line_items_container").append(
-      "<div class=\"line_item\">Amount <input id=\"line_items_" + counter + "_amount\" name=\"line_items[" + counter + "][amount]\" type=\"text\" />" +
-      " Friend <input id=\"line_items_" + counter + "_friend\" name=\"line_items[" + counter + "][friend]\" type=\"text\" class=\"transaction_line_items_friend\"/>" +
-      " Due <input id=\"line_items_" + counter + "_due\" name=\"line_items[" + counter + "][due]\" type=\"text\" class=\"transaction_line_items_paid_on\"/>" +
+      "<div class=\"line_item\">Amount <input id=\"transaction_steps_attributes_" + counter + "_amount\" name=\"transaction[steps_attributes][" + counter + "][amount]\" type=\"text\" />" +
+      " Friend <input id=\"transaction_steps_attributes_" + counter + "_from\" name=\"transaction[steps_attributes][" + counter + "][from]\" type=\"text\" class=\"transaction_line_items_friend\"/>" +
+      " Due <input id=\"transaction_steps_attributes_" + counter + "_due\" name=\"transaction[steps_attributes][" + counter + "][due]\" type=\"text\" class=\"transaction_line_items_paid_on\"/>" +
       "<div class=\"icons\"><img src=\"/images/plus-icon-small.png\" onclick=\"add_a_new_line_item(this," + (counter + 1) + ")\">" +
       "<img src=\"/images/delete-icon-small.png\" onclick=\"remove_a_new_line_item(this," + counter + ")\"></div>" +
       "</div>"
@@ -98,18 +98,26 @@
       = f.label :amount
       = f.text_field :amount, :size => 3, :class => "required", :minlength => 1, :onkeyup => "transfer_amount(this.value)"
     %div
-      = f.label :recipient_id, 'Recipient'
-      = text_field_tag "recipient[name]", @last_entered_name, :minlength => 2, :onkeyup => "check_recipient()"
+      = f.label :to
+      = f.text_field :to, :minlength => 2, :onkeyup => "check_recipient()"
     %div
       = f.label :description, 'Additional notes'
       = f.text_field :description
-      = f.hidden_field :account_id
     %div
       = f.label :due, 'Due'
       = f.text_field :due
 
     %h2 Payer Description
-    = render :partial => "new_line_item"
+    - f.fields_for :steps do |s|
+      %div
+        = s.label :amount
+        = s.text_field :amount
+      %div
+        = s.label :from
+        = s.text_field :from
+      %div
+        = s.label :due
+        = s.text_field :due
 
     %div{:onclick => "add_a_new_line_item(this,1);$(this).remove();"}
       Split this bill

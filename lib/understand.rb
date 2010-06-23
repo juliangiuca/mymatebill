@@ -11,9 +11,9 @@ class Understand
     if parsed_string
       %w(creditor debitor).each do |role|
         if %w(i my me myself).include?(parsed_string[role.to_sym].downcase)
-          instance_variable_set("@#{role}", current_user.identity)
+          instance_variable_set("@#{role}", current_user)
         else
-          instance_variable_set("@#{role}", current_user.identity.associates.find_by_name(parsed_string[role.to_sym]))
+          instance_variable_set("@#{role}", current_user.associates.find_by_name(parsed_string[role.to_sym]))
         end
       end #end role loop
       amount            = parsed_string[:amount]

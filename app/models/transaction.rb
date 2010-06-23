@@ -5,6 +5,8 @@ class Transaction < Dealing
 
   before_save :create_steps
 
+  accepts_nested_attributes_for :steps
+
   ###### AASM methods
   def tally_transaction
     self.steps.each {|step| step.confirm_payment!}
@@ -42,7 +44,9 @@ class Transaction < Dealing
   end
 
   def create_steps
-      self.steps.build(:to => self.to, :from => self.from, :amount => self[:amount])
+      unless steps.present?
+        self.steps.build(:to => self.to, :from => self.from, :amount => self[:amount])
+      end
       self.from = nil if steps.length > 1
       self[:amount] = nil
   end

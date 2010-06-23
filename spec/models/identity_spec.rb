@@ -15,16 +15,23 @@ describe Identity do
   it "should be able to be created a default identity attached to a user" do
     account = Factory(:account)
     account.identity.should be_present
-    #account.identity.create!(:name => "Trevor")
-    #Identity.first.should_not be_nil
-    #Account.find(account.id).identity.should be_present
-    #account.identity.should have(2).record
+    Identity.first.should_not be_nil
+    Account.find(account.id).identity.should be_present
   end
 
   it "should be able to create friends" do
     account = Factory(:account)
     identity = account.identity
     identity.associates.create!(:name => "Trevor")
+    Identity.should have(2).records
+    identity.associates.length.should == 1
+  end
+
+  it "should be able to create friends through a find_or_create_by_name" do
+    account = Factory(:account)
+    identity = account.identity
+    identity.associates.find_or_create_by_name("Trevor")
+    identity.associates.find_or_create_by_name("Trevor")
     Identity.should have(2).records
     identity.associates.length.should == 1
   end

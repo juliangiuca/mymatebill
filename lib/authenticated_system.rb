@@ -12,6 +12,10 @@ module AuthenticatedSystem
       @current_account ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @current_account == false
     end
 
+    def current_user
+      @current_account.identity if @current_account
+    end
+
     # Store the given account id in the session.
     def current_account=(new_account)
       session[:account_id] = new_account ? new_account.id : nil
@@ -96,7 +100,7 @@ module AuthenticatedSystem
     # Inclusion hook to make #current_account and #logged_in?
     # available as ActionView helper methods.
     def self.included(base)
-      base.send :helper_method, :current_account, :logged_in?, :authorized? if base.respond_to? :helper_method
+      base.send :helper_method, :current_user, :current_account, :logged_in?, :authorized? if base.respond_to? :helper_method
     end
 
     #

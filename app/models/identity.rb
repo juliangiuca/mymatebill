@@ -2,9 +2,12 @@
 class Identity < ActiveRecord::Base
   belongs_to  :account
   has_many    :associations
-  has_many    :associates, :through => :associations, :foreign_key => "crap"
+  has_many    :associates, :through => :associations do
+    def find_or_create_by_name(name)
+      find(:first, :conditions => ["name = ?", name]) || create!(:name => name)
+    end
+  end
   has_many    :transactions, :foreign_key => "owner_id"
-  #has_many :transactions
   has_many    :incoming_transactions, :foreign_key => "to_associate", :class_name => "Transaction"
   has_many    :outgoing_transactions, :foreign_key => "from_associate", :class_name => "Transaction"
 

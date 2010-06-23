@@ -15,14 +15,14 @@ ActionController::Routing::Routes.draw do |map|
   map.connect   '/ac/actors_name',    :controller => :transactions, :action => :auto_complete_for_actor_name
   map.connect   '/ac/friends_name',   :controller => :transactions, :action => :auto_complete_for_friend_name
   map.connect   '/ut/understand_text',:controller => :transactions, :action => :understand
-  map.connect   '/text/:account_id',  :controller => :transactions, :action => :text_add
+  map.easy_transaction   '/text',  :controller => :transactions, :action => :text_add
   map.resources :transactions
   map.resources :friends
   map.resources :visitor
   map.resources :actors
   map.resources :line_items
 
-  map.home '', :controller => :accounts, :action => :index
+  map.home '', :controller => :main, :action => :index
 
   # The priority is based upon order of creation: first created -> highest priority.
 

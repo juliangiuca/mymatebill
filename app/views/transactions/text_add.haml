@@ -2,9 +2,9 @@
   var timeout_t;
 
   function purge_values() {
-    $("#recipient_name").val("");
-    $("#line_items_0_friend").val("");
-    $("#line_items_0_amount").val("");
+    $("#transaction_to").val("");
+    $("#transaction_from").val("");
+    $("#transaction_amount").val("");
     $("#transaction_description").val("");
     $("#transaction_amount").val("");
   };
@@ -18,23 +18,23 @@
   function shootAjax(text_input) {
     $.post("/ut/understand_text", { input: text_input },
     function(data) {
-    if (data.amount) {
-        $("#line_items_0_friend").val(data.in_debt);
-        $("#recipient_name").val(data.in_credit);
-        if (data.unknown_in_debt) {
-          $("#line_items_0_friend").val(data.unknown_in_debt);
-          }
-        if (data.unknown_in_credit) {
-          $("#recipient_name").val(data.unknown_in_credit);
-          }
-        $("#transaction_amount").val(data.amount.replace(/[^0-9\.]/,""));
-        $("#line_items_0_amount").val(data.amount.replace(/[^0-9\.]/,""));
-        $("#transaction_description").val(data.description);
-        $("#tick").show();
-        } else {
-        purge_values();
-        $("#tick").hide();
-        }
+      if (data.amount) {
+          $("#transaction_from").val(data.in_debt);
+          $("#transaction_to").val(data.in_credit);
+          if (data.unknown_in_debt) {
+            $("#transaction_from").val(data.unknown_in_debt);
+            }
+          if (data.unknown_in_credit) {
+            $("#transaction_to").val(data.unknown_in_credit);
+            }
+          $("#transaction_amount").val(data.amount.replace(/[^0-9\.]/,""));
+          $("#transaction_description").val(data.description);
+          $("#tick").show();
+          $("#full_input").val(text_input)
+      } else {
+          purge_values();
+          $("#tick").hide();
+      }
     }, "json");
   }
 
@@ -43,27 +43,27 @@
       errorLabelContainer: "#messageBox",
       wrapper: "li",
       rules: {
-        "recipient[name]": {
+        "transaction[to]": {
           required: true
         },
         "transaction[amount]": {
         required: true
         },
-        "line_items[0][friend]": {
+        "transaction[from]": {
         required: true
         },
-        "line_items[0][amount]": {
+        "transaction[amount]": {
         required: true
         }
       },
       messages: {
-        "recipient[name]": {
+        "transaction[to]": {
           required: "You need to specify who gets the money"
         },
         "transaction[amount]": {
         required: "You need to say how much money was exchanged"
         },
-        "line_items[0][friend]": {
+        "transaction[from]": {
         required: "You need to specify who took the money"
         }
       }
@@ -80,10 +80,9 @@
       = image_tag "tick-icon-small.png"
 
   - form_for @transaction do |t|
-    = hidden_field_tag "line_items[0][amount]"
-    = hidden_field_tag "line_items[0][friend]"
-    = hidden_field_tag "recipient[name]"
+    = hidden_field_tag "transaction[from]"
+    = hidden_field_tag "transaction[to]"
+    = hidden_field_tag "full_input"
     = t.hidden_field :amount
     = t.hidden_field :description
-    = t.hidden_field :account_id
     = submit_tag

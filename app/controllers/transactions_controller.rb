@@ -1,62 +1,73 @@
 class NoAmountSet < StandardError; end
-class NoPayeredSet < StandardError; end
+class NoPayerSet < StandardError; end
 
 class TransactionsController < ApplicationController
   layout "leftnav"
      #skip_before_filter :verify_authenticity_token, :only => [:auto_complete_for_actor_name]
 
   def new
-    account = current_user.accounts.find(params[:account_id])
-    @transaction = Transaction.new(:account_id => account.id)
+    @transaction = current_user.transactions.new
+    @transaction.steps.build
   end
 
   def create
-    account = current_user.accounts.find(params[:transaction][:account_id])
-    recipient = current_user.friends.find_or_create_by_name(params[:recipient])
-    friends = current_user.friends
-    line_item_params = params['line_items']
+    transaction = params[:transaction]
+    to = current_user.associates.find_or_create_by_name(transaction[:to])
+    from = current_user.associates.find_or_create_by_name(transaction[:from]) if transaction[:from]
 
-    raise NoPayeredSet, "You need to specify the payer" unless line_item_params
+    transaction.merge!({:to => to, :from => from})
 
-    key, line_item = line_item_params.shift
-    @transaction = account.transactions.new(params["transaction"].merge(:recipient_id => recipient.id))
-    friend = friends.find_or_create_by_name(:name => line_item["friend"])
-    @transaction.line_items.build(line_item.except("friend").merge({:friend_id => friend.id}))
-
-    raise NoAmountSet, "You need an amount set" if @transaction.amount.nil?
-    if @transaction && @transaction.valid? && @transaction.errors.empty?
-
-      #Since the first line item is automatically created, but invisible, make sure it's populated with a 'real' friend entry.
-      if line_item_params
-        line_item_params.each do |key, line_item|
-          next unless line_item["friend"].present? && line_item["amount"].present?
-          friend = friends.find_or_create_by_name(:name => line_item["friend"])
-          @transaction.line_items.build(line_item.except("friend").merge({:friend_id => friend.id}))
-        end
-      end
-
-      @transaction.save!
-
-      redirect_to accounts_path
-    else
-      @last_entered_name = params["recipient"]["name"]
-      render :action => "new"
+    transaction[:steps_attributes].try(:each) do |id, step|
+      step_from = current_user.associates.find_or_create_by_name(step[:from])
+      step.merge!({:from => step_from, :to => to})
     end
 
-  rescue ActiveRecord::RecordNotFound
-    flash[:error] = "Owie! That wasn't your account!"
-    redirect_to accounts_path
+    current_user.transactions.create!(transaction)
+    redirect_to transactions_path
+    #associates = current_user.associates
+    #recipient = current_user.associates.find_by_name(params[:recipient]) || current_user.associates.create!(:name => params[:recipient])
+    #line_item_params = params['line_items']
 
-  rescue NoAmountSet, NoPayeredSet
-      flash[:error] = "You didn't pass the validation on this form"
-      @transaction ||= Transaction.new(:account_id => account.id)
-      @last_entered_name = params["recipient"]["name"] if params && params["recipient"]["name"]
-    render :action => "new"
+    #raise NoPayerSet, "You need to specify the payer" unless line_item_params
+
+    #key, line_item = line_item_params.shift
+    #@transaction = current_user.transactions.new(params["transaction"].merge(:recipient_id => recipient.id))
+    #associates.find_by_name(:name => line_item["friend"]) || associates.create!(:name => line_item["friend"])
+    #@transaction.line_items.build(line_item.except("friend").merge({:friend_id => friend.id}))
+
+    #raise NoAmountSet, "You need an amount set" if @transaction.amount.nil?
+    #if @transaction && @transaction.valid? && @transaction.errors.empty?
+
+      ##Since the first line item is automatically created, but invisible, make sure it's populated with a 'real' friend entry.
+      #if line_item_params
+        #line_item_params.each do |key, line_item|
+          #next unless line_item["friend"].present? && line_item["amount"].present?
+          #associate = associates.find_by_name(:name => line_item["friend"]) || associates.create!(:name => line_item["friend"])
+          #@transaction.line_items.build(line_item.except("friend").merge({:friend_id => friend.id}))
+        #end
+      #end
+
+      #@transaction.save!
+
+      #redirect_to transactions_path
+    #else
+      #@last_entered_name = params["recipient"]["name"]
+      #render :action => "new"
+    #end
+
+  #rescue ActiveRecord::RecordNotFound
+    #flash[:error] = "Owie! That wasn't your account!"
+    #redirect_to transactions_path
+
+  #rescue NoAmountSet, NoPayerSet
+      #flash[:error] = "You didn't pass the validation on this form"
+      #@transaction ||= current_user.transactions.new
+      #@last_entered_name = params["recipient"]["name"] if params && params["recipient"]["name"]
+    #render :action => "new"
   end
 
   def text_add
-    account = current_user.accounts.find(params[:account_id])
-    @transaction = Transaction.new(:account_id => account.id)
+    @transaction = current_user.transactions.new
   end
 
   def understand
@@ -65,16 +76,15 @@ class TransactionsController < ApplicationController
   end
 
   def show
-    @transaction = Transaction.find(params[:id])
+    @transaction = current_user.transactions.find(params[:id])
   end
 
   def index
-    @accounts = current_user.accounts
-    @transactions = current_user.accounts.map(&:transactions).flatten
+    @transactions = current_user.transactions
   end
 
   def edit
-    @transaction = Transaction.find(params[:id])
+    @transaction = current_user.transactions.find(params[:id])
   end
 
   def update
@@ -86,7 +96,7 @@ class TransactionsController < ApplicationController
     if @transaction.update_attributes(params[:transaction].merge(:recipient_id => recipient.id))
       line_items = params['line_items']
       line_items.each do |key, updated_info|
-        friend = friends.find_by_name(updated_info["friend"]) || friends.create!(:name => updated_info["friend"])
+        friend = friends.find_or_create_by_name(updated_info["friend"]) || friends.create!(:name => updated_info["friend"])
         line_item = @transaction.line_items.find(key)
         #If we are changing who owes the debt, we need to balance the accounts. Easiest way is to delete the old
         #line item and create a new one for the new friend
@@ -127,11 +137,11 @@ class TransactionsController < ApplicationController
 
   def auto_complete_for_friend_name
     friend = params[:term]
-    @friends = current_user.friends.find(:all, :conditions => "name like '%" + friend + "%'")
-    if @friends.present?
-      render :text => @friends.map(&:name).to_json
+    @associates = current_user.associates.find(:all, :conditions => "name like '%" + friend + "%'")
+    if @associates.present?
+      render :json => @associates.map(&:name)
     else
-      render :text => "".to_json
+      render :json => ""
     end
   end
 end
