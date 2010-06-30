@@ -54,36 +54,6 @@ describe Transaction do
     transaction.steps.last.amount.should == 80
   end
 
-  describe "for simple two person transactions" do
-
-    it "Frog owes me $20" do
-      transaction = @identity.transactions.new(:description => "Frog owes me $20",
-                              :amount => 20,
-                              :from => @frog,
-                              :to => @identity)
-      transaction.save!
-      transaction.confirm_payment!
-
-      @identity.cash_in.should == 20
-      @frog.reload
-      @frog.cash_out.should == -20
-    end
-
-     it "I owe Frog $20" do
-      transaction = @identity.transactions.create!(:description => "I owe Frog $20",
-                              :amount => 20,
-                              :to => @frog,
-                              :from => @identity)
-
-      transaction.confirm_payment!
-
-      @identity.cash_out.should == -20
-      @frog.reload
-      @frog.cash_in.should == 20
-
-    end
-  end
-
   describe "transaction states" do
     before(:each) do
       @transaction = @identity.transactions.create!(

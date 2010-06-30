@@ -1,3 +1,6 @@
+cucumber:
+  :name: cucumber
+  :url: "localhost:3000"
 test:
   :name: test
   :url: "localhost:3000"
