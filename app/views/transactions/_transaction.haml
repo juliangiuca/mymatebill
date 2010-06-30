@@ -1,7 +1,7 @@
 %tr{:class => cycle("even","odd")}
   %td= I18n.l(transaction.created_at.to_date)
   %td
-    = link_to(transaction.from.try(:name), friend_path(:id => transaction.to))
+    = link_to(transaction.from.try(:name) || transaction.steps.first.from.name, friend_path(:id => transaction.to))
     = "(+#{transaction.steps.length - 1})" if transaction.steps.length > 1
     \-&gt;
     = link_to(transaction.to.name, friend_path(:id => transaction.to))

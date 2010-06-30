@@ -57,39 +57,37 @@ describe Identity do
 
   it "should handle the deletion of friends"
 
-  #describe "friends being deleted with transactions" do
-    #before(:each) do
-      #@user = Factory(:entity)
-      #@account = Factory(:account, :account_id => @user.id)
-      #@friend_1_receiving = Factory(:friend, :account_id => @user.id)
-      #@transaction_to_someone = Factory(:transaction, :recipient_id => @friend_1_receiving.id, :amount => "20")
-      #Transaction.find(@transaction_to_someone.id).line_items.should have(1).record
+  describe "friends being deleted with transactions" do
+    before(:each) do
+      @identity = Factory(:identity)
+      @friend_1_receiving = @identity.associates.create!(:name => "Frog")
+      @transaction_to_someone = @identity.associates.create!(:name => "Rabbot")
 
-      #@friend_2_giving = Factory(:friend, :user_id => @user.id)
-      #@transaction_from_someone = @account.transactions.new(:amount => "50")
-      #@transaction_from_someone.recipient_id = @user.myself_as_a_friend.id
-      #@transaction_from_someone.line_items.build(:amount => "50", :friend_id => @friend_2_giving.id)
-      #@transaction_from_someone.save!
-      #Transaction.find(@transaction_from_someone.id).line_items.should have(1).record
+      @friend_2_giving = @identity.associates.create!(:name => "Captain")
+      @transaction_from_someone = @identity.transactions.new(:amount => "50")
+      @transaction_from_someone.to = @identity
+      @transaction_from_someone.steps.build(:amount => "50", :from => @friend_2_giving)
+      @transaction_from_someone.save!
+      Transaction.find(@transaction_from_someone.id).steps.should have(1).record
 
+      @identity.reload
+      @identity.cash_in.should == 50
+      @identity.cash_out.should == -20
+      @identity.associates.should have(2).records
+    end
+
+    it "should delete any transactions when a friend is deleted" do
+      @user.myself_as_a_friend.transactions.should have(1).records
+      #@friend_1_receiving.destroy
       #@user.reload
-      #@user.myself_as_a_friend.credit.should == 50
-      #@user.myself_as_a_friend.debt.should == -20
-      #@user.visible_friends.should have(2).records
-    #end
+      #@user.myself_as_a_friend.debt.should == 0
+      @friend_2_giving.destroy
+      @user.reload
+      @user.myself_as_a_friend.credit.should == 0
+    end
 
-    #it "should delete any transactions when a friend is deleted" do
-      #@user.myself_as_a_friend.transactions.should have(1).records
-      ##@friend_1_receiving.destroy
-      ##@user.reload
-      ##@user.myself_as_a_friend.debt.should == 0
-      #@friend_2_giving.destroy
-      #@user.reload
-      #@user.myself_as_a_friend.credit.should == 0
-    #end
-
-    #it "should reset any funds when a friend is deleted"
-  #end
+    it "should reset any funds when a friend is deleted"
+  end
 
 end
 
