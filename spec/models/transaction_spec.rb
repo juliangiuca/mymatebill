@@ -69,7 +69,11 @@ describe Transaction do
       Transaction.last.paid?.should be_true
     end
 
-    it "should transition from paid to unpaid"
+    it "should transition from paid to unpaid" do
+      @transaction.confirm_payment!
+      @transaction.unpay!
+      Transaction.last.paid?.should be_false
+    end
 
     it "should transition to paid when being deleted" do
       @transaction.destroy
@@ -77,59 +81,4 @@ describe Transaction do
     end
   end
 
-  it "should mark all line_items as paid when setting a transaction to paid"
-  it "should automatically be set to paid when all line_items are paid"
-
-  describe "for multi person transactions" do
-    before(:each) do
-      @transaction = @identity.transactions.new
-      @transaction.description = "Test rent deposit"
-      @transaction.amount = "1300"
-      @transaction.to = @rent
-      @transaction.from = @identity
-
-      #line item
-      line_item = @transaction.steps.build
-      line_item.to = @identity
-      line_item.from = @rabbit
-      line_item.amount = "260"
-
-      line_item_2 = @transaction.steps.build
-      line_item_2.to = @identity
-      line_item_2.from = @frog
-      line_item_2.amount = "260"
-      @transaction.save!
-      @transaction.reload
-    end
-
-    it "should have two steps and one summary" do
-      @transaction.steps.should have(2).record
-      @transaction.steps.first.transaction.should == @transaction
-      Transaction.all.should have(1).records
-      Step.all.should have(2).records
-      Dealing.all.should have(3).records
-
-      @transaction.to.should == @rent
-      @transaction.from.should be_blank
-    end
-
-    it "should tally the sum of the steps" do
-      @transaction.amount.should == 520
-    end
-
-    it "should update the tally when a new step is added" do
-      @transaction.steps.create!(:to => @rent, :from => @identity, :amount => "260")
-      @transaction.reload
-      @transaction.amount.should == 780
-    end
-
-    it "should update the tally then a step is removed"
-    it "should remove itself when all steps are removed"
-
-    it "should set the summary to be blank" do
-      @transaction.from.should be_blank
-    end
-
-    it "should set the summary from blank to the last step when steps are removed"
-  end
 end

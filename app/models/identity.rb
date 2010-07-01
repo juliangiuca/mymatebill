@@ -8,8 +8,8 @@ class Identity < ActiveRecord::Base
     end
   end
   has_many    :transactions, :foreign_key => "owner_id"
-  has_many    :incoming_transactions, :foreign_key => "to_associate", :class_name => "Transaction"
-  has_many    :outgoing_transactions, :foreign_key => "from_associate", :class_name => "Transaction"
+  has_many    :incoming_transactions, :foreign_key => "to_associate_id", :class_name => "Transaction"
+  has_many    :outgoing_transactions, :foreign_key => "from_associate_id", :class_name => "Step"
 
   before_create :create_magic_hash
   before_create :set_befriended_on

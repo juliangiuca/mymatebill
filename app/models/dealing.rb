@@ -22,7 +22,7 @@ class Dealing < ActiveRecord::Base
   aasm_state :paid,     :enter => :tally_transaction,  :exit => :revert_transaction
 
   aasm_event :confirm_payment do
-    transitions :from => :unpaid, :to => :paid
+    transitions :from => [:unpaid, :pending], :to => :paid
   end
 
   aasm_event :unpay do
