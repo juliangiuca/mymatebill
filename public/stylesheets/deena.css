@@ -1,3 +1,4 @@
+/* _rounded.scss */
 @font-face {
   font-family: hobo_std;
   src: url("/fonts/HoboStd.otf"); }
@@ -8,11 +9,11 @@ body {
   height: 100%;
   min-height: 100%; }
 
-#major_title {
+.major_title {
   font-family: hobo_std, 'ariel';
   font-size: 46pt; }
 
-#minor_title {
+.minor_title {
   font-family: hobo_std, 'ariel';
   font-size: 26pt;
   color: white; }
@@ -20,6 +21,10 @@ body {
 .blue {
   display: inline;
   color: #0099cc; }
+
+.black {
+  display: inline;
+  color: black; }
 
 .white {
   display: inline;
@@ -119,3 +124,64 @@ div#clickables {
     position: relative;
     top: -35px;
     z-index: -1; }
+
+#welcome {
+  position: absolute;
+  right: 20%;
+  top: 30%;
+  width: 50%;
+  min-width: 500px;
+  height: 40%;
+  min-height: 288px;
+  background-color: white;
+  padding: 3%;
+  border-topleft-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -webkit-border-top-left-radius: 10px;
+  border-topright-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -webkit-border-top-right-radius: 10px;
+  border-bottomleft-radius: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  border-bottomright-radius: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -webkit-border-bottom-right-radius: 10px; }
+  #welcome .minor_title {
+    width: 70%; }
+    #welcome .minor_title div {
+      z-index: 10; }
+  #welcome .yelly {
+    position: absolute;
+    bottom: 0%;
+    right: -80px; }
+
+#wood_login {
+  width: 180px;
+  background: black url("/images/backgrounds/wood.jpg") no-repeat top left;
+  margin-left: 2%;
+  border-topleft-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-top-left-radius: 5px;
+  border-topright-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-bottomleft-radius: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  border-bottomright-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-right-radius: 5px; }
+  #wood_login input {
+    border-topleft-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -webkit-border-top-left-radius: 10px;
+    border-topright-radius: 10px;
+    -moz-border-radius-topright: 10px;
+    -webkit-border-top-right-radius: 10px;
+    border-bottomleft-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    border-bottomright-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -webkit-border-bottom-right-radius: 10px; }

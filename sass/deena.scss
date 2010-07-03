@@ -1,6 +1,9 @@
 $blue-color: #0099cc;
+$radius: 10px;
+$minor-radius: 5px;
 
 @import "rotate_text";
+@import "rounded";
 
 @font-face {
   font-family: hobo_std;
@@ -14,18 +17,19 @@ body {
   min-height: 100%;
 }
 
-#major_title {
+.major_title {
   font-family: hobo_std, 'ariel';
   font-size: 46pt;
 }
 
-#minor_title {
+.minor_title {
   font-family: hobo_std, 'ariel';
   font-size: 26pt;
   color: white;
 }
 
 .blue {display: inline; color: $blue-color;}
+.black {display: inline; color: black;}
 .white {display: inline; color: white;}
 
 div#notes{
@@ -35,6 +39,7 @@ div#notes{
   width: 422px;
   height: 200px;
 }
+
 canvas#notes_first {position: absolute; top:0px; left:0px; width: 167px; height: 136px; z-index: 4;}
 canvas#notes_second {position: absolute; top:0px; left:100px; width: 154px; height: 158px; z-index: -3;}
 canvas#notes_third {position: absolute; top:10px; left:195px; width: 176px; height: 116px; z-index: -2;}
@@ -83,5 +88,50 @@ div#clickables {
     top: -35px;
     z-index: -1;
     }
-  
+}
+
+#welcome {
+  position:absolute;
+  right: 20%;
+  top: 30%;
+  width: 50%;
+  min-width: 500px;
+  height: 40%;
+  min-height: 288px;
+  background-color: white;
+  padding: 3%;
+  @include rounded(topleft, top-left, $radius);
+  @include rounded(topright, top-right, $radius);
+  @include rounded(bottomleft, bottom-left, $radius);
+  @include rounded(bottomright, bottom-right, $radius);
+
+  .minor_title {
+    width: 70%;
+    div {
+      z-index: 10;
+    }
+  }
+
+  .yelly {
+    position: absolute;
+    bottom: 0%;
+    right: -80px;
+  }
+}
+
+#wood_login {
+  width: 180px;
+  background: black url("/images/backgrounds/wood.jpg") no-repeat top left;
+  margin-left: 2%;
+  @include rounded(topleft, top-left, $minor-radius);
+  @include rounded(topright, top-right, $minor-radius);
+  @include rounded(bottomleft, bottom-left, $minor-radius);
+  @include rounded(bottomright, bottom-right, $minor-radius);
+
+  input {
+    @include rounded(topleft, top-left, $radius);
+    @include rounded(topright, top-right, $radius);
+    @include rounded(bottomleft, bottom-left, $radius);
+    @include rounded(bottomright, bottom-right, $radius);
+  }
 }
