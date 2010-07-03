@@ -47,4 +47,5 @@ module ApplicationHelper
       (friend.try(:owner) || friend).name.capitalize
     end
   end
+
 end

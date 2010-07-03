@@ -1,3 +1,3 @@
 class MainController < ApplicationController
-  layout "basic"
+  layout "deena"
 end

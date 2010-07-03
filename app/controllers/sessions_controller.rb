@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   before_filter :login_required, :only => :destroy
   #before_filter :not_logged_in_required, :only => [:new, :create]
 
-  layout "basic"
+  layout "deena"
 
   # render new.rhtml
   def new

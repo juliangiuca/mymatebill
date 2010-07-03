@@ -1,0 +1,4 @@
+@mixin rotate_text($degree) {
+  -webkit-transform: rotate(#{$degree}deg);
+  -moz-transform: rotate(#{$degree}deg);
+}

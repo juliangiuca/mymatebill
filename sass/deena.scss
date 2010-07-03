@@ -1,0 +1,87 @@
+$blue-color: #0099cc;
+
+@import "rotate_text";
+
+@font-face {
+  font-family: hobo_std;
+  src: url('/fonts/HoboStd.otf');
+}
+
+body {
+  background: black url('/images/backgrounds/wall_texture.jpg') no-repeat top left;
+  background-attachment: fixed;
+  height: 100%;
+  min-height: 100%;
+}
+
+#major_title {
+  font-family: hobo_std, 'ariel';
+  font-size: 46pt;
+}
+
+#minor_title {
+  font-family: hobo_std, 'ariel';
+  font-size: 26pt;
+  color: white;
+}
+
+.blue {display: inline; color: $blue-color;}
+.white {display: inline; color: white;}
+
+div#notes{
+  position: absolute;
+  top: 0px;
+  right: 5%;
+  width: 422px;
+  height: 200px;
+}
+canvas#notes_first {position: absolute; top:0px; left:0px; width: 167px; height: 136px; z-index: 4;}
+canvas#notes_second {position: absolute; top:0px; left:100px; width: 154px; height: 158px; z-index: -3;}
+canvas#notes_third {position: absolute; top:10px; left:195px; width: 176px; height: 116px; z-index: -2;}
+canvas#notes_fourth {position: absolute; top:0px; left:250px; width: 183px; height: 181px; z-index: -3;}
+canvas#notes_bull_clip {position: absolute; top:0px; left:240px; width: 70px; height: 48px; z-index: 10;}
+
+div#clickables {
+  position: absolute;
+  top: 25px;
+  right: 5%;
+  width: 422px;
+  height: 200px;
+
+  a{
+    font-family: hobo_std;
+    color: white;
+    font-size: 14pt;
+    z-index: 6;
+    text-decoration: none;
+    padding-left: 20px;
+  }
+
+  #friend_link {
+    position: absolute; top: 10px; left: 30px; width: 111px; height: 60px; z-index: 5;
+
+    .linkzor {
+      @include rotate_text(9);
+      }
+    }
+  #transaction_link {
+    position: absolute; top: 20px; left: 138px; width: 160px; height: 55px; z-index: 2;
+
+    .linkzor {
+      @include rotate_text(-2);
+      }
+    }
+  #calendar_link {
+    position: absolute; top: 30px; left: 290px; width: 117px; height: 57px; z-index: 1;
+    .linkzor {
+      @include rotate_text(-8);
+      }
+    }
+
+  canvas {
+    position: relative;
+    top: -35px;
+    z-index: -1;
+    }
+  
+}
