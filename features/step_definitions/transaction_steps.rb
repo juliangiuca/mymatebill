@@ -34,7 +34,7 @@ end
 
 Given /^A \$(.*) transaction from (.*) to (.*)$/ do |amount, from, biller|
    Given 'I have an account'
-     And "an association with #{biller}"
+     And "an association with #{biller == "myself" ? from : biller}"
      if from == "myself"
        from_person = @identity
        to_person = @biller

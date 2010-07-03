@@ -48,6 +48,14 @@ class Identity < ActiveRecord::Base
     self.update_attribute(:cash_pending, self.cash_pending + amount)
   end
 
+  def future_cash_in
+    incoming_transactions.map(&:amount).sum
+  end
+
+  def future_cash_out
+    outgoing_transactions.map(&:amount).sum * -1
+  end
+
   protected
   def strip_blanks
     self.name = self.name.strip
@@ -64,18 +72,13 @@ class Identity < ActiveRecord::Base
   end
 
   def reset_debts
-    #transactions.each do |transaction|
-      #transaction.destroy
-    #end
-    
-    #line_items.each do |line_item|
-      #if line_item.transaction.line_items.length == 1
-        #line_item.transaction.destroy
-      #else
-        #line_item.destroy
-      #end
-    #end
+    incoming_transactions.each do |transaction|
+      transaction.destroy
+    end
 
+    outgoing_transactions.each do |transaction|
+      transaction.destroy
+    end
   end
 
 end

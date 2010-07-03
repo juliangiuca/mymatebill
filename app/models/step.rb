@@ -1,6 +1,7 @@
 class Step < Dealing
   belongs_to :transaction, :foreign_key => "parent_id", :class_name => "Transaction"
 
+  before_destroy :revert_transaction
   after_destroy :test_transaction_destroy
 
   ###### AASM methods
@@ -11,8 +12,10 @@ class Step < Dealing
   end
 
   def revert_transaction
-    self.to.sub_credit(self.amount)
-    self.from.add_debt(self.amount)
+    if self[:state] == "paid"
+      self.to.sub_credit(self.amount)
+      self.from.add_debt(self.amount)
+    end
    test_transaction_unpaid
   end
 
@@ -22,8 +25,8 @@ class Step < Dealing
   end
 
   def test_transaction_destroy
-    if self.transaction.steps.length == 0
-      self.transaction.destroy
+    if Transaction.find(self.parent_id).steps.length == 0
+      Transaction.find(self.parent_id).destroy
     end
   end
 
@@ -36,4 +39,5 @@ class Step < Dealing
   def test_transaction_unpaid
     self.transaction.update_attribute(:state, "unpaid")
   end
+
 end
