@@ -1,20 +1,24 @@
-%h1 Log In
 #wood_login
+  %h1 Log In
+  %canvas#wood_bull_clip{:width => "63", :height => "71"}
   - form_tag session_path do
-    %p
-      = label_tag 'login'
+    .sign_in_inputs
+      = label_tag 'login', "User Name"
       %br/
-      = text_field_tag 'login', @login
-    %p
-      = label_tag 'password'
+      = text_field_tag 'login', @login, :class => "text"
+    .sign_in_inputs
+      = label_tag 'password', "Password"
       %br/
-      = password_field_tag 'password', nil
-    %p
+      = password_field_tag 'password', nil, :class => "text"
+    .sign_in_inputs
       = label_tag 'remember_me', 'Remember me'
       = check_box_tag 'remember_me', '1', @remember_me
-    %p= submit_tag 'Log in'
-    %p= link_to "Sign up", signup_path
-    %p= link_to "I forgot my password =(", forgot_password_path
+    .help= link_to "Help?", forgot_password_path
+  %canvas#log_in_blue{:width => "162", :height => "63", :class => "wood_canvas"}
+  %canvas#sign_up_blue{:width => "172", :height => "43", :class => "wood_canvas"}
+  .sign_up= link_to "Sign up", signup_path
+
+
 
 #welcome
   %div{:class => "major_title"}

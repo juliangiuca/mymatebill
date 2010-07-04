@@ -4,6 +4,7 @@ $minor-radius: 5px;
 
 @import "rotate_text";
 @import "rounded";
+@import "shadow";
 
 @font-face {
   font-family: hobo_std;
@@ -85,7 +86,7 @@ div#clickables {
 
   canvas {
     position: relative;
-    top: -35px;
+    top: -15px;
     z-index: -1;
     }
 }
@@ -97,7 +98,7 @@ div#clickables {
   width: 50%;
   min-width: 500px;
   height: 40%;
-  min-height: 288px;
+  min-height: 300px;
   background-color: white;
   padding: 3%;
   @include rounded(topleft, top-left, $radius);
@@ -120,7 +121,11 @@ div#clickables {
 }
 
 #wood_login {
+  position: absolute;
+  top: 200px;
   width: 180px;
+  height: 273px;
+  min-height: 273px;
   background: black url("/images/backgrounds/wood.jpg") no-repeat top left;
   margin-left: 2%;
   @include rounded(topleft, top-left, $minor-radius);
@@ -128,10 +133,85 @@ div#clickables {
   @include rounded(bottomleft, bottom-left, $minor-radius);
   @include rounded(bottomright, bottom-right, $minor-radius);
 
-  input {
+  input.text {
+    border: 1px solid white;
+    height: 22px;
+    padding: 2px 7px;
+    width: 80%;
+    margin-left: 5%;
+    margin-right: 5%;
     @include rounded(topleft, top-left, $radius);
     @include rounded(topright, top-right, $radius);
     @include rounded(bottomleft, bottom-left, $radius);
     @include rounded(bottomright, bottom-right, $radius);
+    @include shadowinset(2px, 1px, 2px, #595959);
+  }
+
+  #wood_bull_clip {
+    position: relative;
+    top: -45px;
+    left: 35%;
+    z-index:6;
+
+  }
+
+  #log_in_blue {
+    position: absolute;
+    left: -30px;
+    top: -10px;
+    z-index: 5;
+  }
+
+  #sign_up_blue {
+    position: absolute;
+    left: -30px;
+    top: 200px;
+    z-index: 5;
+  }
+
+  label {
+    font-family: hobo_std;
+    font-size: 10pt;
+    color: white;
+    margin-left: 9%;
+  }
+
+  form {
+    position: relative;
+    top: -30px;
+  }
+
+  .sign_in_inputs {
+    padding: 5px;
+    font-family: hobo_std;
+    font-size: 10pt;
+    color: white;
+  }
+
+  .help {
+    padding-left: 5px;
+
+    a {
+      padding-left: 9%;
+      font-family: hobo_std;
+      font-size: 10pt;
+      color: white;
+    }
+  }
+
+  .sign_up {
+    padding-left: 5px;
+    padding-top: 22px;
+
+    a {
+      padding-left: 9%;
+      font-family: hobo_std;
+      font-size: 10pt;
+      color: white;
+    }
+  }
+
+  h1 {
+    display: none;
   }
 }

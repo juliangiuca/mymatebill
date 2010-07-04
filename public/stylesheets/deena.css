@@ -1,4 +1,5 @@
 /* _rounded.scss */
+/* _shadow.scss */
 @font-face {
   font-family: hobo_std;
   src: url("/fonts/HoboStd.otf"); }
@@ -122,7 +123,7 @@ div#clickables {
       -moz-transform: rotate(-8deg); }
   div#clickables canvas {
     position: relative;
-    top: -35px;
+    top: -15px;
     z-index: -1; }
 
 #welcome {
@@ -132,7 +133,7 @@ div#clickables {
   width: 50%;
   min-width: 500px;
   height: 40%;
-  min-height: 288px;
+  min-height: 300px;
   background-color: white;
   padding: 3%;
   border-topleft-radius: 10px;
@@ -157,7 +158,11 @@ div#clickables {
     right: -80px; }
 
 #wood_login {
+  position: absolute;
+  top: 200px;
   width: 180px;
+  height: 273px;
+  min-height: 273px;
   background: black url("/images/backgrounds/wood.jpg") no-repeat top left;
   margin-left: 2%;
   border-topleft-radius: 5px;
@@ -172,7 +177,13 @@ div#clickables {
   border-bottomright-radius: 5px;
   -moz-border-radius-bottomright: 5px;
   -webkit-border-bottom-right-radius: 5px; }
-  #wood_login input {
+  #wood_login input.text {
+    border: 1px solid white;
+    height: 22px;
+    padding: 2px 7px;
+    width: 80%;
+    margin-left: 5%;
+    margin-right: 5%;
     border-topleft-radius: 10px;
     -moz-border-radius-topleft: 10px;
     -webkit-border-top-left-radius: 10px;
@@ -184,4 +195,52 @@ div#clickables {
     -webkit-border-bottom-left-radius: 10px;
     border-bottomright-radius: 10px;
     -moz-border-radius-bottomright: 10px;
-    -webkit-border-bottom-right-radius: 10px; }
+    -webkit-border-bottom-right-radius: 10px;
+    -moz-box-shadow: inset 2px 1px 2px #595959;
+    -webkit-box-shadow: inset #595959 2px 1px 2px;
+    box-shadow: inset 2px 1px 2px #595959; }
+  #wood_login #wood_bull_clip {
+    position: relative;
+    top: -45px;
+    left: 35%;
+    z-index: 6; }
+  #wood_login #log_in_blue {
+    position: absolute;
+    left: -30px;
+    top: -10px;
+    z-index: 5; }
+  #wood_login #sign_up_blue {
+    position: absolute;
+    left: -30px;
+    top: 200px;
+    z-index: 5; }
+  #wood_login label {
+    font-family: hobo_std;
+    font-size: 10pt;
+    color: white;
+    margin-left: 9%; }
+  #wood_login form {
+    position: relative;
+    top: -30px; }
+  #wood_login .sign_in_inputs {
+    padding: 5px;
+    font-family: hobo_std;
+    font-size: 10pt;
+    color: white; }
+  #wood_login .help {
+    padding-left: 5px; }
+    #wood_login .help a {
+      padding-left: 9%;
+      font-family: hobo_std;
+      font-size: 10pt;
+      color: white; }
+  #wood_login .sign_up {
+    padding-left: 5px;
+    padding-top: 22px; }
+    #wood_login .sign_up a {
+      padding-left: 9%;
+      font-family: hobo_std;
+      font-size: 10pt;
+      color: white; }
+  #wood_login h1 {
+    display: none; }

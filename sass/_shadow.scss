@@ -1,0 +1,19 @@
+/* _shadow.scss */
+
+@mixin shadowinset($off-x, $off-y, $blur-rad, $color: #FFFFFF) {
+   -moz-box-shadow: inset $off-x $off-y $blur-rad $color;
+   -webkit-box-shadow: inset $color $off-x $off-y $blur-rad;
+   box-shadow: inset $off-x $off-y $blur-rad $color;
+}
+
+@mixin shadow2($off-x, $off-y, $blur-rad, $color: #FFFFFF) {
+   -moz-box-shadow: $off-x $off-y $blur-rad $color;
+   -webkit-box-shadow: $color $off-x $off-y $blur-rad;
+   box-shadow: $off-x $off-y $blur-rad $color;
+}
+@mixin shadow($off-x, $off-y, $blur-rad, $spread, $color: #FFFFFF) {
+   -moz-box-shadow: $off-x $off-y $blur-rad $spread $color;
+   -webkit-box-shadow: $color $off-x $off-y $blur-rad $spread;
+   box-shadow: $off-x $off-y $blur-rad $spread $color;
+}
+

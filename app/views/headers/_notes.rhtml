@@ -1,17 +1,20 @@
 <div id="clickables">
   <div id="friend_link">
-    <div class="linkzor"><%= link_to "Friends", :controller => :friends, :action => :index %></div>
-    <canvas id="friend" width="111" height="60"></canvas>
+    <canvas id="friend" width="111" height="60">
+      <div class="linkzor"><%= link_to "Friends", :controller => :friends, :action => :index %></div>
+    </canvas>
   </div>
 
   <div id="transaction_link">
-    <div class="linkzor"><%= link_to "Transactions", :controller => :transactions, :action => :index %></div>
-    <canvas id="transaction" width="160" height="55"></canvas>
+    <canvas id="transaction" width="160" height="55">
+      <div class="linkzor"><%= link_to "Transactions", :controller => :transactions, :action => :index %></div>
+    </canvas>
   </div>
 
   <div id="calendar_link">
-    <div class="linkzor"><%= link_to "Calendar", :controller => :calendar, :action => :index %></div>
-    <canvas id="calendar" width="117" height="57"></canvas>
+    <canvas id="calendar" width="117" height="57">
+      <div class="linkzor"><%= link_to "Calendar", :controller => :calendar, :action => :index %></div>
+    </canvas>
   </div>
 
 </div>

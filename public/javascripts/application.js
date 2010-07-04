@@ -5,7 +5,9 @@ function allow_editable(e) {
   alert("hai")
 }
 
-
+function calendar_click(e) {
+  window.location = "http://www.google.com"
+}
 
 function draw_calendar() {
   var canvas = document.getElementById("calendar");
@@ -24,6 +26,10 @@ function draw_calendar() {
   add_shadow(ctx)
   ctx.fill();
   ctx.restore();
+  ctx.font = "14pt hobo_std";
+  ctx.fillStyle = "White";
+  ctx.rotate(-8 * Math.PI / 180);
+  ctx.fillText("Calendar", 15, 37);
 }
 
 function draw_transaction() {
@@ -43,6 +49,10 @@ function draw_transaction() {
   add_shadow(ctx)
   ctx.fill();
   ctx.restore();
+  ctx.font = "14pt hobo_std";
+  ctx.fillStyle = "White";
+  ctx.rotate(-2 * Math.PI / 180);
+  ctx.fillText("Transactions", 20, 32);
 }
 
 function draw_friend() {
@@ -62,25 +72,102 @@ function draw_friend() {
   add_shadow(ctx)
   ctx.fill();
   ctx.restore();
+  ctx.font = "14pt hobo_std";
+  ctx.fillStyle = "White";
+  ctx.rotate(9 * Math.PI / 180);
+  ctx.fillText("Friends", 20, 22);
+}
+
+function draw_log_in() {
+  var canvas = document.getElementById("log_in_blue");
+  var ctx = canvas.getContext("2d");
+
+  ctx.rotate(-2 * Math.PI / 180);
+  ctx.globalAlpha = 1.0;
+  ctx.save();
+  ctx.fillStyle = "rgb(0, 153, 204)";
+  ctx.beginPath();
+  ctx.translate(0, 15)
+  ctx.moveTo(1, 3);
+  ctx.lineTo(148, 7);
+  ctx.lineTo(155, 38);
+  ctx.lineTo(1, 38);
+  ctx.lineTo(1, 3);
+  ctx.closePath();
+  add_shadow(ctx)
+  ctx.fill();
+  ctx.restore();
+  ctx.font = "14pt hobo_std";
+  ctx.fillStyle = "White";
+  ctx.fillText("LOG-IN", 15, 42);
+
+}
+
+function draw_sign_up() {
+  var canvas = document.getElementById("sign_up_blue");
+  var ctx = canvas.getContext("2d");
+
+  ctx.globalAlpha = 1.0;
+  ctx.save();
+  ctx.fillStyle = "rgb(0, 153, 204)";
+  ctx.beginPath();
+  ctx.moveTo(0, 3);
+  ctx.lineTo(161, 5);
+  ctx.lineTo(156, 38);
+  ctx.lineTo(0, 39);
+  ctx.lineTo(0, 3);
+  ctx.closePath();
+  add_shadow(ctx)
+  ctx.fill();
+  ctx.restore();
+  ctx.font = "14pt hobo_std";
+  ctx.fillStyle = "White";
+  ctx.fillText("NEW USER?", 15, 30);
 }
 
 function add_shadow(context) {
+  context.save();
   context.shadowOffsetX = 5;
   context.shadowOffsetY = 5;
   context.shadowBlur = 10;
-  context.shadowColor = "#595959";
+  context.shadowColor = "rgba(0, 0, 0, 0.5)";
+  context.fill();
+  context.restore();
+}
+
+function load_wood_bull_clip() {
+  var canvas = document.getElementById("wood_bull_clip");
+  var context = canvas.getContext("2d");
+
+  var bull_clip = new Image();
+  bull_clip.src = "/images/notes/bull_clip.png";
+  bull_clip.onload = function() {
+    context.drawImage(bull_clip, 0, 0);
+  };
+}
+
+function load_note_bull_clip() {
+  var canvas = document.getElementById("notes_bull_clip");
+  var context = canvas.getContext("2d");
+
+  var bull_clip = new Image();
+  bull_clip.src = "/images/notes/bull_clip.png";
+  bull_clip.onload = function() {
+    context.rotate(-5 * Math.PI / 180);
+    context.drawImage(bull_clip, 0, -22);
+  };
 }
 var note = new Array();
 function load_note(ctx_name) {
   var canvas = document.getElementById("notes_" + ctx_name);
-  var context = canvas.getContext("2d");
+   var context = canvas.getContext("2d");
 
   position = note.push(new Image()) - 1;
   eval("var note_" + ctx_name + " = position;")
   note[position].src = "/images/notes/" + ctx_name + ".png";
   note[position].onload = function() {
     context.drawImage(note[eval("note_" + ctx_name)], 0, 0);
-  };
+  }
 }
 
 function load_notes() {
@@ -88,13 +175,16 @@ function load_notes() {
   load_note("second")
   load_note("third")
   load_note("fourth")
-  load_note("bull_clip")
 }
-
 
 function draw_nav() {
   draw_calendar();
   draw_transaction();
-  load_notes();
   draw_friend();
+  load_note_bull_clip();
+  load_notes();
+  load_wood_bull_clip();
+  draw_log_in();
+  draw_sign_up();
+
 }
