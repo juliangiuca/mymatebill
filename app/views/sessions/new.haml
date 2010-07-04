@@ -13,7 +13,9 @@
     .sign_in_inputs
       = label_tag 'remember_me', 'Remember me'
       = check_box_tag 'remember_me', '1', @remember_me
-    .help= link_to "Help?", forgot_password_path
+    .help
+      = submit_tag "Login"
+      = link_to "Help?", forgot_password_path
   %canvas#log_in_blue{:width => "162", :height => "63", :class => "wood_canvas"}
   %canvas#sign_up_blue{:width => "172", :height => "43", :class => "wood_canvas"}
   .sign_up= link_to "Sign up", signup_path

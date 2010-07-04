@@ -228,9 +228,11 @@ div#clickables {
     font-size: 10pt;
     color: white; }
   #wood_login .help {
-    padding-left: 5px; }
+    padding-left: 9%; }
+    #wood_login .help input {
+      padding-left: 5px; }
     #wood_login .help a {
-      padding-left: 9%;
+      padding-left: 5px;
       font-family: hobo_std;
       font-size: 10pt;
       color: white; }
