@@ -1,7 +1,7 @@
 /* _rounded.scss */
 
 @mixin rounded($side, $webkitside, $radius: 10px) {
-    border-#{$side}-radius: $radius;
+    border-#{$webkitside}-radius: $radius;
     -moz-border-radius-#{$side}: $radius;
     -webkit-border-#{$webkitside}-radius: $radius;
 }
