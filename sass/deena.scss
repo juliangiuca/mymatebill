@@ -39,13 +39,13 @@ div#notes{
   right: 5%;
   width: 422px;
   height: 200px;
-}
 
-canvas#notes_first {position: absolute; top:0px; left:0px; width: 167px; height: 136px; z-index: 4;}
-canvas#notes_second {position: absolute; top:0px; left:100px; width: 154px; height: 158px; z-index: -3;}
-canvas#notes_third {position: absolute; top:10px; left:195px; width: 176px; height: 116px; z-index: -2;}
-canvas#notes_fourth {position: absolute; top:0px; left:250px; width: 183px; height: 181px; z-index: -3;}
-canvas#notes_bull_clip {position: absolute; top:0px; left:240px; width: 70px; height: 48px; z-index: 10;}
+  #notes_first {position: absolute; top:0px; left:0px; width: 167px; height: 136px; z-index: 4;}
+  #notes_second {position: absolute; top:0px; left:100px; width: 154px; height: 158px; z-index: -3;}
+  #notes_third {position: absolute; top:10px; left:195px; width: 176px; height: 116px; z-index: -2;}
+  #notes_fourth {position: absolute; top:0px; left:250px; width: 183px; height: 181px; z-index: -3;}
+  canvas#notes_bull_clip {position: absolute; top:0px; left:240px; width: 70px; height: 48px; z-index: 10;}
+}
 
 div#clickables {
   position: absolute;
@@ -86,7 +86,7 @@ div#clickables {
 
   canvas {
     position: relative;
-    top: -15px;
+    top: -35px;
     z-index: -1;
     }
 }
@@ -135,6 +135,7 @@ div#clickables {
 
   input.text {
     border: 1px solid white;
+    background-color: white;
     height: 22px;
     padding: 2px 7px;
     width: 80%;

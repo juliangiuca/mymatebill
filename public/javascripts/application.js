@@ -25,11 +25,6 @@ function draw_calendar() {
   ctx.closePath();
   add_shadow(ctx)
   ctx.fill();
-  ctx.restore();
-  ctx.font = "14pt hobo_std";
-  ctx.fillStyle = "White";
-  ctx.rotate(-8 * Math.PI / 180);
-  ctx.fillText("Calendar", 15, 37);
 }
 
 function draw_transaction() {
@@ -46,13 +41,8 @@ function draw_transaction() {
   ctx.lineTo(10, 43);
   ctx.lineTo(0, 5);
   ctx.closePath();
-  add_shadow(ctx)
+  add_shadow(ctx);
   ctx.fill();
-  ctx.restore();
-  ctx.font = "14pt hobo_std";
-  ctx.fillStyle = "White";
-  ctx.rotate(-2 * Math.PI / 180);
-  ctx.fillText("Transactions", 20, 32);
 }
 
 function draw_friend() {
@@ -69,13 +59,8 @@ function draw_friend() {
   ctx.lineTo(2, 33);
   ctx.lineTo(6, 1);
   ctx.closePath();
-  add_shadow(ctx)
+  add_shadow(ctx);
   ctx.fill();
-  ctx.restore();
-  ctx.font = "14pt hobo_std";
-  ctx.fillStyle = "White";
-  ctx.rotate(9 * Math.PI / 180);
-  ctx.fillText("Friends", 20, 22);
 }
 
 function draw_log_in() {
@@ -107,6 +92,7 @@ function draw_sign_up() {
   var canvas = document.getElementById("sign_up_blue");
   var ctx = canvas.getContext("2d");
 
+  ctx.rotate(2 * Math.PI / 180);
   ctx.globalAlpha = 1.0;
   ctx.save();
   ctx.fillStyle = "rgb(0, 153, 204)";
@@ -117,7 +103,7 @@ function draw_sign_up() {
   ctx.lineTo(0, 39);
   ctx.lineTo(0, 3);
   ctx.closePath();
-  add_shadow(ctx)
+  add_shadow(ctx);
   ctx.fill();
   ctx.restore();
   ctx.font = "14pt hobo_std";
@@ -157,17 +143,9 @@ function load_note_bull_clip() {
     context.drawImage(bull_clip, 0, -22);
   };
 }
-var note = new Array();
-function load_note(ctx_name) {
-  var canvas = document.getElementById("notes_" + ctx_name);
-   var context = canvas.getContext("2d");
-
-  position = note.push(new Image()) - 1;
-  eval("var note_" + ctx_name + " = position;")
-  note[position].src = "/images/notes/" + ctx_name + ".png";
-  note[position].onload = function() {
-    context.drawImage(note[eval("note_" + ctx_name)], 0, 0);
-  }
+function load_note(image_name) {
+  images = document.getElementById("notes_" + image_name);
+  images.src = "/images/notes/" + image_name + ".png";
 }
 
 function load_notes() {
