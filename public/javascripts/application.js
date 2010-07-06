@@ -144,8 +144,7 @@ function load_note_bull_clip() {
   };
 }
 function load_note(image_name) {
-  images = document.getElementById("notes_" + image_name);
-  images.src = "/images/notes/" + image_name + ".png";
+  $("#notes_" + image_name).attr("src", "/images/notes/" + image_name + ".png");
 }
 
 function load_notes() {

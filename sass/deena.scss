@@ -67,20 +67,25 @@ div#clickables {
     position: absolute; top: 10px; left: 30px; width: 111px; height: 60px; z-index: 5;
 
     .linkzor {
-      @include rotate_text(9);
+      @include rotate_text(10);
+      position: relative;
+      top: 3px;
       }
     }
   #transaction_link {
     position: absolute; top: 20px; left: 138px; width: 160px; height: 55px; z-index: 2;
 
     .linkzor {
-      @include rotate_text(-2);
+      @include rotate_text(-1);
       }
     }
   #calendar_link {
     position: absolute; top: 30px; left: 290px; width: 117px; height: 57px; z-index: 1;
     .linkzor {
-      @include rotate_text(-8);
+      @include rotate_text(-7);
+      position: relative;
+      top: -1px;
+      left: -1px;
       }
     }
 
