@@ -24,3 +24,36 @@ function draw_user_welcome(username) {
   ctx.fillText(username, 98, 30);
 }
 
+function draw_title(thing_to_say) {
+  var canvas = document.getElementById("main_title");
+  var ctx = canvas.getContext("2d");
+
+  ctx.rotate(1 * Math.PI / 180);
+  ctx.globalAlpha = 1.0;
+  ctx.save();
+  ctx.fillStyle = "#0099cc";
+  ctx.beginPath();
+  ctx.moveTo(5, 12);
+  ctx.lineTo(231, 6);
+  ctx.lineTo(230, 46);
+  ctx.lineTo(12, 51);
+  ctx.lineTo(5, 12);
+  ctx.closePath();
+  add_shadow(ctx)
+  ctx.fill();
+  ctx.restore();
+  ctx.font = "14pt hobo_std";
+  ctx.fillStyle = "White";
+  ctx.fillText(thing_to_say, 40, 35);
+}
+
+function load_bull_clip_title() {
+  var canvas = document.getElementById("bull_clip_main");
+  var context = canvas.getContext("2d");
+
+  var bull_clip = new Image();
+  bull_clip.src = "/images/notes/bull_clip.png";
+  bull_clip.onload = function() {
+    context.drawImage(bull_clip, 0, 0);
+  };
+}

@@ -5,4 +5,3 @@ function draw_nav() {
   load_note_bull_clip();
   load_notes();
 }
-

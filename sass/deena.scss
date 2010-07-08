@@ -255,6 +255,7 @@ div#clickables {
     height: 100%;
     min-width: 400px;
     padding: 15px;
+    padding-top: 25px;
     @include rounded(topleft, top-left, $radius);
     @include rounded(topright, top-right, $radius);
     @include rounded(bottomleft, bottom-left, $radius);
@@ -267,9 +268,8 @@ div#clickables {
     th {
       color: white;
       background-color: #2e2925;
-      padding-top: 5px;
-      padding-bottom: 5px;
-      font-size:11pt;
+      padding: 15px 10px 15px 10px;
+      font-size:12pt;
       font-weight: none;
       font-family: 'Vollkorn', arial, serif;
       text-align: left;
@@ -328,3 +328,20 @@ div#clickables {
     }
 
 }
+
+#main_title_and_clip {
+  position: absolute;
+  top: 150px;
+  left: 300px;
+  text-align: right;
+
+   #bull_clip_main {
+     z-index: 10;
+     position: relative;
+     top: 40px;
+   }
+
+
+}
+
+
