@@ -22,7 +22,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :actors
   map.resources :line_items
 
-  map.home '', :controller => :main, :action => :index
+  map.home '', :controller => :transactions, :action => :index
 
   # The priority is based upon order of creation: first created -> highest priority.
 

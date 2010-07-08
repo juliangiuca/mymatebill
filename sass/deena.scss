@@ -1,21 +1,39 @@
 $blue-color: #0099cc;
 $radius: 10px;
 $minor-radius: 5px;
+$side-panel-left: 30px;
+$side-panel-width: 180px;
+$top-panel-width: 30%;
 
 @import "rotate_text";
 @import "rounded";
 @import "shadow";
+@import url(http://fonts.googleapis.com/css?family=Vollkorn);
 
 @font-face {
   font-family: hobo_std;
   src: url('/fonts/HoboStd.otf');
 }
 
+@font-face {
+  font-family: frutiger_bold;
+  src: url('/fonts/frutiger.ttf');
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
 body {
   background: black url('/images/backgrounds/wall_texture.jpg') no-repeat top left;
   background-attachment: fixed;
+  width: 100%;
   height: 100%;
   min-height: 100%;
+}
+
+#content {
+  width: 100%;
 }
 
 .major_title {
@@ -41,9 +59,9 @@ div#notes{
   height: 200px;
 
   #notes_first {position: absolute; top:0px; left:0px; width: 167px; height: 136px; z-index: 4;}
-  #notes_second {position: absolute; top:0px; left:100px; width: 154px; height: 158px; z-index: -3;}
-  #notes_third {position: absolute; top:10px; left:195px; width: 176px; height: 116px; z-index: -2;}
-  #notes_fourth {position: absolute; top:0px; left:250px; width: 183px; height: 181px; z-index: -3;}
+  #notes_second {position: absolute; top:0px; left:100px; width: 154px; height: 158px; z-index: 1;}
+  #notes_third {position: absolute; top:10px; left:195px; width: 176px; height: 116px; z-index: 2;}
+  #notes_fourth {position: absolute; top:0px; left:250px; width: 183px; height: 181px; z-index: 1;}
   canvas#notes_bull_clip {position: absolute; top:0px; left:240px; width: 70px; height: 48px; z-index: 10;}
 }
 
@@ -73,14 +91,14 @@ div#clickables {
       }
     }
   #transaction_link {
-    position: absolute; top: 20px; left: 138px; width: 160px; height: 55px; z-index: 2;
+    position: absolute; top: 20px; left: 138px; width: 160px; height: 55px; z-index: 3;
 
     .linkzor {
       @include rotate_text(-1);
       }
     }
   #calendar_link {
-    position: absolute; top: 30px; left: 290px; width: 117px; height: 57px; z-index: 1;
+    position: absolute; top: 30px; left: 290px; width: 117px; height: 57px; z-index: 3;
     .linkzor {
       @include rotate_text(-7);
       position: relative;
@@ -99,7 +117,7 @@ div#clickables {
 #welcome {
   position:absolute;
   right: 20%;
-  top: 30%;
+  top: $top-panel-width;
   width: 50%;
   min-width: 500px;
   height: 40%;
@@ -223,5 +241,86 @@ div#clickables {
 
   h1 {
     display: none;
+  }
+}
+
+.aaa {
+  width: 100%;
+  position: absolute;
+  top: $top-panel-width;
+  left: $side-panel-left;
+
+  #transaction_list_container {
+    position: absolute; 
+    top: 30%;
+    left: 210px;
+    width: 80%;
+    background-color: white;
+    @include rounded(topleft, top-left, $radius);
+    @include rounded(topright, top-right, $radius);
+    @include rounded(bottomleft, bottom-left, $radius);
+    @include rounded(bottomright, bottom-right, $radius);
+
+    h1 {
+      display: none;
+    }
+
+    th {
+      color: white;
+      background-color: #2e2925;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-size:11pt;
+      font-weight: none;
+      font-family: 'Vollkorn', arial, serif;
+      text-align: left;
+    }
+
+    table {
+      width: 100%;
+      color: #193139;
+      font-family: 'frutiger_bold', arial, serif;
+      font-size: 9pt;
+      font-weight: none;
+      a {
+        color: #193139;
+      }
+    }
+  }
+
+  .bbb {
+    width: $side-panel-width;
+
+    #add_transaction_container {
+      background-color: #0099cc;
+      @include rounded(topleft, top-left, $radius);
+      @include rounded(topright, top-right, $radius);
+      @include rounded(bottomleft, bottom-left, $radius);
+      @include rounded(bottomright, bottom-right, $radius);
+    }
+
+    #user_panel {
+      background: url("/images/backgrounds/wood.jpg") no-repeat top left;
+      height: 60px;
+      width: $side-panel-width;
+      @include rounded(topleft, top-left, $minor-radius);
+      @include rounded(topright, top-right, $minor-radius);
+      @include rounded(bottomleft, bottom-left, $minor-radius);
+      @include rounded(bottomright, bottom-right, $minor-radius);
+
+      a {
+        color: white;
+        font-family: 'hobo_std';
+        position:relative;
+        top: -15px;
+        left: 15px;
+      }
+
+      #username {
+        position:relative;
+        top: -10px;
+        left:-20px;
+      }
+    }
   }
 }

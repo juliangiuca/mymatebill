@@ -2,7 +2,7 @@ class NoAmountSet < StandardError; end
 class NoPayerSet < StandardError; end
 
 class TransactionsController < ApplicationController
-  layout "leftnav"
+  layout "default"
      #skip_before_filter :verify_authenticity_token, :only => [:auto_complete_for_actor_name]
 
   def new

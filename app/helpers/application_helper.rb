@@ -48,4 +48,8 @@ module ApplicationHelper
     end
   end
 
+  def date_style(date)
+    date.to_date.strftime("%d.%m.%y")
+  end
+
 end

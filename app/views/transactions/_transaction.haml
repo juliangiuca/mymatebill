@@ -1,5 +1,5 @@
 %tr{:class => cycle("even","odd")}
-  %td= I18n.l(transaction.created_at.to_date)
+  %td= date_style(transaction.created_at)
   %td
     = link_to(transaction.from.try(:name) || transaction.steps.first.from.name, friend_path(:id => transaction.to))
     = "(+#{transaction.steps.length - 1})" if transaction.steps.length > 1
@@ -8,22 +8,24 @@
   %td= number_to_currency transaction.amount
   %td= I18n.l(transaction.due.to_date) if transaction.due
   %td= transaction.state
-  %td
-    = link_to "Edit", edit_transaction_path(:id => transaction.id)
-    - if transaction.steps.present?
-      %div.more_line_items
-        %a{:onclick => "$('#hide_line_item_#{transaction_counter}').slideToggle('slow'); return false", :href=>""}More
+  - if false
+    %td
+      = link_to "Edit", edit_transaction_path(:id => transaction.id)
+      - if transaction.steps.present?
+        %div.more_line_items
+          %a{:onclick => "$('#hide_line_item_#{transaction_counter}').slideToggle('slow'); return false", :href=>""}More
 
-%tr
-  %td{:colspan => "6"}
-    - if transaction.steps.present?
-      %div.line_items{:id => "hide_line_item_#{transaction_counter}"}
-        %table
-          %tr
-            %th From
-            %th Amount
-            %th Description
-            %th Due
-            %th State
-          = render :partial => "line_item", :collection => transaction.steps
+- if false
+  %tr
+    %td{:colspan => "6"}
+      - if transaction.steps.present?
+        %div.line_items{:id => "hide_line_item_#{transaction_counter}"}
+          %table
+            %tr
+              %th From
+              %th Amount
+              %th Description
+              %th Due
+              %th State
+            = render :partial => "line_item", :collection => transaction.steps
 

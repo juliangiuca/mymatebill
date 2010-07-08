@@ -1,21 +1,27 @@
-%div#transaction_list_container
-  %h1 Transactions
-  %table{:cellpadding => "0", :cellspacing => "0"}
-    %tr
-      %th Created On
-      %th Transaction
-      %th Amount
-      %th Due
-      %th Status
-      %th &nbsp;
-    = render :partial => 'transaction', :collection => @transactions
+.aaa
 
+  .bbb
+    #user_panel
+      %canvas#username{:width => "190", :height => "50"}
+      = link_to "Log Out", logout_path
 
-%div#add_transaction_container
-  %h3 Add Transaction
-  %div
-    = link_to(image_tag("plus-icon-small.png", :border => 0) + " (simple)", :controller => "transactions", :action => "text_add")
-  %div
-    %a{:href => new_transaction_path}
-      = image_tag("plus-icon-small.png", :border => 0)
-      (advanced)
+    %div#add_transaction_container
+      %h3 Add Transaction
+      %div
+        = link_to(image_tag("plus-icon-small.png", :border => 0) + " (simple)", :controller => "transactions", :action => "text_add")
+      %div
+        %a{:href => new_transaction_path}
+          = image_tag("plus-icon-small.png", :border => 0)
+          (advanced)
+
+  %div#transaction_list_container
+    %h1 Transactions
+    %table{:cellpadding => "0", :cellspacing => "0"}
+      %tr
+        %th Created On
+        %th Transaction
+        %th Amount
+        %th Due
+        %th Status
+      = render :partial => 'transaction', :collection => @transactions
+
