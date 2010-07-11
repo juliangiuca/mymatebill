@@ -16,7 +16,7 @@ preload_app true
 timeout 30
 
 # Listen on a Unix data socket
-listen '#{APP_ROOT}/tmp/sockets/unicorn.sock', :backlog => 2048
+listen "#{APP_ROOT}/tmp/sockets/unicorn.sock", :backlog => 2048
 
 # Location of stderr/stdout logs
 stderr_path "#{APP_ROOT}/log/unicorn.stderr.log"
