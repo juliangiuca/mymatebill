@@ -24,10 +24,10 @@ staging:
   
 production:
   adapter: mysql
-  database: 
-  username: 
-  password: 
-  host: db.frontfoot.net.au
+  database: manage_production
+  username: manage_ruby
+  password: fru1tyd00d
+  host: localhost
   port: 3306
   
 
