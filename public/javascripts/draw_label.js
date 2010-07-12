@@ -42,9 +42,10 @@ function draw_title(thing_to_say) {
   add_shadow(ctx)
   ctx.fill();
   ctx.restore();
-  ctx.font = "14pt hobo_std";
+  ctx.rotate(-2 * Math.PI / 180);
+  ctx.font = "16pt hobo_std";
   ctx.fillStyle = "White";
-  ctx.fillText(thing_to_say, 40, 35);
+  ctx.fillText(thing_to_say, 20, 40);
 }
 
 function load_bull_clip_title() {

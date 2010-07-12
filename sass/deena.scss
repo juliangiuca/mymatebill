@@ -27,14 +27,16 @@ html {
 body {
   background: black url('/images/backgrounds/wall_texture.jpg') no-repeat top left;
   background-attachment: fixed;
-  width: 100%;
-  height: 100%;
   min-height: 100%;
+  height: 100%;
+  padding:0;
+  margin:0;
 }
 
 #content {
   width: 100%;
-  margin-top: 50px;
+  margin-top: 20px;
+  padding-bottom: 10px;
 }
 
 .major_title {
@@ -245,55 +247,63 @@ div#clickables {
   }
 }
 
-  #transaction_list_container {
-    margin-left: 230px !important;
-    margin-right: 5% !important;
-    background-color: white;
-    width: auto;
-    min-height: 400px;
-    height: 100%;
-    min-width: 400px;
-    padding: 15px;
-    padding-top: 25px;
-    @include rounded(topleft, top-left, $radius);
-    @include rounded(topright, top-right, $radius);
-    @include rounded(bottomleft, bottom-left, $radius);
-    @include rounded(bottomright, bottom-right, $radius);
+#transaction_list_container {
+  margin-left: 230px !important;
+  margin-right: 5% !important;
+  margin-bottom: 20px;
+  background-color: white;
+  width: auto;
+  min-height: 370px;
+  height: 100%;
+  min-width: 370px;
+  padding: 25px 15px 0px 15px;
+  @include rounded(topleft, top-left, $radius);
+  @include rounded(topright, top-right, $radius);
+  @include rounded(bottomleft, bottom-left, $radius);
+  @include rounded(bottomright, bottom-right, $radius);
 
-    h1 {
-      display: none;
+  h1 {
+    display: none;
+  }
+
+  table {
+    color: #193139;
+    width: 100%;
+    font-family: 'frutiger_bold', arial, serif;
+    font-size: 9pt;
+    font-weight: none;
+
+    a {
+      color: #193139;
     }
 
-    table {
-      color: #193139;
-      width: 100%;
-      font-family: 'frutiger_bold', arial, serif;
-      font-size: 9pt;
+    th {
+      color: white;
+      background-color: #2e2925;
+      padding: 15px 10px 15px 10px;
+      font-size:12pt;
       font-weight: none;
+      font-family: 'Vollkorn', arial, serif;
+      text-align: left;
+    }
+
+    tr {
       z-index: 10;
-      a {
-        color: #193139;
-      }
-
-      th {
-        color: white;
-        background-color: #2e2925;
-        padding: 15px 10px 15px 10px;
-        font-size:12pt;
-        font-weight: none;
-        font-family: 'Vollkorn', arial, serif;
-        text-align: left;
-        z-index: 10;
-      }
-
-      tr {
-        z-index: 10;
-      }
-      td {
-        z-index: 10;
-      }
+    }
+    td {
+      z-index: 10;
     }
   }
+
+  #yelly_main {
+    padding-top: 20px;
+    text-align: right;
+  }
+
+  .filler {
+    min-height: 200px;
+  }
+}
 
 #add_transaction_container {
   margin-left: $side-panel-left;
@@ -333,10 +343,11 @@ div#clickables {
 }
 
 #main_title_and_clip {
-  position: absolute;
-  top: 150px;
-  left: 300px;
+  width: 300px;
+  margin-left: 300px;
   text-align: right;
+  position: absolute;
+  top: 130px;
 
    #bull_clip_main {
      z-index: 10;
@@ -345,10 +356,4 @@ div#clickables {
    }
 }
 
-#yelly_main {
-  position: absolute;
-  bottom: 5%;
-  right: 5%;
-  z-index: 5;
-}
 
