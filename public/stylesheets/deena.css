@@ -374,3 +374,56 @@ div#clickables {
     z-index: 10;
     position: relative;
     top: 40px; }
+
+#greybox {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.4;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 11; }
+
+#quick_add {
+  width: 40%;
+  display: none;
+  z-index: 12;
+  background: none repeat scroll 0 0 rgba(82, 82, 82, 0.7);
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -webkit-border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -webkit-border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+  -moz-box-shadow: 2px 1px 2px #595959;
+  -webkit-box-shadow: #595959 2px 1px 2px;
+  box-shadow: 2px 1px 2px #595959; }
+  #quick_add #heading {
+    padding: 5px;
+    text-align: center;
+    background-color: #2E2925;
+    color: #0099cc;
+    font-family: 'hobo_std', arial, serif;
+    font-size: 12pt; }
+  #quick_add #close_button {
+    float: right;
+    position: relative;
+    top: -5px;
+    left: 5px; }
+    #quick_add #close_button img {
+      border: 0; }
+  #quick_add div#form_container {
+    padding: 15px;
+    margin: 0px;
+    background-color: white; }
