@@ -5,6 +5,7 @@
     = "(+#{transaction.steps.length - 1})" if transaction.steps.length > 1
     \-&gt;
     = link_to(transaction.to.name, friend_path(:id => transaction.to))
+  %td= transaction.description
   %td= number_to_currency transaction.amount
   %td= I18n.l(transaction.due.to_date) if transaction.due
   %td= transaction.state

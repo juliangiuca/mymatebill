@@ -95,8 +95,6 @@ class TransactionsController < ApplicationController
           end
         end
       end
-      
-      #render :nothing => true, :status => :ok
     else
       render :nothing => true, :status => :not_acceptable
     end

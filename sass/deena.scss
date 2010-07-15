@@ -407,20 +407,50 @@ display: none;
     margin: 0px;
     background-color: white;
 
-    #tick {
-      display: none;
-    } /* close form container */
-  }
-  
+    }/* close form container */
 
 }
-#text_add_container input{
-  padding: 8px;
-  line-height: 1;
-  font-size: 18px;
+#text_add_container {
+  display: inline;
   width: 80%;
+
+  input {
+    padding: 8px;
+    line-height: 1;
+    font-size: 18px;
+    width: 75%;
+  }
+
+  #hot_tip {
+    display: none;
+  }
 }
 
 .light_gray {
   color:#999999;
 }
+
+.light_red {
+  color: #EA6914;
+}
+
+.submit_and_tick_container {
+  float:right;
+
+  #quick_add_submit {
+  }
+
+  #tick {
+    display: none;
+  }
+
+  #block_icon {
+    display: none;
+  }
+}
+
+#add_transaction {
+  position: relative;
+  left: -10px;
+}
+

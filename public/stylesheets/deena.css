@@ -408,7 +408,8 @@ div#clickables {
   -webkit-border-bottom-right-radius: 10px;
   -moz-box-shadow: 2px 1px 2px #595959;
   -webkit-box-shadow: #595959 2px 1px 2px;
-  box-shadow: 2px 1px 2px #595959; }
+  box-shadow: 2px 1px 2px #595959;
+  /* close form container */ }
   #quick_add #heading {
     padding: 5px;
     text-align: center;
@@ -426,16 +427,32 @@ div#clickables {
   #quick_add div#form_container {
     padding: 15px;
     margin: 0px;
-    background-color: white;
-    /* close form container */ }
-    #quick_add div#form_container #tick {
-      display: none; }
+    background-color: white; }
 
-#text_add_container input {
-  padding: 8px;
-  line-height: 1;
-  font-size: 18px;
+#text_add_container {
+  display: inline;
   width: 80%; }
+  #text_add_container input {
+    padding: 8px;
+    line-height: 1;
+    font-size: 18px;
+    width: 75%; }
+  #text_add_container #hot_tip {
+    display: none; }
 
 .light_gray {
   color: #999999; }
+
+.light_red {
+  color: #EA6914; }
+
+.submit_and_tick_container {
+  float: right; }
+  .submit_and_tick_container #tick {
+    display: none; }
+  .submit_and_tick_container #block_icon {
+    display: none; }
+
+#add_transaction {
+  position: relative;
+  left: -10px; }

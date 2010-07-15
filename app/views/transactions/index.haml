@@ -4,7 +4,7 @@
 
 #content2
   %div#add_transaction_container
-    %h3 Add Transaction
+    %canvas#add_transaction{:width => "190", :height => "60"}
     %div
       = link_to_function(image_tag("plus-icon-small.png", :border => 0) + " (simple)", "popover()")
     %div
@@ -20,51 +20,30 @@
 
   = render :partial => 'transactions/transaction_table', :object => @transaction
 
+= render :partial => 'transactions/add_transaction'
+
 :javascript
-  function popover() {
-    $("#greybox").fadeIn("slow");
-    $("#quick_add").fadeIn("slow");
-    $("#quick_add").center();
-  }
+    $(document).ready(function() {
+    var canvas = document.getElementById("add_transaction");
+    var ctx = canvas.getContext("2d");
 
-  function close_pop_over() {
-    $("#greybox").fadeOut("slow");
-    $("#quick_add").fadeOut("slow");
-    $("#tick").hide();
-  }
+    ctx.rotate(-1 * Math.PI / 180);
+    ctx.globalAlpha = 1.0;
+    ctx.save();
+    ctx.fillStyle = "#2e2925";
+    ctx.beginPath();
+    ctx.moveTo(5, 8);
+    ctx.lineTo(181, 7);
+    ctx.lineTo(177, 38);
+    ctx.lineTo(3, 42);
+    ctx.lineTo(5, 8);
+    ctx.closePath();
+    add_shadow(ctx)
+    ctx.fill();
+    ctx.restore();
+    ctx.font = "12pt hobo_std";
+    ctx.save()
+    ctx.fillStyle = "White";
+    ctx.fillText("ADD TRANSACTIONS", 10, 30);
 
-  function show_tick_and_fade_out() {
-    $("#tick").fadeIn("slow");
-    setTimeout('close_pop_over()', 1500)
-  }
-
-  function shake() {
-    $("#quick_add").shake(2, 10, 400);
-  }
-
-#greybox{:onclick => "close_pop_over()"}
-
-#quick_add
-  #close_button
-    = link_to_function(image_tag("delete-icon-small.png"), "close_pop_over()")
-  #heading
-    Quick Add
-  %div#form_container
-    %div Try to enter something below, like:
-
-    %div#text_add_container
-      %input{:type => "text",                                                     |
-              :class => "light_gray",                                             |
-              :id => "observe_me",                                                |
-              :value => "I owe steve $50 for vuvuzela lessons",                   |
-              :onfocus => "$(this).removeClass(\"light_gray\");if ($(this).val() == 'I owe steve $50 for vuvuzela lessons'){ $(this).val(''); }" |
-            }                                                                     |
-      %div#tick
-        = image_tag "tick-icon-small.png"
-      %div
-        = link_to_remote("submit it", |
-            :url => {:controller => :transactions, :action => :understand}, |
-            :with => "'input=' + $('#observe_me').val()", |
-            :success => "show_tick_and_fade_out();",      |
-            :failure => "shake();"                        |
-            ) |
+  });

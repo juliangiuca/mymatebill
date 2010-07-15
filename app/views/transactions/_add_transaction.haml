@@ -1,0 +1,71 @@
+:javascript
+  function popover() {
+    $("#observe_me").val("I owe steve $50 for vuvuzela lessons");
+    $("#observe_me").addClass("light_gray")
+    $("#greybox").fadeIn("slow");
+    $("#quick_add").fadeIn("slow");
+    $("#quick_add").center();
+    $("#quick_add_submit").show();
+  }
+
+  function close_pop_over() {
+    $("#greybox").fadeOut("slow");
+    $("#quick_add").fadeOut("slow");
+    $("#tick").hide();
+    $("#hot_tip").hide();
+  }
+
+  function show_tick_and_fade_out() {
+    $("#tick").fadeIn("slow");
+    setTimeout('close_pop_over()', 2000)
+  }
+
+  function shake() {
+    $("#block_icon").show();
+    $("#quick_add").shake(2, 10, 400);
+    $("#hot_tip").show();
+    setTimeout('reset_buttons()', 1000)
+  }
+
+  function reset_buttons() {
+    $("#block_icon").hide();
+    $("#quick_add_submit").fadeIn("slow");
+  }
+
+  function hide_submit() {
+    $("#quick_add_submit").hide();
+  }
+
+#greybox{:onclick => "close_pop_over()"}
+
+#quick_add
+  #close_button
+    = link_to_function(image_tag("delete-icon-small.png"), "close_pop_over()")
+  #heading
+    Quick Add
+  %div#form_container
+
+    .submit_and_tick_container
+      %div#quick_add_submit
+        = link_to_remote(image_tag("right-icon.png", :border => 0),         |
+            :url => {:controller => :transactions, :action => :understand}, |
+            :with => "'input=' + $('#observe_me').val()",                   |
+            :success => "show_tick_and_fade_out();",                        |
+            :failure => "shake();",                                         |
+            :before => "hide_submit();"                                     |
+            ) |
+      %div#tick
+        = image_tag "tick-icon.png"
+      %div#block_icon
+        = image_tag "block-icon.png"
+
+    %div#text_add_container
+      %div Try to enter something below, like:
+      #hot_tip.light_red
+        Phil owes me $1.29 for "band practice"
+      %input{:type => "text",                                                     |
+              :class => "light_gray",                                             |
+              :id => "observe_me",                                                |
+              :value => "I owe steve $50 for vuvuzela lessons",                   |
+              :onfocus => "$(this).removeClass(\"light_gray\");if ($(this).val() == 'I owe steve $50 for vuvuzela lessons'){ $(this).val(''); }" |
+            }                                                                     |
