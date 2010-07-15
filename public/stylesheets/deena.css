@@ -426,4 +426,16 @@ div#clickables {
   #quick_add div#form_container {
     padding: 15px;
     margin: 0px;
-    background-color: white; }
+    background-color: white;
+    /* close form container */ }
+    #quick_add div#form_container #tick {
+      display: none; }
+
+#text_add_container input {
+  padding: 8px;
+  line-height: 1;
+  font-size: 18px;
+  width: 80%; }
+
+.light_gray {
+  color: #999999; }

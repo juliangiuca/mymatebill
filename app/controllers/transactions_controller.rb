@@ -77,7 +77,29 @@ class TransactionsController < ApplicationController
 
   def understand
     understood_text = Understand.transaction(current_user, params['input'])
-    render :text => understood_text.to_json
+
+    new_transaction = current_user.transactions.new(
+      { :to => current_user.associates.find_or_create_by_name(understood_text.in_credit || understood_text.unknown_in_credit),
+        :from => current_user.associates.find_or_create_by_name(understood_text.in_debt || understood_text.unknown_in_debt),
+        :amount => understood_text.amount.gsub(/[^0-9\.]+/,"").to_f,
+        :description => understood_text.description
+      }
+    ) if understood_text.success?
+
+    if new_transaction && new_transaction.save
+      @transactions = @transaction = current_user.transactions
+      respond_to do |format|
+        format.js do
+          render :update do |page|
+            page.replace 'transaction_list_container', :partial => "transactions/transaction_table", :object => @transactions
+          end
+        end
+      end
+      
+      #render :nothing => true, :status => :ok
+    else
+      render :nothing => true, :status => :not_acceptable
+    end
   end
 
   def show

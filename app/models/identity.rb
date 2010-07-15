@@ -4,7 +4,11 @@ class Identity < ActiveRecord::Base
   has_many    :associations
   has_many    :associates, :through => :associations do
     def find_or_create_by_name(name)
-      find(:first, :conditions => ["name = ?", name]) || create!(:name => name)
+      if [proxy_owner.name.downcase, "me", "myself", "i"].include?(name.downcase)
+        return proxy_owner
+      else
+        find(:first, :conditions => ["name = ?", name]) || create!(:name => name)
+      end
     end
   end
   has_many    :transactions, :foreign_key => "owner_id"

@@ -19,6 +19,13 @@ describe Identity do
     Account.find(account.id).identity.should be_present
   end
 
+  it "should be find itself when looking for me as a friend" do
+    account = Factory(:account)
+    account.identity.should be_present
+    Identity.first.should_not be_nil
+    account.identity.associates.find_or_create_by_name(account.identity.name).should == account.identity
+  end
+
   it "should be able to create friends" do
     account = Factory(:account)
     identity = account.identity

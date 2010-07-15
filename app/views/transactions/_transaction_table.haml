@@ -1,0 +1,13 @@
+%div#transaction_list_container
+  %h1 Transactions
+  .filler
+    %table{:cellpadding => "0", :cellspacing => "0", :id => "table_of_transactions"}
+      %tr
+        %th Created On
+        %th Transaction
+        %th Amount
+        %th Due
+        %th Status
+      = render :partial => 'transaction', :collection => @transactions
+  #yelly_main
+    = image_tag("yelly/half.gif")

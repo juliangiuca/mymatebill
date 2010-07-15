@@ -5,7 +5,7 @@ module Oweing
   include Treetop::Runtime
 
   def root
-    @root ||= :sentence
+    @root || :sentence
   end
 
   module Sentence0
@@ -625,7 +625,7 @@ module Oweing
 
     s0, i0 = [], index
     loop do
-      if has_terminal?('\G[A-Za-z0-9]', true, index)
+      if has_terminal?('\G[A-Za-z0-9\\s]', true, index)
         r1 = true
         @index += 1
       else
