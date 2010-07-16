@@ -1,0 +1,27 @@
+#main_title_and_clip
+  %div
+    %canvas#bull_clip_main{:width => "70", :height => "68"}
+  %div
+    %canvas#main_title{:width => "250", :height => "68"}
+
+#signup
+  %h1 Sign up as a new user
+  - @account.password = @account.password_confirmation = nil
+  = error_messages_for :account
+  - form_for :account, :url => accounts_path do |f|
+    %p
+      = label_tag 'name'
+      = text_field_tag "account[name]", "Name"
+    %p
+      = label_tag 'login'
+      = text_field_tag "account[login]", "Login"
+    %p
+      = label_tag 'email'
+      = text_field_tag "account[email]", "Email"
+    %p
+      = label_tag 'password'
+      = password_field_tag "account[password]", "password"
+    %p
+      = label_tag 'password_confirmation', 'Confirm Password'
+      = f.password_field :password_confirmation
+    %p= submit_tag 'Sign up'
