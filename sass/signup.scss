@@ -127,10 +127,24 @@ div#clickables {
   @include rounded(topright, top-right, $radius);
   @include rounded(bottomleft, bottom-left, $radius);
   @include rounded(bottomright, bottom-right, $radius);
-}
 
-h1 {
-  display: none;
+
+  .password{
+    display: none;
+  }
+
+  div.label {
+    display: none;
+    text-align: center;
+    width: 75%;
+    padding: 2px 2px 2px 2px;
+    @include shadow2(0px, 0px, 1px, #000000);
+    border: medium none;
+
+    label {
+      color: black;
+    }
+  }
 }
 
 #main_title_and_clip {
@@ -152,7 +166,10 @@ input {
   line-height: 1;
   font-size: 18px;
   width: 75%;
+  background: -moz-linear-gradient(top, #F1F1F1, #E1E1E1);
+  @include shadow2(0px, 0px, 1px, #000000);
+  border: medium none;
+  margin-bottom: 10px;
 }
 
-label {display: none}
 

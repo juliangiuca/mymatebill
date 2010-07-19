@@ -9,19 +9,27 @@
   - @account.password = @account.password_confirmation = nil
   = error_messages_for :account
   - form_for :account, :url => accounts_path do |f|
-    %p
-      = label_tag 'name'
-      = text_field_tag "account[name]", "Name"
-    %p
-      = label_tag 'login'
-      = text_field_tag "account[login]", "Login"
-    %p
-      = label_tag 'email'
-      = text_field_tag "account[email]", "Email"
-    %p
-      = label_tag 'password'
-      = password_field_tag "account[password]", "password"
-    %p
-      = label_tag 'password_confirmation', 'Confirm Password'
-      = f.password_field :password_confirmation
-    %p= submit_tag 'Sign up'
+    %div
+      %div.label= label_tag 'name'
+      %div= text_field_tag "account[name]", "Your Name", :title => "What's your name?", :onfocus => "if ($(this).val() == 'Your Name') {$(this).val('');}"
+    %div
+      %div.label= label_tag 'login'
+      %div= text_field_tag "account[login]", "Login", :title => "What's your online name?", :onfocus => "if ($(this).val() == 'Login') {$(this).val('');}"
+    %div
+      %div.label= label_tag 'email'
+      %div= text_field_tag "account[email]", "Your Email", :title => "Your email address", :onfocus => "if ($(this).val() == 'Your Email') {$(this).val('');}"
+    %div
+      %div.label= label_tag 'password'
+      %div#password.password= password_field_tag "account[password]", nil, :title => "Password"
+      %div= text_field_tag "mock_password", "Password", :onfocus => "$(this).hide(); $(\"#password\").show();$(\"#account_password\").focus();", :title => "Password"
+    %div
+      %div.label= label_tag 'password_confirmation'
+      %div#cpassword.password= password_field_tag "account[password_confirmation]", nil, :title => "Password Confirmation"
+      %div= text_field_tag "mock_password_confirmation", "Password Confirmation", :onfocus => "$(this).hide(); $(\"#cpassword\").show();$(\"#account_password_confirmation\").focus();", :title => "Password Confirmation"
+    %br
+    %div= submit_tag 'Sign up'
+
+:javascript
+  $(document).ready(function(){
+    $('#signup [title]').tipsy({gravity: 'w', trigger: 'focus'});
+  });
