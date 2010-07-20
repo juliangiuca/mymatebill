@@ -4,6 +4,7 @@ require 'capistrano/ext/multistage'
 set :application, "mymatebill"
 
 #General common variables to be set
+default_run_options[:pty] = true  # Must be set for the password prompt from git to work
 set :scm, 'git'
 set :deploy_via, :export
 set :user, "www"
@@ -11,6 +12,7 @@ set :password, "cGQW44ZRXItY"
 set :scm_username, "www"
 set :runner, nil
 set :use_sudo, false
+set :branch, "master"
 
 # We can deploy a particular branch or tag by
 # cap deploy -Sbranch=1.0
@@ -23,18 +25,6 @@ namespace :deploy do
   task :restart, :roles => :app do
     puts "Restarting application"
     run "touch #{current_path}/tmp/restart.txt"
-  end
-  
-  desc "Restart Daemons"
-  task :restart_daemons, :roles => :daemon do
-    puts "Restarting daemons..."
-    run "cd #{current_path}; RAILS_ENV=#{fetch(:stage).to_s} rake site:feeds:stop"
-    run "cd #{current_path}; RAILS_ENV=#{fetch(:stage).to_s} rake site:feeds:start"
-  end
-  
-  [:start, :stop].each do |t|
-    desc "#{t} task is a no-op with mod_rails"
-    task t, :roles => :app do ; end
   end
 end
 
