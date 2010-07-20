@@ -21,11 +21,11 @@
     %div
       %div.label= label_tag 'password'
       %div#password.password= password_field_tag "account[password]", nil, :title => "Password"
-      %div= text_field_tag "mock_password", "Password", :onfocus => "$(this).hide(); $(\"#password\").show();$(\"#account_password\").focus();", :title => "Password"
+      %div= text_field_tag "mock_password", "Password", :onfocus => "doStuff(this)"
     %div
       %div.label= label_tag 'password_confirmation'
       %div#cpassword.password= password_field_tag "account[password_confirmation]", nil, :title => "Password Confirmation"
-      %div= text_field_tag "mock_password_confirmation", "Password Confirmation", :onfocus => "$(this).hide(); $(\"#cpassword\").show();$(\"#account_password_confirmation\").focus();", :title => "Password Confirmation"
+      %div= text_field_tag "mock_password_confirmation", "Password Confirmation", :onfocus => "$(this).hide(); $(\"#cpassword\").show();$(\"#account_password_confirmation\").focus();"
     %br
     %div= submit_tag 'Sign up'
 
@@ -33,3 +33,9 @@
   $(document).ready(function(){
     $('#signup [title]').tipsy({gravity: 'w', trigger: 'focus'});
   });
+
+  function doStuff(e) {
+    $(e).hide();
+    $("#password").show();
+    $("#account_password").focus();
+  }
