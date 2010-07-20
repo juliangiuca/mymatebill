@@ -1,0 +1,7 @@
+production:
+  adapter: mysql
+  database: manage_production
+  username: manage_ruby
+  password: fru1tyd00d
+  host: localhost
+  port: 3306
