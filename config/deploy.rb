@@ -24,7 +24,7 @@ namespace :deploy do
   desc "Restart Application"
   task :restart, :roles => :app do
     puts "Restarting application"
-    run "touch #{current_path}/tmp/restart.txt"
+    run "cd #{current_path}; RAILS_ENV=#{fetch(:stage).to_s} rake deploy:unicorns"
   end
 end
 
