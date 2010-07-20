@@ -11,10 +11,9 @@ namespace :deploy do
         end
       rescue Errno::ENOENT, Errno::ESRCH
       end
-      puts "Starting the unicorns"
-      system("cd #{RAILS_ROOT}; RAILS_ENV=#{Rails.env} unicorn_rails -c config/unicorn.rb -E #{Rails.env} -D")
-    else
-      puts "Couldn't find a pid."
     end
+
+    puts "Starting the unicorns"
+    system("cd #{RAILS_ROOT}; RAILS_ENV=#{Rails.env} unicorn_rails -c config/unicorn.rb -E #{Rails.env} -D")
   end
 end
