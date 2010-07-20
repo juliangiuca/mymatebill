@@ -10,6 +10,7 @@
     = javascript_include_tag "draw_label"
     = javascript_include_tag "jquery_autocenter"
     = javascript_include_tag "jquery_shake"
+    = javascript_include_tag "quick_add"
     = javascript_include_tag "nav"
     = stylesheet_link_tag "deena"
     = stylesheet_link_tag "jquery-ui"
@@ -24,7 +25,7 @@
         } catch(err) {}
 
 
-  %body{:onload => "draw_nav();draw_user_welcome('#{current_user.name}');draw_title('#{@title.upcase}'); load_bull_clip_title()"}
+  %body{:onload => "draw_nav();doThings();"}
     = render :partial => "headers/deena"
     %div#content
       - if flash[:error] || flash[:notice]

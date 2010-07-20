@@ -58,3 +58,28 @@ function load_bull_clip_title() {
     context.drawImage(bull_clip, 0, 0);
   };
 }
+
+function draw_add_transaction() {
+  var canvas = document.getElementById("add_transaction");
+  var ctx = canvas.getContext("2d");
+
+  ctx.rotate(-1 * Math.PI / 180);
+  ctx.globalAlpha = 1.0;
+  ctx.save();
+  ctx.fillStyle = "#2e2925";
+  ctx.beginPath();
+  ctx.moveTo(5, 8);
+  ctx.lineTo(181, 7);
+  ctx.lineTo(177, 38);
+  ctx.lineTo(3, 42);
+  ctx.lineTo(5, 8);
+  ctx.closePath();
+  add_shadow(ctx)
+  ctx.fill();
+  ctx.restore();
+  ctx.font = "12pt hobo_std";
+  ctx.save()
+  ctx.fillStyle = "White";
+  ctx.fillText("ADD TRANSACTIONS", 10, 30);
+}
+

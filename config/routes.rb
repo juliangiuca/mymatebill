@@ -7,15 +7,17 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :accounts
   map.resource  :session
 
-  map.activate  '/activate/:activation_code',      :controller => 'accounts',     :action => 'activate'
-  map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
-  map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit'
-  map.change_password '/change_password', :controller => 'accounts', :action => 'edit'
+  map.activate        '/activate/:activation_code', :controller => 'accounts',  :action => 'activate'
+  map.forgot_password '/forgot_password',           :controller => 'passwords', :action => 'new'
+  map.reset_password  '/reset_password/:id',        :controller => 'passwords', :action => 'edit'
+  map.change_password '/change_password',           :controller => 'accounts',  :action => 'edit'
+  map.successful_signup '/success',                 :controller => 'main',      :action => "succcess"
 
   map.connect   '/ac/actors_name',    :controller => :transactions, :action => :auto_complete_for_actor_name
   map.connect   '/ac/friends_name',   :controller => :transactions, :action => :auto_complete_for_friend_name
   map.connect   '/ut/understand_text',:controller => :transactions, :action => :understand
-  map.easy_transaction   '/text',  :controller => :transactions, :action => :text_add
+  map.easy_transaction   '/text',     :controller => :transactions, :action => :text_add
+
   map.resources :transactions
   map.resources :friends
   map.resources :visitor

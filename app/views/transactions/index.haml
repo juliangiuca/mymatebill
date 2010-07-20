@@ -23,27 +23,10 @@
 = render :partial => 'transactions/add_transaction'
 
 :javascript
-    $(document).ready(function() {
-    var canvas = document.getElementById("add_transaction");
-    var ctx = canvas.getContext("2d");
+  function doThings() {
+    draw_user_welcome('#{current_user.name}');
+    draw_title('#{@title.upcase}');
+    load_bull_clip_title();
+    draw_add_transaction();
+  }
 
-    ctx.rotate(-1 * Math.PI / 180);
-    ctx.globalAlpha = 1.0;
-    ctx.save();
-    ctx.fillStyle = "#2e2925";
-    ctx.beginPath();
-    ctx.moveTo(5, 8);
-    ctx.lineTo(181, 7);
-    ctx.lineTo(177, 38);
-    ctx.lineTo(3, 42);
-    ctx.lineTo(5, 8);
-    ctx.closePath();
-    add_shadow(ctx)
-    ctx.fill();
-    ctx.restore();
-    ctx.font = "12pt hobo_std";
-    ctx.save()
-    ctx.fillStyle = "White";
-    ctx.fillText("ADD TRANSACTIONS", 10, 30);
-
-  });

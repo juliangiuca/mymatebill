@@ -17,7 +17,7 @@ $top-panel-width: 30%;
 
 @font-face {
   font-family: frutiger_bold;
-  src: url('/fonts/frutiger.ttf');
+  src: url('/fonts/Frutiger.ttf');
 }
 
 html {
@@ -42,12 +42,14 @@ body {
 .major_title {
   font-family: hobo_std, 'ariel';
   font-size: 46pt;
+  margin-left: 15px;
 }
 
 .minor_title {
   font-family: hobo_std, 'ariel';
   font-size: 26pt;
   color: white;
+  margin-left: 15px;
 }
 
 .blue {display: inline; color: $blue-color;}
@@ -344,10 +346,11 @@ div#clickables {
 
 #main_title_and_clip {
   width: 300px;
-  margin-left: 300px;
+  /*margin-left: 300px;*/
   text-align: right;
   position: absolute;
   top: 130px;
+  left: 30%;
 
    #bull_clip_main {
      z-index: 10;
@@ -440,11 +443,7 @@ display: none;
   #quick_add_submit {
   }
 
-  #tick {
-    display: none;
-  }
-
-  #block_icon {
+  #tick, #block_icon, #big_spinner {
     display: none;
   }
 }

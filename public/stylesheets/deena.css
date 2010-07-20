@@ -7,7 +7,7 @@
 
 @font-face {
   font-family: frutiger_bold;
-  src: url("/fonts/frutiger.ttf"); }
+  src: url("/fonts/Frutiger.ttf"); }
 
 html {
   height: 100%;
@@ -28,12 +28,14 @@ body {
 
 .major_title {
   font-family: hobo_std, 'ariel';
-  font-size: 46pt; }
+  font-size: 46pt;
+  margin-left: 15px; }
 
 .minor_title {
   font-family: hobo_std, 'ariel';
   font-size: 26pt;
-  color: white; }
+  color: white;
+  margin-left: 15px; }
 
 .blue {
   display: inline;
@@ -366,10 +368,11 @@ div#clickables {
 
 #main_title_and_clip {
   width: 300px;
-  margin-left: 300px;
+  /*margin-left: 300px;*/
   text-align: right;
   position: absolute;
-  top: 130px; }
+  top: 130px;
+  left: 30%; }
   #main_title_and_clip #bull_clip_main {
     z-index: 10;
     position: relative;
@@ -448,9 +451,7 @@ div#clickables {
 
 .submit_and_tick_container {
   float: right; }
-  .submit_and_tick_container #tick {
-    display: none; }
-  .submit_and_tick_container #block_icon {
+  .submit_and_tick_container #tick, .submit_and_tick_container #block_icon, .submit_and_tick_container #big_spinner {
     display: none; }
 
 #add_transaction {
