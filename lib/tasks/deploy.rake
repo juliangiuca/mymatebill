@@ -7,7 +7,7 @@ namespace :deploy do
         pid = File.read("tmp/pids/unicorn.pid").to_i
         if pid
           puts "Killing the unicorns"
-          Process.kill(:USR2, pid)
+          Process.kill("USR2", pid)
         end
       rescue Errno::ENOENT, Errno::ESRCH
       end

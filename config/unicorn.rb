@@ -6,14 +6,14 @@ APP_ROOT = "/home/www/mymatebill.com/www/current"
 working_directory APP_ROOT
 
 # 16 workers and 1 master
-worker_processes (rails_env == 'production' ? 6 : 4)
+worker_processes (rails_env == 'production' ? 8 : 4)
 
 # Load rails+github.git into the master before forking workers
 # for super-fast worker spawn times
 preload_app true
 
 # Restart any workers that haven't responded in 30 seconds
-timeout 30
+timeout 10
 
 # Listen on a Unix data socket
 listen "#{APP_ROOT}/tmp/sockets/unicorn.sock", :backlog => 2048
@@ -26,9 +26,9 @@ stdout_path "#{APP_ROOT}/log/unicorn.stdout.log"
 # REE
 
 # http://www.rubyenterpriseedition.com/faq.html#adapt_apps_for_cow
-if GC.respond_to?(:copy_on_write_friendly=)
-  GC.copy_on_write_friendly = true
-end
+#if GC.respond_to?(:copy_on_write_friendly=)
+  #GC.copy_on_write_friendly = true
+#end
 
 
 before_fork do |server, worker|
