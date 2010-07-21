@@ -86,7 +86,7 @@ class TransactionsController < ApplicationController
       }
     ) if understood_text.success?
 
-    if new_transaction && new_transaction.save
+    if new_transaction.try(:save)
       @transactions = @transaction = current_user.transactions
       respond_to do |format|
         format.js do

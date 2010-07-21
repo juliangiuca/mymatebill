@@ -6,7 +6,7 @@ APP_ROOT = "/home/www/mymatebill.com/www/current"
 working_directory APP_ROOT
 
 # 16 workers and 1 master
-worker_processes (rails_env == 'production' ? 8 : 4)
+worker_processes 3
 
 # Load rails+github.git into the master before forking workers
 # for super-fast worker spawn times
