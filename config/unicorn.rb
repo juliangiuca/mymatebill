@@ -26,9 +26,9 @@ stdout_path "#{APP_ROOT}/log/unicorn.stdout.log"
 # REE
 
 # http://www.rubyenterpriseedition.com/faq.html#adapt_apps_for_cow
-#if GC.respond_to?(:copy_on_write_friendly=)
-  #GC.copy_on_write_friendly = true
-#end
+if GC.respond_to?(:copy_on_write_friendly=)
+  GC.copy_on_write_friendly = true
+end
 
 
 before_fork do |server, worker|
