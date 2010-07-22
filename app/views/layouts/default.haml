@@ -25,7 +25,7 @@
         } catch(err) {}
 
 
-  %body{:onload => "draw_nav();doThings();"}
+  %body{:onload => "draw_nav();doOnLoadThings();"}
     = render :partial => "headers/deena"
     %div#content
       - if flash[:error] || flash[:notice]

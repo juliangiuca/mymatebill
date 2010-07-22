@@ -23,7 +23,7 @@
         } catch(err) {}
 
 
-  %body{:onload => "draw_nav();draw_title('#{@title.upcase}'); load_bull_clip_title()"}
+  %body{:onload => "draw_nav();doOnLoadThings();"}
     = render :partial => "headers/deena"
     %div#content
       - if flash[:error] || flash[:notice]

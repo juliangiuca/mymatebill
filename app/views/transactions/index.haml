@@ -23,7 +23,7 @@
 = render :partial => 'transactions/add_transaction'
 
 :javascript
-  function doThings() {
+  function doOnLoadThings() {
     draw_user_welcome('#{current_user.name}');
     draw_title('#{@title.upcase}');
     load_bull_clip_title();

@@ -11,31 +11,39 @@
   - form_for :account, :url => accounts_path do |f|
     %div
       %div.label= label_tag 'name'
-      %div= text_field_tag "account[name]", "Your Name", :title => "What's your name?", :onfocus => "if ($(this).val() == 'Your Name') {$(this).val('');}"
+      %div= text_field_tag "account[name]", "Your Name", :title => "What's your name?", :onfocus => "clearField(\"Your Name\", this);"
     %div
       %div.label= label_tag 'login'
-      %div= text_field_tag "account[login]", "Login", :title => "What's your online name?", :onfocus => "if ($(this).val() == 'Login') {$(this).val('');}"
+      %div= text_field_tag "account[login]", "Login", :title => "What's your online name?", :onfocus => "clearField(\"Login\", this);"
     %div
       %div.label= label_tag 'email'
-      %div= text_field_tag "account[email]", "Your Email", :title => "Your email address", :onfocus => "if ($(this).val() == 'Your Email') {$(this).val('');}"
+      %div= text_field_tag "account[email]", "Your Email", :title => "Your email address", :onfocus => "clearField(\"Your Email\", this);"
     %div
       %div.label= label_tag 'password'
-      %div#password.password= password_field_tag "account[password]", nil, :title => "Password"
-      %div= text_field_tag "mock_password", "Password", :onfocus => "doStuff(this)"
+      %div= text_field_tag "account[password]", "Password", :title => "Password", :onfocus => "toggleToPassword(this);"
     %div
       %div.label= label_tag 'password_confirmation'
-      %div#cpassword.password= password_field_tag "account[password_confirmation]", nil, :title => "Password Confirmation"
-      %div= text_field_tag "mock_password_confirmation", "Password Confirmation", :onfocus => "$(this).hide(); $(\"#cpassword\").show();$(\"#account_password_confirmation\").focus();"
-    %br
+      %div= text_field_tag "account[password_confirmation]", "Password Confirmation", :title => "Password Confirmation", :onfocus => "toggleToPassword(this);"
+      %br
     %div= submit_tag 'Sign up'
 
 :javascript
-  $(document).ready(function(){
+  function doOnLoadThings() {
+    draw_title('#{@title.upcase}'); 
+    load_bull_clip_title();
     $('#signup [title]').tipsy({gravity: 'w', trigger: 'focus'});
-  });
+  }
 
-  function doStuff(e) {
-    $(e).hide();
-    $("#password").show();
-    $("#account_password").focus();
+  function toggleToPassword(field) {
+    if (field.type == "text") {
+      field.value = "";
+    }
+    field.type = "password"
+    field.focus();
+  }
+
+  function clearField(original_text, e) {
+    if (e.value == original_text) {
+      e.value = "";
+    }
   }
