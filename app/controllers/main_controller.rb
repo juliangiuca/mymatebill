@@ -1,8 +1,12 @@
 class MainController < ApplicationController
   layout "signup"
-  skip_before_filter :login_required, :only => [:success]
+  skip_before_filter :login_required, :only => [:success, :error]
 
   def success
     @title = "Success!"
+  end
+
+  def error
+    raise ActiveRecord::RecordNotFound, "You fail!"
   end
 end
