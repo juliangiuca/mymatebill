@@ -7,13 +7,13 @@ namespace :deploy do
         pid = File.read("tmp/pids/unicorn.pid").to_i
         if pid
           puts "Killing the unicorns"
-          Process.kill("USR2", pid)
+          Process.kill("QUIT", pid)
         end
       rescue Errno::ENOENT, Errno::ESRCH
       end
-    else
-      puts "Starting the unicorns"
-      system("cd #{RAILS_ROOT}; RAILS_ENV=#{Rails.env} unicorn_rails -c config/unicorn.rb -E #{Rails.env} -D")
     end
+
+    puts "Starting the unicorns"
+    system("cd #{RAILS_ROOT}; RAILS_ENV=#{Rails.env} unicorn_rails -c config/unicorn.rb -E #{Rails.env} -D")
   end
 end
