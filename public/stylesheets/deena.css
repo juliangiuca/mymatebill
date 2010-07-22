@@ -1,6 +1,5 @@
 /* _rounded.scss */
 /* _shadow.scss */
-@import url(http://fonts.googleapis.com/css?family=Vollkorn);
 @font-face {
   font-family: hobo_std;
   src: url("/fonts/HoboStd.otf"); }
@@ -307,7 +306,7 @@ div#clickables {
       padding: 15px 10px 15px 10px;
       font-size: 12pt;
       font-weight: none;
-      font-family: 'Vollkorn', arial, serif;
+      font-family: 'frutiger_bold', arial, serif;
       text-align: left; }
     #transaction_list_container table tr {
       z-index: 10; }

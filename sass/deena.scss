@@ -8,7 +8,6 @@ $top-panel-width: 30%;
 @import "rotate_text";
 @import "rounded";
 @import "shadow";
-@import url(http://fonts.googleapis.com/css?family=Vollkorn);
 
 @font-face {
   font-family: hobo_std;
@@ -285,7 +284,7 @@ div#clickables {
       padding: 15px 10px 15px 10px;
       font-size:12pt;
       font-weight: none;
-      font-family: 'Vollkorn', arial, serif;
+      font-family: 'frutiger_bold', arial, serif;
       text-align: left;
     }
 
