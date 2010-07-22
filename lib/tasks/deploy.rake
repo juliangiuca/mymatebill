@@ -8,6 +8,7 @@ namespace :deploy do
         if pid
           puts "Killing the unicorns"
           Process.kill("QUIT", pid)
+          sleep(1)
         end
       rescue Errno::ENOENT, Errno::ESRCH
       end
