@@ -91,7 +91,7 @@ class TransactionsController < ApplicationController
       respond_to do |format|
         format.js do
           render :update do |page|
-            page.replace 'transaction_list_container', :partial => "transactions/transaction_table", :object => @transactions
+            page.insert_html :bottom, 'table_of_transactions', :partial => "transactions/transaction", :locals => {:transaction => new_transaction}
           end
         end
       end
