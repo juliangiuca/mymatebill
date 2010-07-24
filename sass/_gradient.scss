@@ -1,0 +1,8 @@
+/* _gradient.scss */
+
+@mixin lineargradient($start, $stop) {
+    background: -moz-linear-gradient(top, $start, $stop);
+    background: -webkit-gradient(linear, left top, left bottom, from($start), to($stop));
+}
+
+

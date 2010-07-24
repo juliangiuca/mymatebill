@@ -9,6 +9,7 @@ $top-panel-width: 30%;
 @import "rotate_text";
 @import "rounded";
 @import "shadow";
+@import "gradient";
 
 @font-face {
   font-family: hobo_std;
@@ -168,9 +169,9 @@ input {
   line-height: 1;
   font-size: 18px;
   width: 75%;
-  background: -moz-linear-gradient(top, #F1F1F1, #E1E1E1);
-  @include shadow2(0px, 0px, 1px, #000000);
-  border: medium none;
+  @include lineargradient(#F1F1F1, #E1E1E1);
+  @include shadow2(0px, 0px, 2px, #000000);
+  border: none;
   margin-bottom: 10px;
 }
 

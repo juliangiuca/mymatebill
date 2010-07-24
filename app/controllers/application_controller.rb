@@ -11,6 +11,9 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
+# Uncomment to test Exception Notification in dev mode
+# alias :rescue_action_locally :rescue_action_in_public
+
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
   #

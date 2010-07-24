@@ -7,6 +7,6 @@ class MainController < ApplicationController
   end
 
   def error
-    raise ActiveRecord::RecordNotFound, "You fail! And you're ugly too!"
+    raise "You fail! And you're ugly too!"
   end
 end

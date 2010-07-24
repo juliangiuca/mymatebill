@@ -17,3 +17,12 @@ config.action_controller.perform_caching             = false
 config.action_mailer.raise_delivery_errors = false
 
 require 'ruby-debug'
+
+#require 'smtp-tls'
+
+#ExceptionNotifier.exception_recipients = "inara_support@hoolio.net"
+#ExceptionNotifier.sender_address = "support@mymatebill.com"
+#ExceptionNotifier.email_prefix = "[Inara - Error] "
+
+#ActionMailer::Base.delivery_method = :smtp
+
