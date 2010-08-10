@@ -42,7 +42,7 @@ describe Transaction do
     transaction.from.should == @frog
   end
 
-  it "should have a 'from'" do
+  it "should have an amount" do
     transaction = @identity.transactions.create!(:description => "test transaction", :amount => "80", :from => @frog, :to => @identity)
     transaction.amount.should == 80
   end

@@ -18,16 +18,27 @@
     %div
       %canvas#main_title{:width => "250", :height => "68"}
 
-  = render :partial => 'transactions/transaction_table', :object => @transaction
-
-= render :partial => 'transactions/add_transaction'
+  %div#friends.rounded
+    %h1 Friends
+    %table{:cellpadding => "0", :cellspacing => "0"}
+      %tr
+        %th Name
+        %th Cash In
+        %th Cash Out
+        %th Cash Pending
+        %th Email
+        %th Controls
+      = render :partial => "friend", :collection => @friends
+    - if @friends.blank?
+      %p
+        Awwww, you have no friends!
+    = link_to "Create a friend.", new_friend_path
 
 :javascript
   function doOnLoadThings() {
     draw_user_welcome('#{current_user.name}');
     draw_title('#{@title.upcase}');
     load_bull_clip_title();
-    draw_left_panel("ADD TRANSACTIONS");
-
+    draw_left_panel("MANAGE FRIENDS");
   }
 

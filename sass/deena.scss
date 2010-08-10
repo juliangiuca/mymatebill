@@ -248,7 +248,7 @@ div#clickables {
   }
 }
 
-#transaction_list_container {
+.rounded, #transaction_list_container {
   margin-left: 230px !important;
   margin-right: 5% !important;
   margin-bottom: 20px;
@@ -284,7 +284,7 @@ div#clickables {
       padding: 15px 10px 15px 10px;
       font-size:12pt;
       font-weight: none;
-      font-family: 'frutiger_bold', arial, serif;
+      font-family: arial, serif;
       text-align: left;
     }
 
@@ -452,3 +452,6 @@ display: none;
   left: -10px;
 }
 
+.icons {
+  display: inline;
+}

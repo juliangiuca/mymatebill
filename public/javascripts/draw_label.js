@@ -59,7 +59,7 @@ function load_bull_clip_title() {
   };
 }
 
-function draw_add_transaction() {
+function draw_left_panel(thing_to_say) {
   var canvas = document.getElementById("add_transaction");
   var ctx = canvas.getContext("2d");
 
@@ -80,6 +80,6 @@ function draw_add_transaction() {
   ctx.font = "12pt hobo_std";
   ctx.save()
   ctx.fillStyle = "White";
-  ctx.fillText("ADD TRANSACTIONS", 10, 30);
+  ctx.fillText(thing_to_say, 10, 30);
 }
 

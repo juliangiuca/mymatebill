@@ -1,19 +1,21 @@
 class Transaction < Dealing
+  include AASM
   has_many :steps, :foreign_key => "parent_id", :class_name => "Step", :dependent => :destroy
 
   validates_presence_of :owner_id
 
-  before_save :create_steps
+  before_validation :create_steps
+  #after_create proc {|x| x.create_tranny!}
 
   accepts_nested_attributes_for :steps
 
   ###### AASM methods
-  def tally_transaction
-    self.steps.each {|step| step.confirm_payment!}
+  def remove_debt
+    self.steps.each {|step| step.confirm_payment! unless step.paid?}
   end
 
-  def revert_transaction
-    self.steps.each {|step| step.unpay!}
+  def create_debt
+    self.steps.each {|step| step.unpay! unless step.unpaid?}
   end
 
   ###### End AASM methods
@@ -45,7 +47,9 @@ class Transaction < Dealing
 
   def create_steps
       unless steps.present?
-        self.steps.build(:to => self.to, :from => self.from, :amount => self[:amount])
+        #self.steps.build(:to => self.to, :from => self.from, :amount => self[:amount])
+        #self.steps.last.create_debt
+        self.steps_attributes = [{:to => self.to, :from => self.from, :amount => self[:amount]}]
       end
       self.from = nil if steps.length > 1
       self[:amount] = nil

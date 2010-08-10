@@ -1,10 +1,9 @@
 %tr{:id => "tr_#{friend.id}", :class => "friend"}
-  %td
-    = link_to friend.name, friend_path(:id => friend.id)
-  %td
-    = number_to_currency(friend.credit - friend.debt)
-  %td
-    = friend.email_address.present? ? "Yes" : "No"
+  %td= link_to friend.name, friend_path(:id => friend.id)
+  %td= number_to_currency(friend.cash_in)
+  %td= number_to_currency(friend.cash_out)
+  %td= number_to_currency(friend.cash_pending)
+  %td= friend.email.present? ? "Yes" : "No"
   %td
     = link_to "edit", edit_friend_path(friend.id)
     %div{:id => "delete_link#{friend.id}", :class => "icons"}

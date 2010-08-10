@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(:version => 20091211224543) do
     t.string   "description"
     t.date     "due"
     t.float    "amount"
-    t.string   "state",             :default => "unpaid"
+    t.string   "state"
     t.string   "unique_magic_hash"
     t.string   "type"
     t.datetime "created_at"

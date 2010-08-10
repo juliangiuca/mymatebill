@@ -50,6 +50,8 @@ Given /^I confirm payment$/ do
 end
 
 Then /^(.*) should be \$(.*) poorer$/ do |person, amount|
+  @identity.reload
+  @biller.reload
   if person == "I"
     @identity.cash_out.should == (amount.to_i * -1)
   else
@@ -170,6 +172,7 @@ Then /^The transaction is automatically marked as paid and balances set$/ do
   @transaction.reload
   @transaction.state.should == "paid"
   @transaction.steps.map{|x| x.state}.count("paid").should == 4
+  @biller.reload
   @biller.cash_in = 1300
 
   @identity.reload
@@ -178,7 +181,8 @@ Then /^The transaction is automatically marked as paid and balances set$/ do
   friends.each do |friend|
     friend.outgoing_transactions.should have(1).records
     friend.outgoing_transactions.first.amount.should == @amount / number_of_friends
-    friend.cash_out.should == (@amount / number_of_friends) * -1
+    #friend.cash_out.should == (@amount / number_of_friends) * -1
+    friend.cash_out.should == 0
   end
 end
 

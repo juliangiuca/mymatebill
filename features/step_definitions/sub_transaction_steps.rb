@@ -15,9 +15,9 @@ Then /^The transaction is automatically marked as unpaid and balances set$/ do
       friend.outgoing_transactions.should have(1).records
       friend.outgoing_transactions.first.amount.should == @amount / number_of_friends
     if friend.outgoing_transactions.first.state == "paid"
-      friend.cash_out.should == (@amount / number_of_friends) * -1
-    else
       friend.cash_out.should == 0
+    else
+      friend.cash_out.should == (@amount / number_of_friends) * -1
     end
   end
 end

@@ -3,12 +3,4 @@ class Association < ActiveRecord::Base
   belongs_to :identity
   belongs_to :associate, :class_name => "Identity"
 
-  def apple
-    return "hai"
-  end
-
-  def self.apple
-    return "hai"
-  end
-  
 end

@@ -11,6 +11,8 @@ Feature: transaction manipulation
      And an association with Rent
     When A bill for $50 arrives for me from Rent
     Then The transaction and steps should be linked to myself and Rent
+     And I should be $50 poorer
+     And Rent should be $50 richer
      And I should be the owner of the transaction
 
 ########################
@@ -18,21 +20,27 @@ Feature: transaction manipulation
 ########################
   Scenario: I want to complete a transaction between myself and a bill
    Given A $50 transaction between myself and Rent
-     And I confirm payment
     Then I should be $50 poorer
      And Rent should be $50 richer
+    When I confirm payment
+    Then I should be $0 poorer
+     And Rent should be $0 richer
 
 ########################
 # Simple transactions between friends
 ########################
   Scenario: I owe Frog $20
    Given A $20 transaction from myself to Frog
-     And I confirm payment
     Then I should be $20 poorer
      And Frog should be $20 richer
+    When I confirm payment
+    Then I should be $0 poorer
+     And Frog should be $0 richer
 
   Scenario: Frog owes me $50
    Given A $50 transaction from Frog to myself
-     And I confirm payment
     Then Frog should be $50 poorer
      And I should be $50 richer
+    When I confirm payment
+    Then Frog should be $0 poorer
+     And I should be $0 richer

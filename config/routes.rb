@@ -19,7 +19,7 @@ ActionController::Routing::Routes.draw do |map|
   map.easy_transaction   '/text',     :controller => :transactions, :action => :text_add
 
   map.resources :transactions
-  map.resources :friends
+  map.resources :friends, :controller => :associates
   map.resources :visitor
   map.resources :actors
   map.resources :line_items

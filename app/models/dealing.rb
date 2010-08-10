@@ -13,16 +13,16 @@ class Dealing < ActiveRecord::Base
   validates_presence_of :parent_id => Proc.new {|x| x.owner_id.blank? }
 
   before_validation :set_due_date
+  before_destroy :remove_debt
 
   aasm_column :state
   aasm_initial_state :unpaid
 
-  aasm_state :unpaid
-  aasm_state :pending
-  aasm_state :paid,     :enter => :tally_transaction,  :exit => :revert_transaction
+  aasm_state :unpaid,   :enter => :create_debt
+  aasm_state :paid,     :enter => :remove_debt
 
   aasm_event :confirm_payment do
-    transitions :from => [:unpaid, :pending], :to => :paid
+    transitions :from => :unpaid, :to => :paid
   end
 
   aasm_event :unpay do
@@ -30,10 +30,25 @@ class Dealing < ActiveRecord::Base
   end
 
   ###### AASM methods
-  def tally_transaction
+  #def tally_cash
+  #end
+
+  #def revert_cash
+  #end
+
+  #def tally_pending
+  #end
+
+  def create_debt
+    debugger
+    i=0
+    i+=1
   end
 
-  def revert_transaction
+  def remove_debt
+    debugger
+    i=0
+    i+=1
   end
 
   ###### End AASM methods

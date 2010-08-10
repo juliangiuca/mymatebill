@@ -268,7 +268,7 @@ div#clickables {
   #wood_login h1 {
     display: none; }
 
-#transaction_list_container {
+.rounded, #transaction_list_container {
   margin-left: 230px !important;
   margin-right: 5% !important;
   margin-bottom: 20px;
@@ -290,32 +290,32 @@ div#clickables {
   border-bottom-right-radius: 10px;
   -moz-border-radius-bottomright: 10px;
   -webkit-border-bottom-right-radius: 10px; }
-  #transaction_list_container h1 {
+  .rounded h1, #transaction_list_container h1 {
     display: none; }
-  #transaction_list_container table {
+  .rounded table, #transaction_list_container table {
     color: #193139;
     width: 100%;
     font-family: 'frutiger_bold', arial, serif;
     font-size: 9pt;
     font-weight: none; }
-    #transaction_list_container table a {
+    .rounded table a, #transaction_list_container table a {
       color: #193139; }
-    #transaction_list_container table th {
+    .rounded table th, #transaction_list_container table th {
       color: white;
       background-color: #2e2925;
       padding: 15px 10px 15px 10px;
       font-size: 12pt;
       font-weight: none;
-      font-family: 'frutiger_bold', arial, serif;
+      font-family: arial, serif;
       text-align: left; }
-    #transaction_list_container table tr {
+    .rounded table tr, #transaction_list_container table tr {
       z-index: 10; }
-    #transaction_list_container table td {
+    .rounded table td, #transaction_list_container table td {
       z-index: 10; }
-  #transaction_list_container #yelly_main {
+  .rounded #yelly_main, #transaction_list_container #yelly_main {
     padding-top: 20px;
     text-align: right; }
-  #transaction_list_container .filler {
+  .rounded .filler, #transaction_list_container .filler {
     min-height: 200px; }
 
 #add_transaction_container {
@@ -456,3 +456,6 @@ div#clickables {
 #add_transaction {
   position: relative;
   left: -10px; }
+
+.icons {
+  display: inline; }
