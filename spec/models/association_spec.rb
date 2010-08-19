@@ -46,25 +46,47 @@ describe Association do
       Transaction.find(@transaction_from_someone.id).steps.should have(1).record
 
       @identity.reload
-      @identity.future_cash_in.should == 50
-      @identity.future_cash_out.should == -20
+      @identity.cash_in.should == 50
+      @identity.cash_out.should == -20
       @identity.associates.should have(2).records
     end
 
     it "should delete any transactions when a friend is deleted" do
       @identity.transactions.should have(2).records
-      #@friend_1_receiving.destroy
-      #@user.reload
-      #@user.myself_as_a_friend.debt.should == 0
+      @friend_2_giving.destroy
+      @identity.reload
+
+      @identity.transactions.should have(1).records
+
+      @friend_1_receiving.destroy
+      @identity.reload
+      @identity.transactions.should have(0).records
+    end
+
+    it "should reset any funds when a friend is deleted" do
+      @identity.transactions.should have(2).records
       @friend_2_giving.destroy
       @identity.reload
       @identity.cash_in.should == 0
+      @identity.cash_out.should == -20
+      @friend_1_receiving.destroy
+      @identity.reload
+      @identity.cash_in.should == 0
       @identity.cash_out.should == 0
-      @identity.future_cash_in.should == 0
-      @identity.future_cash_out.should == -20
     end
 
-    it "should reset any funds when a friend is deleted"
+    it "should not change anything when I delete a friend after a transaction is confirmed" do
+      @identity.transactions.should have(2).records
+      @transaction_from_someone.confirm_payment!
+      @friend_2_giving.destroy
+      @identity.reload
+      @identity.cash_in.should == 0
+      @identity.cash_out.should == -20
+      @transaction_to_someone.confirm_payment!
+      @identity.reload
+      @identity.cash_in.should == 0
+      @identity.cash_out.should == 0
+    end
   end
   
 end

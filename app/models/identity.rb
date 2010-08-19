@@ -52,13 +52,13 @@ class Identity < ActiveRecord::Base
     self.update_attribute(:cash_pending, self.cash_pending + amount)
   end
 
-  def future_cash_in
-    incoming_transactions.map(&:amount).sum
-  end
+  #def future_cash_in
+    #incoming_transactions.map(&:amount).sum
+  #end
 
-  def future_cash_out
-    outgoing_transactions.map(&:amount).sum * -1
-  end
+  #def future_cash_out
+    #outgoing_transactions.map(&:amount).sum * -1
+  #end
 
   protected
   def strip_blanks

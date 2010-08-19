@@ -5,17 +5,17 @@ class Transaction < Dealing
   validates_presence_of :owner_id
 
   before_validation :create_steps
-  #after_create proc {|x| x.create_tranny!}
 
   accepts_nested_attributes_for :steps
 
   ###### AASM methods
-  def remove_debt
-    self.steps.each {|step| step.confirm_payment! unless step.paid?}
-  end
 
   def create_debt
     self.steps.each {|step| step.unpay! unless step.unpaid?}
+  end
+
+  def remove_debt
+    self.steps.each {|step| step.confirm_payment! unless step.paid?}
   end
 
   ###### End AASM methods

@@ -2,7 +2,6 @@ class Step < Dealing
   include AASM
   belongs_to :transaction, :foreign_key => "parent_id", :class_name => "Transaction"
 
-  #before_destroy :revert_cash
   after_destroy :test_transaction_destroy
 
   #before_create :tally_cash
@@ -16,8 +15,10 @@ class Step < Dealing
   end
 
   def remove_debt
-    self.to.sub_credit(self.amount)
-    self.from.add_debt(self.amount)
+    if self.unpaid?
+      self.to.sub_credit(self.amount)
+      self.from.add_debt(self.amount)
+    end
     test_transaction_paid
   end
 

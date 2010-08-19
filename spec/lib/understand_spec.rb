@@ -48,10 +48,11 @@ describe Understand do
     sentences.each do |sentence|
       translation = Understand.transaction(@user.identity, sentence[:text])
 
-      (translation[:in_debt] || translation[:unknown_in_debt]).should == sentence[:debitor]
-      (translation[:in_credit] || translation[:unknown_in_credit]).should == sentence[:creditor]
-      translation[:amount].should == sentence[:amount]
-      translation[:description].should == sentence[:description]
+      translation.should be_success
+      (translation.in_debt || translation.unknown_in_debt).should == sentence[:debitor]
+      (translation.in_credit || translation.unknown_in_credit).should == sentence[:creditor]
+      translation.amount.should == sentence[:amount]
+      translation.description.should == sentence[:description]
 
     end
 
@@ -59,6 +60,7 @@ describe Understand do
   it "should return an empty hash when incomplete data is parsed" do
     translation = Understand.transaction(@user, "Stever owes ")
 
-    translation.each {|k, v| v.should be_nil}
+    #translation.each {|k, v| v.should be_nil}
+    translation.should_not be_success
   end
 end

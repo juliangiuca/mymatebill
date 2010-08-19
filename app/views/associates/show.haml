@@ -4,15 +4,15 @@
   %div.label
     You owe them:
     %div.tally
-      = number_to_currency @friend.credit
+      = number_to_currency @friend.cash_in
   %div.label
     Owes you:
     %div.tally
-      = number_to_currency @friend.debt
+      = number_to_currency @friend.cash_out
   %div.label
     Money In Transit:
     %div.tally
-      = number_to_currency @friend.pending
+      = number_to_currency @friend.cash_pending
 
   %table
     %tr
@@ -22,4 +22,4 @@
       %th Due
       %th Status
       %th &nbsp;
-    = render :partial => "/shared/line_item", :collection => @friend.line_items
+    = render :partial => "/shared/line_item", :collection => @friend.incoming_transactions
