@@ -1,63 +1,48 @@
+#user_control_panel
+  %canvas#username{:width => "190", :height => "50"}
+  = link_to "Log Out", logout_path
+
+%div
+  %div#add_transaction_container
+    %canvas#add_transaction{:width => "190", :height => "60"}
+    %div
+      = link_to_function(image_tag("plus-icon-small.png", :border => 0) + " (simple)", "popover()")
+    %div
+      %a{:href => new_transaction_path}
+        = image_tag("plus-icon-small.png", :border => 0)
+        (advanced)
+
+  #main_title_and_clip
+    %div
+      %canvas#bull_clip_main{:width => "70", :height => "68"}
+    %div
+      %canvas#main_title{:width => "250", :height => "68"}
+
+  #div#transaction.rounded
+    %h1 Show a transaction
+    - form_tag :action => :update do
+      %div
+        = label :actor, 'to'
+        = text_field_tag 'actor[name]', @transaction.to.name, :disabled => true, :class => "short"
+      %div
+        = label_tag :amount, 'Amount'
+        = text_field_tag 'amount', @transaction.amount, :size => 3, :class => "short"
+      %div
+        = label :due, 'Date'
+        = text_field_tag "due", @transaction.due, :disabled => true, :class => "short"
+      %div
+        = label :description, 'Additional notes'
+        = text_field_tag "description", @transaction.description, :class => "long"
+
+    %div.buttons
+      = submit_tag 'Save Transaction', :class => "submit"
+      = button_to 'Delete Transaction', { :action => "delete", :id => @transaction.id }, :confirm => "Are you sure?", :method => :delete, :class => "delete"
+    %a{:href => transactions_path} back
+
 :javascript
-
-  $(document).ready(function(){
-    $("#transaction_due").datepicker();
-    $(".transaction_line_items_paid_on").datepicker();
-    var line_item_counter = 0;
-
-    var actor_name_autocomplete = { source:'/ac/actors_name' };
-    $("#actor_name").autocomplete(actor_name_autocomplete);
-
-    var friend_name_autocomplete = { source:'/ac/friends_name' };
-    $(".transaction_line_items_friend").autocomplete(friend_name_autocomplete);
-
-    $("div.add_line_item").click(function() {
-
-      $("#line_items_container > #line_items").append(
-        "<p>Amount <input id=\"new_line_items_" + line_item_counter + "_amount\" name=\"new_line_items[" + line_item_counter + "][amount]\" type=\"text\" />" +
-          " Friend <input id=\"new_line_items_" + line_item_counter + "_friend\" name=\"new_line_items[" + line_item_counter + "][friend]\" type=\"text\" class=\"transaction_line_items_friend\"/>" +
-            " paid on <input id=\"new_line_items_" + line_item_counter + "_paid_on\" name=\"new_line_items[" + line_item_counter + "][paid_on]\" type=\"text\" class=\"transaction_line_items_paid_on\" /></p>"
-        );
-
-      line_item_counter++;
-      $(".transaction_line_items_friend").autocomplete(friend_name_autocomplete);
-      $(".transaction_line_items_paid_on").datepicker();
-    });
-  });
-%div#edit_transaction_container
-  %h1 Edit a bill
-  - form_for @transaction do |f|
-    %div
-      = f.error_messages
-    %div
-      = f.label :amount
-      = f.text_field :amount, :size => 3
-    %div
-      = f.label :actor_id, 'Recipient'
-      = text_field_tag "recipient[name]", @transaction.recipient.name
-    %div
-      = f.label :description, 'Additional notes'
-      = f.text_field :description
-      = f.hidden_field :account_id
-
-    %div
-      = f.label :due, 'Date'
-      = f.text_field :due
-    %div
-      %h2 Line Items
-      %div#line_items_container
-        %div#line_items
-          - @transaction.line_items.each do |line_item|
-            %p
-              Amount
-              = text_field_tag "line_items[#{line_item.id}][amount]", line_item.amount
-              Friend
-              = text_field_tag "line_items[#{line_item.id}][friend]", line_item.friend.name, {:class => "transaction_line_items_friend"}
-              paid on
-              = text_field_tag "line_items[#{line_item.id}][paid_on]", line_item.paid_on, {:class => "transaction_line_items_paid_on"}
-        %div.add_line_item
-          Add Another
-
-    %div
-      = submit_tag
-
+  function doOnLoadThings() {
+    draw_user_welcome('#{current_user.name}');
+    draw_title('#{@transaction.try(:description) || "Transaction"}');
+    load_bull_clip_title();
+    draw_left_panel("CONTROLS");
+  }

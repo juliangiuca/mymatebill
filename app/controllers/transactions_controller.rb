@@ -102,6 +102,8 @@ class TransactionsController < ApplicationController
 
   def show
     @transaction = current_user.transactions.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to transactions_path
   end
 
   def index
@@ -168,5 +170,13 @@ class TransactionsController < ApplicationController
     else
       render :json => ""
     end
+  end
+
+  def delete
+    transaction = current_user.transactions.find(params[:id])
+    transaction.destroy
+    redirect_to transactions_path()
+  rescue ActiveRecord::RecordNotFound
+    redirect_to transactions_path()
   end
 end

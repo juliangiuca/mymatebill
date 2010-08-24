@@ -1,5 +1,6 @@
 /* _rounded.scss */
 /* _shadow.scss */
+/* _gradient.scss */
 @font-face {
   font-family: hobo_std;
   src: url("/fonts/HoboStd.otf"); }
@@ -277,7 +278,7 @@ div#clickables {
   min-height: 370px;
   height: 100%;
   min-width: 370px;
-  padding: 25px 15px 0px 15px;
+  padding: 45px 15px 0px 15px;
   border-top-left-radius: 10px;
   -moz-border-radius-topleft: 10px;
   -webkit-border-top-left-radius: 10px;
@@ -459,3 +460,79 @@ div#clickables {
 
 .icons {
   display: inline; }
+
+div.rounded input {
+  padding: 8px 2px 8px 2px;
+  line-height: 1;
+  font-size: 18px;
+  border: 1px solid #DDDDDD;
+  margin-bottom: 10px;
+  border-top-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-right-radius: 5px; }
+div.rounded label {
+  width: 150px;
+  cursor: pointer;
+  float: left;
+  text-align: right;
+  padding: 10px;
+  font-family: 'frutiger_bold', arial, serif;
+  font-size: 9pt;
+  font-weight: none;
+  vertical-align: middle; }
+div.rounded .short {
+  width: 250px;
+  min-width: 200px; }
+div.rounded .long {
+  width: 450px;
+  min-width: 400px; }
+div.rounded input:focus {
+  background: #F9F9F1;
+  -moz-box-shadow: 0px 0px 2px black;
+  -webkit-box-shadow: black 0px 0px 2px;
+  box-shadow: 0px 0px 2px black; }
+div.rounded input.submit, div.rounded input.delete {
+  border-top-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  color: white; }
+div.rounded input.submit {
+  background: -moz-linear-gradient(top, #33ccff, #0099cc);
+  background: -webkit-gradient(linear, left top, left bottom, from(#33ccff), to(#0099cc));
+  float: left; }
+div.rounded input.delete {
+  background: -moz-linear-gradient(top, #ff4e4e, #ff3333);
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff4e4e), to(#ff3333));
+  float: right; }
+div.rounded input.submit:hover {
+  border: 1px solid #0099cc; }
+div.rounded input.delete:hover {
+  border: 1px solid #ff3333; }
+div.rounded .button-to div {
+  display: inline; }
+div.rounded div.buttons {
+  width: 350px;
+  margin-left: 170px; }
+div.rounded table {
+  width: 700px;
+  margin-left: 100px; }
+  div.rounded table label {
+    width: 50px; }
