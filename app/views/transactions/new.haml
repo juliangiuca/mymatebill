@@ -1,51 +1,25 @@
 :javascript
-  function check_recipient() {
-    if ($("#recipient_name").val().toLowerCase() == "me")  {
-    $("#line_items_0_friend").val("");
+  function remove_a_new_line_item(e) {
+      $(e).parents("tr").remove();
+  }
+
+  function add_a_new_line_item() {
+    last_element = $("#cock tr:last > td:last > input").attr("id");
+    if (last_element.match(/transaction_steps_attributes_/g)) {
+      counter = last_element.replace(/transaction_steps_attributes_(\d)_from/, "$1");
+      counter = (counter * 1) + 1;
+
+      $("#cock tr:last").after(
+        "<tr><td>&nbsp;</td><td><label for=\"transaction_steps_attributes_" + counter + "_from\">... and</label>" + 
+        "<input id=\"transaction_steps_attributes_" + counter + "_from\" name=\"transaction[steps_attributes][" + counter + "][from]\" type=\"text\" class=\"short ac_friend\"/>" +
+        "<div class=\"icons\">" +
+        "<img src=\"/images/delete-icon-small.png\" onclick=\"remove_a_new_line_item(this)\"></div>" +
+        "</td></tr>"
+        );
+
+      var friend_name_autocomplete = { source:'/ac/friends_name' };
+      $("#transaction_steps_attributes_" + counter + "_from").autocomplete(friend_name_autocomplete);
     }
-  }
-
-  function transfer_amount(amount) {
-    if ($("#line_items_1_amount").length == 0) {
-      $("#line_items_0_amount").val(amount);
-    }
-  }
-
-  function remove_a_new_line_item(e, counter) {
-    $(".line_item:last").remove()
-
-    $(".line_item:last").append(
-      "<div class=\"icons\"><img src=\"/images/plus-icon-small.png\" onclick=\"add_a_new_line_item(this," + (counter + 1) + ")\">" +
-      "<img src=\"/images/delete-icon-small.png\" onclick=\"remove_a_new_line_item(this," + counter + ")\"></div>" +
-      "</div>"
-      );
-
-      if ($(".line_item:last").length == 0) {
-        $("#line_items_container").before(
-          "<div onclick=\"add_a_new_line_item(this,1);$(this).remove();\">Split this bill</div>"
-        )
-      }
-
-  }
-
-  function add_a_new_line_item(e, counter) {
-    $(e).parent(".icons").remove()
-
-    $("#line_items_container").append(
-      "<div class=\"line_item\">Amount <input id=\"transaction_steps_attributes_" + counter + "_amount\" name=\"transaction[steps_attributes][" + counter + "][amount]\" type=\"text\" />" +
-      " Friend <input id=\"transaction_steps_attributes_" + counter + "_from\" name=\"transaction[steps_attributes][" + counter + "][from]\" type=\"text\" class=\"transaction_line_items_friend\"/>" +
-      " Due <input id=\"transaction_steps_attributes_" + counter + "_due\" name=\"transaction[steps_attributes][" + counter + "][due]\" type=\"text\" class=\"transaction_line_items_paid_on\"/>" +
-      "<div class=\"icons\"><img src=\"/images/plus-icon-small.png\" onclick=\"add_a_new_line_item(this," + (counter + 1) + ")\">" +
-      "<img src=\"/images/delete-icon-small.png\" onclick=\"remove_a_new_line_item(this," + counter + ")\"></div>" +
-      "</div>"
-      );
-
-      $("#line_items_" + counter + "_amount").rules("add", {required: true});
-      $("#line_items_" + counter + "_friend").rules("add", {required: true});
-
-    var friend_name_autocomplete = { source:'/ac/friends_name' };
-    $(".transaction_line_items_friend").autocomplete(friend_name_autocomplete);
-    $(".transaction_line_items_paid_on").datepicker();
   }
 
   $(document).ready(function(){
@@ -72,19 +46,8 @@
     var line_item_counter = 0;
 
     var friend_name_autocomplete = { source:'/ac/friends_name' };
-    $("#recipient_name").autocomplete(friend_name_autocomplete);
-
-    var friend_name_autocomplete = { source:'/ac/friends_name' };
-    $(".transaction_line_items_friend").autocomplete(friend_name_autocomplete);
-
-    $("#line_items_button").toggle(function() {
-      $("#line_items_container").slideToggle("slow");
-      $("#line_items_button > a").text("Hide Transaction Details");
-      },
-      function() {
-      $("#line_items_container").slideToggle("slow");
-      $("#line_items_button > a").text("Show Transaction Details");
-    });
+    $("#transaction_to").autocomplete(friend_name_autocomplete);
+    $("#transaction_steps_attributes_0_from").autocomplete(friend_name_autocomplete);
   });
 
 
@@ -116,38 +79,23 @@
       %h2 Bill Description
       %div
         = f.label :amount
-        = f.text_field :amount, :size => 3, :class => "required short", :minlength => 1, :onkeyup => "transfer_amount(this.value)"
+        = f.text_field :amount, :size => 3, :class => "required short", :minlength => 1
       %div{:style => "display:none"}
         = f.label :description, 'Additional notes'
         = f.text_field :description, :class => "long"
       %div
         = f.label :due, 'Due'
         = f.text_field :due, :class => "short"
-      %table{:cellpadding => "0", :cellspacing => "0", :border => "0"}
+      %table{:cellpadding => "0", :cellspacing => "0", :border => "0", :id => "cock"}
         %tr
           %td
             = f.label :to
-            = f.text_field :to, :minlength => 2, :onkeyup => "check_recipient()", :class => "short"
+            = f.text_field :to, :minlength => 2, :class => "short"
           %td
-            = label_tag :from
-            = text_field_tag "transaction[steps_attributes][0][from]", nil, :id => "transaction_steps_attributes_0_from", :class => "short"
-
-      -#%h2 Payer Description
-      -#- f.fields_for :steps do |s|
-        -#%div
-          -#= s.label :amount
-          -#= s.text_field :amount
-        -#%div
-          -#= s.label :from
-          -#= s.text_field :from
-        -#%div
-          -#= s.label :due
-          -#= s.text_field :due
-
-      %div{:onclick => "add_a_new_line_item(this,1);$(this).remove();"}
-        Split this bill
-      %div#line_items_container
-
+            = label_tag :transaction_steps_attributes_0_from, "From"
+            = text_field_tag "transaction[steps_attributes][0][from]", nil, :id => "transaction_steps_attributes_0_from", :class => "short ac_friend"
+            %div{:onclick => "add_a_new_line_item();", :class => "add_friends"}
+              = image_tag "plus-icon-small.png"
       %div
         = submit_tag
 

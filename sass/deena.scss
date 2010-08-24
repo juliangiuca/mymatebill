@@ -455,6 +455,7 @@ display: none;
 
 .icons {
   display: inline;
+  padding: 2px;
 }
 
 div.rounded {
@@ -531,6 +532,10 @@ div.rounded {
 
     label {
       width: 50px;
+    }
+
+    .add_friends {
+      display: inline;
     }
   }
 }

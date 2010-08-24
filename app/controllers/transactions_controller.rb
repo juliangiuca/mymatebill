@@ -2,13 +2,21 @@ class NoAmountSet < StandardError; end
 class NoPayerSet < StandardError; end
 
 class TransactionsController < ApplicationController
-  layout "default", :except => :understand
+  layout :flexible_layout
      #skip_before_filter :verify_authenticity_token, :only => [:auto_complete_for_actor_name]
   before_filter :set_title
 
   def set_title
     @title = "Transaction"
   end
+
+ def flexible_layout
+   if action_name == "new"
+     "ac_pages"
+   else
+     "default"
+   end
+ end
 
   def new
     @transaction = current_user.transactions.new

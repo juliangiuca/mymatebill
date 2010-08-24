@@ -1,0 +1,37 @@
+!!!
+%html
+  %head
+    %link{ :rel => "shortcut icon", :href => "/favicon.ico", :type => "image/x-icon"}/
+    %title= "Welcome to My Mate Bill"
+    = javascript_include_tag "jquery-1.4.2.min"
+    = javascript_include_tag "jquery.validate.min"
+    = javascript_include_tag "jquery-ui-1.8.custom.min"
+    = javascript_include_tag "application"
+    = javascript_include_tag "draw_label"
+    = javascript_include_tag "jquery_autocenter"
+    = javascript_include_tag "jquery_shake"
+    = javascript_include_tag "quick_add"
+    = javascript_include_tag "nav"
+    = stylesheet_link_tag "deena"
+    = stylesheet_link_tag "jquery-ui"
+    - if Rails.env.production?
+      :javascript
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+      :javascript
+        try {
+        var pageTracker = _gat._getTracker("UA-15996121-1");
+        pageTracker._trackPageview();
+        } catch(err) {}
+
+
+  %body{:onload => "draw_nav();doOnLoadThings();"}
+    = render :partial => "headers/deena"
+    %div#content
+      - if flash[:error] || flash[:notice]
+        = "<div class='notice'>#{flash[:error]}</div>" if flash[:error]
+        = "<div class='notice'>#{flash[:notice]}</div>" if flash[:notice]
+      = @content_for_layout
+
+
+

@@ -459,7 +459,8 @@ div#clickables {
   left: -10px; }
 
 .icons {
-  display: inline; }
+  display: inline;
+  padding: 2px; }
 
 div.rounded input {
   padding: 8px 2px 8px 2px;
@@ -536,3 +537,5 @@ div.rounded table {
   margin-left: 100px; }
   div.rounded table label {
     width: 50px; }
+  div.rounded table .add_friends {
+    display: inline; }
