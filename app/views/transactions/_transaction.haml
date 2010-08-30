@@ -1,6 +1,6 @@
 %tr{:class => cycle("even","odd")}
   %td= date_style(transaction.created_at)
-  %td
+  %td{:alt => "#{transaction.steps.map{|x| x.from.name}.join(", ")} -&gt; #{transaction.to.name}", :title => "#{transaction.steps.map{|x| x.from.name}.join(", ")} -&gt; #{transaction.to.name}"}
     = link_to(transaction.from.try(:name) || transaction.steps.first.from.name, friend_path(:id => transaction.to))
     = "(+#{transaction.steps.length - 1})" if transaction.steps.length > 1
     \-&gt;

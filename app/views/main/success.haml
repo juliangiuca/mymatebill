@@ -11,4 +11,10 @@
   %p Until then, why not sit down and have a nice cup of tea. You've deserved it!
   %p - The Bill Team.
 
+:javascript
+  function doOnLoadThings() {
+    draw_title('#{@title.upcase}'); 
+    load_bull_clip_title();
+    $('#signup [title]').tipsy({gravity: 'w', trigger: 'focus'});
+  }
 

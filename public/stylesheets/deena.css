@@ -490,6 +490,11 @@ div.rounded label {
   font-size: 9pt;
   font-weight: none;
   vertical-align: middle; }
+div.rounded label.error {
+  float: none;
+  color: red;
+  padding-left: .5em;
+  vertical-align: top; }
 div.rounded .short {
   width: 250px;
   min-width: 200px; }

@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password',           :controller => 'passwords', :action => 'new'
   map.reset_password  '/reset_password/:id',        :controller => 'passwords', :action => 'edit'
   map.change_password '/change_password',           :controller => 'accounts',  :action => 'edit'
-  map.successful_signup '/success',                 :controller => 'main',      :action => "succcess"
+  map.successful_signup '/success',                 :controller => 'main',      :action => "success"
 
   map.connect   '/ac/actors_name',    :controller => :transactions, :action => :auto_complete_for_actor_name
   map.connect   '/ac/friends_name',   :controller => :transactions, :action => :auto_complete_for_friend_name

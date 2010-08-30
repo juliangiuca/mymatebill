@@ -20,7 +20,7 @@
 
   #div#transaction.rounded
     %h1 Show a transaction
-    - form_tag :action => :update do
+    - form_for @transaction, :action => :update do |f|
       %div
         = label :actor, 'to'
         = text_field_tag 'actor[name]', @transaction.to.name, :disabled => true, :class => "short"
@@ -33,6 +33,10 @@
       %div
         = label :description, 'Additional notes'
         = text_field_tag "description", @transaction.description, :class => "long"
+      %div
+        - f.fields_for :steps do |c|
+          = c.label :from
+          = c.text_field :from
 
     %div.buttons
       = submit_tag 'Save Transaction', :class => "submit"
@@ -42,7 +46,7 @@
 :javascript
   function doOnLoadThings() {
     draw_user_welcome('#{current_user.name}');
-    draw_title('#{@transaction.try(:description) || "Transaction"}');
+    draw_title('#{@transaction.try_harder(:description) || "Transaction"}');
     load_bull_clip_title();
     draw_left_panel("CONTROLS");
   }

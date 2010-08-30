@@ -1,5 +1,5 @@
 class NoAmountSet < StandardError; end
-class NoPayerSet < StandardError; end
+class NoToSet < StandardError; end
 
 class TransactionsController < ApplicationController
   layout :flexible_layout
@@ -13,6 +13,8 @@ class TransactionsController < ApplicationController
  def flexible_layout
    if action_name == "new"
      "ac_pages"
+   elsif action_name == "understand"
+     ""
    else
      "default"
    end
@@ -26,57 +28,30 @@ class TransactionsController < ApplicationController
   def create
     transaction = params[:transaction]
     to = current_user.associates.find_or_create_by_name(transaction[:to])
-    from = current_user.associates.find_or_create_by_name(transaction[:from]) if transaction[:from]
 
-    transaction.merge!({:to => to, :from => from})
+    raise NoToSet unless to
+
+    transaction.merge!({:to => to})
+    amount = (transaction[:amount].to_f / transaction[:steps_attributes].length.to_f)
+
+    raise NoAmountSet unless amount
 
     transaction[:steps_attributes].try(:each) do |id, step|
       step_from = current_user.associates.find_or_create_by_name(step[:from])
-      step.merge!({:from => step_from, :to => to})
+      step.merge!({:from => step_from, :to => to, :amount => amount})
     end
 
     current_user.transactions.create!(transaction)
     redirect_to transactions_path
-    #associates = current_user.associates
-    #recipient = current_user.associates.find_by_name(params[:recipient]) || current_user.associates.create!(:name => params[:recipient])
-    #line_item_params = params['line_items']
 
-    #raise NoPayerSet, "You need to specify the payer" unless line_item_params
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = "Owie! That wasn't your account!"
+    redirect_to transactions_path
 
-    #key, line_item = line_item_params.shift
-    #@transaction = current_user.transactions.new(params["transaction"].merge(:recipient_id => recipient.id))
-    #associates.find_by_name(:name => line_item["friend"]) || associates.create!(:name => line_item["friend"])
-    #@transaction.line_items.build(line_item.except("friend").merge({:friend_id => friend.id}))
-
-    #raise NoAmountSet, "You need an amount set" if @transaction.amount.nil?
-    #if @transaction && @transaction.valid? && @transaction.errors.empty?
-
-      ##Since the first line item is automatically created, but invisible, make sure it's populated with a 'real' friend entry.
-      #if line_item_params
-        #line_item_params.each do |key, line_item|
-          #next unless line_item["friend"].present? && line_item["amount"].present?
-          #associate = associates.find_by_name(:name => line_item["friend"]) || associates.create!(:name => line_item["friend"])
-          #@transaction.line_items.build(line_item.except("friend").merge({:friend_id => friend.id}))
-        #end
-      #end
-
-      #@transaction.save!
-
-      #redirect_to transactions_path
-    #else
-      #@last_entered_name = params["recipient"]["name"]
-      #render :action => "new"
-    #end
-
-  #rescue ActiveRecord::RecordNotFound
-    #flash[:error] = "Owie! That wasn't your account!"
-    #redirect_to transactions_path
-
-  #rescue NoAmountSet, NoPayerSet
-      #flash[:error] = "You didn't pass the validation on this form"
-      #@transaction ||= current_user.transactions.new
-      #@last_entered_name = params["recipient"]["name"] if params && params["recipient"]["name"]
-    #render :action => "new"
+  rescue NoAmountSet, NoPayerSet
+      flash[:error] = "You didn't pass the validation on this form"
+      @transaction ||= current_user.transactions.new
+    render :action => "new"
   end
 
   def text_add
@@ -160,23 +135,25 @@ class TransactionsController < ApplicationController
   end
 
 
-  def auto_complete_for_actor_name
-    actor = params[:term]
-    @actors = current_user.actors.find(:all, :conditions => "name like '%" + actor + "%'")
-    if @actors.present?
-      render :text => @actors.map(&:name).to_json
-    else
-      render :text => "".to_json
-    end
-  end
+  #def auto_complete_for_actor_name
+    #actor = params[:term]
+    #@actors = current_user.actors.find(:all, :conditions => "name like '%" + actor + "%'")
+    #if @actors.present?
+      #render :text => @actors.map(&:name).to_json
+    #else
+      #render :text => "".to_json
+    #end
+  #end
 
   def auto_complete_for_friend_name
     friend = params[:term]
-    @associates = current_user.associates.find(:all, :conditions => "name like '%" + friend + "%'")
+    #@associates = current_user.associates.find(:all, :conditions => "name like '%" + friend + "%'")
+
+    @associates = current_user.associates.find_by_name_like(friend)
     if @associates.present?
       render :json => @associates.map(&:name)
     else
-      render :json => ""
+      render :nothing => true
     end
   end
 

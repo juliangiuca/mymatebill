@@ -22,34 +22,6 @@
     }
   }
 
-  $(document).ready(function(){
-
-    $("#new_transaction").validate({
-      rules: {
-        "recipient[name]": {
-          required: true
-        },
-        "line_items[0][amount]": {
-          required: true
-        },
-        "line_items[0][friend]": {
-          required: true
-        },
-        "transaction[amount]": {
-        required: true
-        }
-      }
-    });
-
-    $("#transaction_due").datepicker();
-    $(".transaction_line_items_paid_on").datepicker();
-    var line_item_counter = 0;
-
-    var friend_name_autocomplete = { source:'/ac/friends_name' };
-    $("#transaction_to").autocomplete(friend_name_autocomplete);
-    $("#transaction_steps_attributes_0_from").autocomplete(friend_name_autocomplete);
-  });
-
 
 #user_control_panel
   %canvas#username{:width => "190", :height => "50"}
@@ -76,7 +48,7 @@
     - form_for @transaction do |f|
       %div
         = f.error_messages
-      %h2 Bill Description
+      %h2 Bill Split!
       %div
         = f.label :amount
         = f.text_field :amount, :size => 3, :class => "required short", :minlength => 1
@@ -90,10 +62,10 @@
         %tr
           %td
             = f.label :to
-            = f.text_field :to, :minlength => 2, :class => "short"
+            = f.text_field :to, :minlength => 2, :class => "short required"
           %td
             = label_tag :transaction_steps_attributes_0_from, "From"
-            = text_field_tag "transaction[steps_attributes][0][from]", nil, :id => "transaction_steps_attributes_0_from", :class => "short ac_friend"
+            = text_field_tag "transaction[steps_attributes][0][from]", nil, :id => "transaction_steps_attributes_0_from", :class => "short ac_friend required"
             %div{:onclick => "add_a_new_line_item();", :class => "add_friends"}
               = image_tag "plus-icon-small.png"
       %div
@@ -105,5 +77,14 @@
     draw_title('TRANSACTION');
     load_bull_clip_title();
     draw_left_panel("CONTROLS");
+
+    $("#new_transaction").validate({
+      rules: {
+        "transaction[amount]": {
+          required: true,
+          number: true
+          }
+      }
+    });
   }
 

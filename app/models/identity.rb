@@ -3,6 +3,14 @@ class Identity < ActiveRecord::Base
   belongs_to  :account
   has_many    :associations
   has_many    :associates, :through => :associations do
+    def find_by_name_like(name)
+      if [proxy_owner.name.downcase, "me", "myself", "i"].include?(name.downcase)
+        return [proxy_owner]
+      else
+        find(:all, :conditions => ["name like ?", "#{name}%"])
+      end
+    end
+
     def find_or_create_by_name(name)
       if [proxy_owner.name.downcase, "me", "myself", "i"].include?(name.downcase)
         return proxy_owner
