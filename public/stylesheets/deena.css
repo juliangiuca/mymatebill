@@ -535,8 +535,9 @@ div.rounded input.delete:hover {
 div.rounded .button-to div {
   display: inline; }
 div.rounded div.buttons {
-  width: 350px;
-  margin-left: 170px; }
+  width: 370px;
+  margin-left: 170px;
+  text-align: left; }
 div.rounded table {
   width: 700px;
   margin-left: 100px; }

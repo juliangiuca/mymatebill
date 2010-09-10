@@ -29,17 +29,17 @@
         = text_field_tag 'amount', @transaction.amount, :size => 3, :class => "short"
       %div
         = label :due, 'Date'
-        = text_field_tag "due", @transaction.due, :disabled => true, :class => "short"
+        = text_field_tag "due", @transaction.due, :class => "short"
       %div
         = label :description, 'Additional notes'
         = text_field_tag "description", @transaction.description, :class => "long"
-      %div
-        - f.fields_for :steps do |c|
+      - f.fields_for :steps do |c|
+        %div
           = c.label :from
-          = c.text_field :from
+          = c.text_field :from, :value => c.object.from.name, :class => "short"
 
     %div.buttons
-      = submit_tag 'Save Transaction', :class => "submit"
+      = submit_tag 'Update Transaction', :class => "submit"
       = button_to 'Delete Transaction', { :action => "delete", :id => @transaction.id }, :confirm => "Are you sure?", :method => :delete, :class => "delete"
     %a{:href => transactions_path} back
 

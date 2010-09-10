@@ -164,4 +164,22 @@ class TransactionsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_to transactions_path()
   end
+
+  def change_state
+    transaction = current_user.transactions.find(params[:id])
+    if transaction.unpaid?
+      transaction.confirm_payment!
+    else
+      transaction.unpay!
+    end
+
+      @transactions = @transaction = current_user.transactions
+      respond_to do |format|
+        format.js do
+          render :update do |page|
+            page.replace "tr_trans_#{transaction.id}", :partial => "transactions/transaction", :locals => {:transaction => transaction}
+          end
+        end
+      end
+  end
 end
