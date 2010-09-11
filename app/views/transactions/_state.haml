@@ -1,0 +1,5 @@
+- message = "Are you sure? This will effect all sub transactions for this transaction"
+= link_to_remote(transaction.state,                               |
+  :confirm => (transaction.class == Transaction && transaction.try(:steps).length > 1 ? message : false), |
+  :url => {:action => "change_state", (transaction.class == Transaction ? "tid" : "sid").to_sym => transaction.id}    |
+  )                                                               |

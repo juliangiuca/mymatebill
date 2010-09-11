@@ -473,7 +473,7 @@ div.rounded {
   }
 
   label {
-    width: 150px;
+    width: 100px;
     cursor: pointer;
     float: left;
     text-align: right;
@@ -530,8 +530,7 @@ div.rounded {
   }
 
   table {
-    width: 700px;
-    margin-left: 100px;
+    margin-left: 50px;
 
     label {
       width: 50px;
@@ -543,3 +542,6 @@ div.rounded {
   }
 }
 
+.inline {
+  display: inline;
+}

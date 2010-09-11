@@ -11,7 +11,7 @@ class TransactionsController < ApplicationController
   end
 
  def flexible_layout
-   if action_name == "new"
+   if %w(new edit).include?(action_name)
      "ac_pages"
    elsif action_name == "understand"
      ""
@@ -98,40 +98,43 @@ class TransactionsController < ApplicationController
   end
 
   def update
-    account = current_user.accounts.find(params[:transaction][:account_id])
-    recipient = current_user.friends.find_or_create_by_name(params[:recipient])
-    friends = current_user.friends
+    debugger
+    i=0
+    i+=1
+    #account = current_user.accounts.find(params[:transaction][:account_id])
+    #recipient = current_user.friends.find_or_create_by_name(params[:recipient])
+    #friends = current_user.friends
 
-    @transaction = account.transactions.find(params[:id])
-    if @transaction.update_attributes(params[:transaction].merge(:recipient_id => recipient.id))
-      line_items = params['line_items']
-      line_items.each do |key, updated_info|
-        friend = friends.find_or_create_by_name(updated_info["friend"]) || friends.create!(:name => updated_info["friend"])
-        line_item = @transaction.line_items.find(key)
-        #If we are changing who owes the debt, we need to balance the accounts. Easiest way is to delete the old
-        #line item and create a new one for the new friend
-        if friend != line_item.friend
-          line_item.delete
-          @transaction.line_items << LineItem.create!(line_item.except("friend").merge(:friend_id => friend.id))
-        else
-          line_item.update_attributes(updated_info.except("friend").merge(:friend_id => friend.id))
-        end
+    #@transaction = account.transactions.find(params[:id])
+    #if @transaction.update_attributes(params[:transaction].merge(:recipient_id => recipient.id))
+      #line_items = params['line_items']
+      #line_items.each do |key, updated_info|
+        #friend = friends.find_or_create_by_name(updated_info["friend"]) || friends.create!(:name => updated_info["friend"])
+        #line_item = @transaction.line_items.find(key)
+        ##If we are changing who owes the debt, we need to balance the accounts. Easiest way is to delete the old
+        ##line item and create a new one for the new friend
+        #if friend != line_item.friend
+          #line_item.delete
+          #@transaction.line_items << LineItem.create!(line_item.except("friend").merge(:friend_id => friend.id))
+        #else
+          #line_item.update_attributes(updated_info.except("friend").merge(:friend_id => friend.id))
+        #end
 
-      end
+      #end
 
-      new_line_items = params['new_line_items']
-      if new_line_items
-        new_line_items.each do |key, line_item|
-          next unless line_item["friend"].present? && line_item["amount"].present?
-          friend = friends.find_by_name(line_item["friend"]) || friends.create!(:name => line_item["friend"])
-          @transaction.line_items << LineItem.create!(line_item.except("friend").merge(:friend_id => friend.id))
-        end
-      end
+      #new_line_items = params['new_line_items']
+      #if new_line_items
+        #new_line_items.each do |key, line_item|
+          #next unless line_item["friend"].present? && line_item["amount"].present?
+          #friend = friends.find_by_name(line_item["friend"]) || friends.create!(:name => line_item["friend"])
+          #@transaction.line_items << LineItem.create!(line_item.except("friend").merge(:friend_id => friend.id))
+        #end
+      #end
 
-    else
-      render :action => "edit"
-    end
-    redirect_to :action => :index
+    #else
+      #render :action => "edit"
+    #end
+    #redirect_to :action => :index
   end
 
 
@@ -153,7 +156,7 @@ class TransactionsController < ApplicationController
     if @associates.present?
       render :json => @associates.map(&:name)
     else
-      render :nothing => true
+      render :json => params[:term]
     end
   end
 
@@ -166,20 +169,30 @@ class TransactionsController < ApplicationController
   end
 
   def change_state
-    transaction = current_user.transactions.find(params[:id])
-    if transaction.unpaid?
-      transaction.confirm_payment!
+    transaction = current_user.transactions.find(params[:tid]) if params[:tid]
+    step = current_user.steps.find(params[:sid]) if params[:sid]
+
+    if (transaction || step).unpaid?
+      (transaction || step).confirm_payment!
     else
-      transaction.unpay!
+      (transaction || step).unpay!
     end
 
-      @transactions = @transaction = current_user.transactions
-      respond_to do |format|
-        format.js do
-          render :update do |page|
-            page.replace "tr_trans_#{transaction.id}", :partial => "transactions/transaction", :locals => {:transaction => transaction}
+    respond_to do |format|
+      format.js do
+        render :update do |page|
+
+          page.replace_html "state_link_#{(transaction || step.transaction).id}", :partial => "transactions/state", :locals => {:transaction => (transaction || step.transaction)}
+
+          if transaction
+            transaction.steps.each do |step|
+              page.replace_html "step_state_link_#{step.id}", :partial => "transactions/state", :locals => {:transaction => step}
+            end
+          else
+            page.replace_html "step_state_link_#{step.id}", :partial => "transactions/state", :locals => {:transaction => step}
           end
         end
       end
+    end
   end
 end

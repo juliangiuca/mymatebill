@@ -8,32 +8,8 @@
   %td= transaction.description || "-"
   %td= number_to_currency transaction.amount
   %td= I18n.l(transaction.due.to_date) if transaction.due
-  %td
-    = link_to_remote(transaction.state,                               |
-      :confirm => (transaction.steps.length > 1 ? "Are you sure? This will effect all sub transactions for this transaction" : false), |
-      :url => {:action => "change_state", :id => transaction.id}      |
-      )                                                               |
+  %td{:id => "state_link_#{transaction.id}"}
+    = render :partial => 'transactions/state', :locals => {:transaction => transaction}
 
   %td= link_to("details", edit_transaction_path(:id => transaction.id))
-
-  - if false
-    %td
-      = link_to "Edit", edit_transaction_path(:id => transaction.id)
-      - if transaction.steps.present?
-        %div.more_line_items
-          %a{:onclick => "$('#hide_line_item_#{transaction_counter}').slideToggle('slow'); return false", :href=>""}More
-
-- if false
-  %tr
-    %td{:colspan => "6"}
-      - if transaction.steps.present?
-        %div.line_items{:id => "hide_line_item_#{transaction_counter}"}
-          %table
-            %tr
-              %th From
-              %th Amount
-              %th Description
-              %th Due
-              %th State
-            = render :partial => "line_item", :collection => transaction.steps
 

@@ -49,7 +49,7 @@ class Transaction < Dealing
       unless steps.present?
         #self.steps.build(:to => self.to, :from => self.from, :amount => self[:amount])
         #self.steps.last.create_debt
-        self.steps_attributes = [{:to => self.to, :from => self.from, :amount => self[:amount]}]
+        self.steps_attributes = [{:to => self.to, :from => self.from, :amount => self[:amount], :owner_id => self.owner_id}]
       end
       self.from = nil if steps.length > 1
       self[:amount] = nil

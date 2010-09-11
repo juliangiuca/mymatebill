@@ -481,7 +481,7 @@ div.rounded input {
   -moz-border-radius-bottomright: 5px;
   -webkit-border-bottom-right-radius: 5px; }
 div.rounded label {
-  width: 150px;
+  width: 100px;
   cursor: pointer;
   float: left;
   text-align: right;
@@ -539,9 +539,11 @@ div.rounded div.buttons {
   margin-left: 170px;
   text-align: left; }
 div.rounded table {
-  width: 700px;
-  margin-left: 100px; }
+  margin-left: 50px; }
   div.rounded table label {
     width: 50px; }
   div.rounded table .add_friends {
     display: inline; }
+
+.inline {
+  display: inline; }

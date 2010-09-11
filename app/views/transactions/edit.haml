@@ -21,9 +21,7 @@
   #div#transaction.rounded
     %h1 Show a transaction
     - form_for @transaction, :action => :update do |f|
-      %div
-        = label :actor, 'to'
-        = text_field_tag 'actor[name]', @transaction.to.name, :disabled => true, :class => "short"
+
       %div
         = label_tag :amount, 'Amount'
         = text_field_tag 'amount', @transaction.amount, :size => 3, :class => "short"
@@ -33,10 +31,31 @@
       %div
         = label :description, 'Additional notes'
         = text_field_tag "description", @transaction.description, :class => "long"
-      - f.fields_for :steps do |c|
-        %div
-          = c.label :from
-          = c.text_field :from, :value => c.object.from.name, :class => "short"
+      %table{:cellpadding => "0", :cellspacing => "0", :border => "0", :id => "steps"}
+        - counter = 0
+        - f.fields_for :steps do |c|
+          %tr{:id => "tr_trans_#{counter}"}
+            %td{:width => "40%"}
+              - if c.object == @transaction.steps.first
+                = label_tag :to
+                = text_field_tag "to", @transaction.to.name, {:disabled => true, :class => "short"}
+                %div{:id => "state_link_#{@transaction.id}", :style => "margin-left: 70px;"}
+                  = render :partial => 'transactions/state', :locals => {:transaction => @transaction}
+              - else
+                &nbsp;
+            %td
+              - if c.object == @transaction.steps.first
+                = c.label :from
+              - else
+                = c.label :from, "... and"
+              = c.text_field :from, :value => c.object.from.name, :class => "short"
+              .icons
+                = image_tag "plus-icon-small.png", :onclick => "add_a_new_line_item();"
+                = image_tag "delete-icon-small.png", :onclick => "remove_a_new_line_item(#{counter});"
+              %div{:id => "step_state_link_#{c.object.id}", :style => "margin-left: 70px;"}
+                = render :partial => 'transactions/state', :locals => {:transaction => c.object}
+          - counter += 1
+
 
     %div.buttons
       = submit_tag 'Update Transaction', :class => "submit"
@@ -50,3 +69,6 @@
     load_bull_clip_title();
     draw_left_panel("CONTROLS");
   }
+
+= render :partial => 'transactions/add_and_remove_transaction'
+

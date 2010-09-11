@@ -5,6 +5,7 @@ class Step < Dealing
   after_destroy :test_transaction_destroy
 
   #before_create :tally_cash
+  before_create :allocate_owner
 
   ###### AASM methods
 
@@ -41,6 +42,10 @@ class Step < Dealing
 
   def test_transaction_unpaid
     self.transaction.update_attribute(:state, "unpaid") if self.transaction
+  end
+
+  def allocate_owner
+    self[:owner_id] = self.transaction.owner_id
   end
 
 end

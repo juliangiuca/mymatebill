@@ -1,0 +1,34 @@
+:javascript
+  function remove_a_new_line_item(counter) {
+    text_field = $("#transaction_steps_attributes_" + counter + "_from");
+
+    if (text_field.val() != "") {
+      confirm_box = confirm("Really delete this?");
+    } else {
+      confirm_box = true;
+    }
+
+    if (confirm_box == true) {
+      text_field.parents("tr").remove();
+    }
+  }
+
+  function add_a_new_line_item() {
+    last_element = $("#steps tr:last > td:last > input").attr("id");
+    if (last_element.match(/transaction_steps_attributes_/g)) {
+      counter = last_element.replace(/transaction_steps_attributes_(\d)_from/, "$1");
+      counter = (counter * 1) + 1;
+
+      $("#steps tr:last").after(
+        "<tr><td>&nbsp;</td><td><label for=\"transaction_steps_attributes_" + counter + "_from\">... and</label>" + 
+        "<input id=\"transaction_steps_attributes_" + counter + "_from\" name=\"transaction[steps_attributes][" + counter + "][from]\" type=\"text\" class=\"short ac_friend\"/>" +
+        "<div class=\"icons\">" +
+        "<img src=\"/images/plus-icon-small.png\" onclick=\"add_a_new_line_item()\"></div>" +
+        "<img src=\"/images/delete-icon-small.png\" onclick=\"remove_a_new_line_item(" + counter + ")\"></div>" +
+        "</td></tr>"
+        );
+
+      var friend_name_autocomplete = { source:'/ac/friends_name' };
+      $("#transaction_steps_attributes_" + counter + "_from").autocomplete(friend_name_autocomplete);
+    }
+  }
