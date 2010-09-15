@@ -6,20 +6,6 @@ class TransactionsController < ApplicationController
      #skip_before_filter :verify_authenticity_token, :only => [:auto_complete_for_actor_name]
   before_filter :set_title
 
-  def set_title
-    @title = "Transaction"
-  end
-
- def flexible_layout
-   if %w(new edit).include?(action_name)
-     "ac_pages"
-   elsif action_name == "understand"
-     ""
-   else
-     "default"
-   end
- end
-
   def new
     @transaction = current_user.transactions.new
     @transaction.steps.build
@@ -172,30 +158,43 @@ class TransactionsController < ApplicationController
   end
 
   def change_state
-    transaction = current_user.transactions.find(params[:tid]) if params[:tid]
-    step = current_user.steps.find(params[:sid]) if params[:sid]
+    dealing = Dealing.find(params[:id])
 
-    if (transaction || step).unpaid?
-      (transaction || step).confirm_payment!
+    if dealing.unpaid?
+      dealing.confirm_payment!
     else
-      (transaction || step).unpay!
+      dealing.unpay!
     end
+
+    transaction = dealing.respond_to?(:transaction) ? dealing.transaction : dealing
+    dealings = dealing.respond_to?(:steps) ? dealing.steps : [dealing]
 
     respond_to do |format|
       format.js do
         render :update do |page|
+          page.replace_html "state_link_#{transaction.id}", :partial => "transactions/state", :locals => {:transaction => transaction}
 
-          page.replace_html "state_link_#{(transaction || step.transaction).id}", :partial => "transactions/state", :locals => {:transaction => (transaction || step.transaction)}
-
-          if transaction
-            transaction.steps.each do |step|
-              page.replace_html "step_state_link_#{step.id}", :partial => "transactions/state", :locals => {:transaction => step}
-            end
-          else
-            page.replace_html "step_state_link_#{step.id}", :partial => "transactions/state", :locals => {:transaction => step}
+          dealings.each do |dealing|
+            page.replace_html "step_state_link_#{dealing.id}", :partial => "transactions/state", :locals => {:transaction => dealing}
           end
         end
       end
+    end
+  end
+
+private
+
+  def set_title
+    @title = "Transaction"
+  end
+
+  def flexible_layout
+    if %w(new edit).include?(action_name)
+      "ac_pages"
+    elsif action_name == "understand"
+      ""
+    else
+      "default"
     end
   end
 end
