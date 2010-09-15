@@ -61,7 +61,7 @@ class Dealing < ActiveRecord::Base
     available_events & PAYEE_EVENTS
   end
 
-  def user_can_trigger_event(event)
+  def user_can_trigger_event(event, token = nil)
     event = event.to_sym
 
     return false unless available_events.include?(event)

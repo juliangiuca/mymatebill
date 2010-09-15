@@ -82,7 +82,7 @@ class TransactionsController < ApplicationController
     redirect_to transactions_path
   end
   
-  #email reminders to the identities in the steps
+  #emails reminders to the identities in the steps
   def mail
     @transaction = Transaction.find(params[:id])
     
@@ -174,10 +174,11 @@ class TransactionsController < ApplicationController
   end
 
   def change_state
-    dealing = Dealing.find(params[:id])
+    dealing =   Dealing.find(params[:id]) if params[:id]
+    #dealing ||= Dealing.find(params[:unique_magic_hash])
     event   = params[:event]
 
-    raise 'Invalid Event' unless dealing.user_can_trigger_event(event)
+    raise 'Invalid Event' unless dealing.user_can_trigger_event(event, params[:unique_magic_hash])
 
     dealing.send("#{event}!")
 
