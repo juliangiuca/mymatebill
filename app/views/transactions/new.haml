@@ -54,6 +54,8 @@
     load_bull_clip_title();
     draw_left_panel("CONTROLS");
 
+    $("#transaction_due").datepicker();
+
     $("#new_transaction").validate({
       rules: {
         "transaction[amount]": {
