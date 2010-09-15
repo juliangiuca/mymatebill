@@ -40,7 +40,7 @@
                 = label_tag :to
                 = text_field_tag "to", @transaction.to.name, {:disabled => true, :class => "short"}
                 %div{:id => "state_link_#{@transaction.id}", :style => "margin-left: 70px;"}
-                  = render :partial => 'transactions/state', :locals => {:transaction => @transaction}
+                  = render :partial => 'transactions/state'
               - else
                 &nbsp;
             %td

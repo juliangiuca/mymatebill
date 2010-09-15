@@ -159,15 +159,18 @@ class TransactionsController < ApplicationController
 
   def change_state
     dealing = Dealing.find(params[:id])
+    event   = params[:event]
 
-    if dealing.unpaid?
-      dealing.confirm_payment!
-    else
-      dealing.unpay!
-    end
+    raise 'Invalid Event' unless dealing.user_can_trigger_event(event)
 
-    transaction = dealing.respond_to?(:transaction) ? dealing.transaction : dealing
-    dealings = dealing.respond_to?(:steps) ? dealing.steps : [dealing]
+    dealing.send("#{event}!")
+
+    transaction, dealings =
+      if dealing.is_a?(Transaction)
+        [ dealing, dealing.steps ]
+      else
+        [ dealing.transaction, [dealing] ]
+      end
 
     respond_to do |format|
       format.js do
