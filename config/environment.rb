@@ -44,3 +44,5 @@ Rails::Initializer.run do |config|
 end
 
 require 'object'
+
+Dir.glob(File.join( Rails.root, 'lib', 'extensions', '**', '*.rb' )).each { |f| require f }
