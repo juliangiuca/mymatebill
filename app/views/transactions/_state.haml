@@ -1,2 +1,4 @@
 - @transaction ||= transaction
-= link_to_remote(@transaction.state, :confirm => confirm_message, :url => {:action => 'change_state', :id => @transaction})
+= @transaction.state.to_s.titleize
+- @transaction.user_events.each do |event|
+  = button_to_remote(event.to_s.titleize, :confirm => confirm_message, :url => {:action => 'change_state', :id => @transaction, :event => event})

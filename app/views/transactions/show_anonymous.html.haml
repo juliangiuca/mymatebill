@@ -1,0 +1,6 @@
+%h2
+  amount = #{ @step.amount}
+%div
+  I #{@step.to.name} have paid you, I swear.  
+%div
+  = button_to_remote "I've paid", :url => {:action => 'change_state', :unique_magic_hash => @step.unique_magic_hash, :event => "pay!" }
