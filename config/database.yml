@@ -2,17 +2,15 @@ development:
   adapter: mysql
   database: manage_development
   username: root
-  password: password
+  password:
   host: localhost
-  port: 3306
  
 test: &test
   adapter: mysql
   database: manage_test
   username: root
-  password: password
+  password: 
   host: localhost
-  port: 3306
 
 cucumber:
   <<: *test

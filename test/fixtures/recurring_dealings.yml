@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  parent_id: 1
+  from_associate_id: 1
+  to_associate_id: 1
+  owner_id: 1
+  description: MyString
+  rec_type: MyString
+  type: MyString
+  start_date: 2010-09-15
+  end_date: 2010-09-15
+
+two:
+  parent_id: 1
+  from_associate_id: 1
+  to_associate_id: 1
+  owner_id: 1
+  description: MyString
+  rec_type: MyString
+  type: MyString
+  start_date: 2010-09-15
+  end_date: 2010-09-15

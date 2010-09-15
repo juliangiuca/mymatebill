@@ -14,6 +14,11 @@ class Dealing < ActiveRecord::Base
 
   before_validation :set_due_date
   before_destroy :remove_debt
+  
+  named_scope :future, lambda {{ :conditions => "due >= #{Date.today}", :order => :due }}
+  named_scope :past, lambda {{ :conditions => "due < #{Date.today}", :order => :due }}
+  named_scope :transactions, { :conditions => "type = 'Tranaction'" }
+  named_scope :steps, { :conditions => "type = 'Step'" }
 
   aasm_column :state
   aasm_initial_state :unpaid

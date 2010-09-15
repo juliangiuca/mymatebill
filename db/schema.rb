@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091211224543) do
+ActiveRecord::Schema.define(:version => 20100915100252) do
 
   create_table "accounts", :force => true do |t|
     t.string   "login",                     :limit => 40
@@ -45,11 +45,12 @@ ActiveRecord::Schema.define(:version => 20091211224543) do
     t.string   "description"
     t.date     "due"
     t.float    "amount"
-    t.string   "state"
+    t.string   "state",                :default => "unpaid"
     t.string   "unique_magic_hash"
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "recurring_dealing_id"
   end
 
   add_index "dealings", ["unique_magic_hash"], :name => "index_dealings_on_unique_magic_hash"
@@ -69,5 +70,20 @@ ActiveRecord::Schema.define(:version => 20091211224543) do
 
   add_index "identities", ["account_id"], :name => "index_identities_on_account_id"
   add_index "identities", ["unique_magic_hash"], :name => "index_identities_on_unique_magic_hash"
+
+  create_table "recurring_dealings", :force => true do |t|
+    t.integer  "parent_id"
+    t.integer  "from_associate_id"
+    t.integer  "to_associate_id"
+    t.integer  "owner_id"
+    t.string   "description"
+    t.float    "amount"
+    t.string   "rec_type"
+    t.string   "type"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
