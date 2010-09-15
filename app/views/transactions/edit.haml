@@ -23,14 +23,14 @@
     - form_for @transaction, :controller => :transaction, :action => :update do |f|
 
       %div
-        = label_tag :amount, 'Amount'
-        = text_field_tag 'amount', @transaction.amount, :size => 3, :class => "short"
+        = f.label :amount
+        = f.text_field "amount", :class => "short", :value => @transaction.amount
       %div
-        = label :due, 'Date'
-        = text_field_tag "due", @transaction.due, :class => "short"
+        = f.label :due
+        = f.text_field "due", :class => "short"
       %div
-        = label :description, 'Additional notes'
-        = text_field_tag "description", @transaction.description, :class => "long"
+        = f.label :description, 'Additional notes'
+        = f.text_field "description", :class => "long"
       %table{:cellpadding => "0", :cellspacing => "0", :border => "0", :id => "steps"}
         - counter = 0
         - f.fields_for :steps do |c|
@@ -70,6 +70,8 @@
     load_bull_clip_title();
     draw_left_panel("CONTROLS");
   }
+
+  $("#transaction_due").datepicker();
 
 = render :partial => 'transactions/add_and_remove_transaction'
 
