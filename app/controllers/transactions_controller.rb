@@ -98,9 +98,18 @@ class TransactionsController < ApplicationController
   end
 
   def update
+    transaction = current_user.transactions.find(params[:id])
+    #transaction.destroy!
+    #transac
+
+    new_step_ids = params[:transaction]["steps_attributes"].map{|k, v| v["id"].to_i}
+    step_ids = transaction.steps.map(&:id)
+
+
     debugger
     i=0
     i+=1
+
     #account = current_user.accounts.find(params[:transaction][:account_id])
     #recipient = current_user.friends.find_or_create_by_name(params[:recipient])
     #friends = current_user.friends
