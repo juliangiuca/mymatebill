@@ -74,7 +74,23 @@ class TransactionsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_to transactions_path
   end
-
+  
+  def show_anonymous
+    @step = Step.find_by_unique_magic_hash(params[:unique_magic_hash])  
+    render :layout => false
+  rescue ActiveRecord::RecordNotFound
+    redirect_to transactions_path
+  end
+  
+  #email reminders to the identities in the steps
+  def mail
+    @transaction = Transaction.find(params[:id])
+    
+    @transaction.steps.each do |step|
+      StepMailer.deliver_uome_email(step)
+    end
+  end
+  
   def index
     @transactions = current_user.transactions
   end

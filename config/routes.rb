@@ -18,6 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect   '/ut/understand_text',:controller => :transactions, :action => :understand
   map.easy_transaction   '/text',     :controller => :transactions, :action => :text_add
 
+  map.transaction_magic_hash '/transactions/:unique_magic_hash', :controller => :transactions, :action => :show_anonymous
   map.resources :transactions
   map.resources :friends, :controller => :associates
   map.resources :visitor

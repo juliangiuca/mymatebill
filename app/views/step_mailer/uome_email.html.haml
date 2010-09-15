@@ -1,0 +1,12 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %h1
+      -debugger
+      So you owe me moolah($#{@step.amount})
+    %p
+      if you've paid me head to MyMateBill and hit paid. 
+    %p
+      = link_to 'its paid', transaction_magic_hash_path(@step.unique_magic_hash)

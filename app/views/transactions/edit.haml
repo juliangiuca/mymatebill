@@ -59,6 +59,8 @@
 
       %div.buttons
         = submit_tag 'Update Transaction', :class => "submit"
+      %div.buttons
+        = button_to_remote 'Email Reminder', :url => {:action => "mail", :id => @transaction.id }, :class => "submit" 
     %div.buttons
       = button_to 'Delete Transaction', { :action => "delete", :id => @transaction.id }, :confirm => "Are you sure?", :method => :delete, :class => "delete"
     %a{:href => transactions_path} back
