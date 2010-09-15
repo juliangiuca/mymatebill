@@ -134,7 +134,7 @@ class TransactionsController < ApplicationController
     #else
       #render :action => "edit"
     #end
-    #redirect_to :action => :index
+    redirect_to :action => :index
   end
 
 
@@ -154,13 +154,16 @@ class TransactionsController < ApplicationController
 
     @associates = current_user.associates.find_by_name_like(friend)
     if @associates.present?
-      render :json => @associates.map(&:name)
+      render :json => @associates.map(&:name), :status => :ok
     else
-      render :json => params[:term]
+      render :json => params[:term], :status => :ok
     end
   end
 
   def delete
+    debugger
+    i=0
+    i+=1
     transaction = current_user.transactions.find(params[:id])
     transaction.destroy
     redirect_to transactions_path()

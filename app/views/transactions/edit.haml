@@ -20,7 +20,7 @@
 
   #div#transaction.rounded
     %h1 Show a transaction
-    - form_for @transaction, :action => :update do |f|
+    - form_for @transaction, :controller => :transaction, :action => :update do |f|
 
       %div
         = label_tag :amount, 'Amount'
@@ -57,8 +57,9 @@
           - counter += 1
 
 
+      %div.buttons
+        = submit_tag 'Update Transaction', :class => "submit"
     %div.buttons
-      = submit_tag 'Update Transaction', :class => "submit"
       = button_to 'Delete Transaction', { :action => "delete", :id => @transaction.id }, :confirm => "Are you sure?", :method => :delete, :class => "delete"
     %a{:href => transactions_path} back
 
