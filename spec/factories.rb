@@ -21,3 +21,12 @@ Factory.define :identity do |f|
   f.account_id            {(Account.first || Factory(:account)).id}
 end
 
+Factory.define :recurring_transaction do |e|
+  e.from                  Factory(:identity)
+  e.to                    Factory(:identity)
+  e.type                  'Transaction'
+  e.description           'This is a test transaction'
+  e.amount                '123'
+  e.rec_type              'weekly_6_2' # every other Sunday!
+  e.owner_id              {(Identity.first || Factory(:identity)).id}
+end

@@ -74,7 +74,23 @@ class TransactionsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_to transactions_path
   end
-
+  
+  def show_anonymous
+    @step = Step.find_by_unique_magic_hash(params[:unique_magic_hash])  
+    render :layout => false
+  rescue ActiveRecord::RecordNotFound
+    redirect_to transactions_path
+  end
+  
+  #emails reminders to the identities in the steps
+  def mail
+    @transaction = Transaction.find(params[:id])
+    
+    @transaction.steps.each do |step|
+      StepMailer.deliver_uome_email(step)
+    end
+  end
+  
   def index
     @transactions = current_user.transactions
   end
@@ -176,16 +192,20 @@ class TransactionsController < ApplicationController
   end
 
   def change_state
-    dealing = Dealing.find(params[:id])
+    dealing =   Dealing.find(params[:id]) if params[:id]
+    #dealing ||= Dealing.find(params[:unique_magic_hash])
+    event   = params[:event]
 
-    if dealing.unpaid?
-      dealing.confirm_payment!
-    else
-      dealing.unpay!
-    end
+    raise 'Invalid Event' unless dealing.user_can_trigger_event(event, params[:unique_magic_hash])
 
-    transaction = dealing.respond_to?(:transaction) ? dealing.transaction : dealing
-    dealings = dealing.respond_to?(:steps) ? dealing.steps : [dealing]
+    dealing.send("#{event}!")
+
+    transaction, dealings =
+      if dealing.is_a?(Transaction)
+        [ dealing, dealing.steps ]
+      else
+        [ dealing.transaction, [dealing] ]
+      end
 
     respond_to do |format|
       format.js do
