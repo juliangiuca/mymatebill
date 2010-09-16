@@ -20,7 +20,9 @@
 
   #div#transaction.rounded
     %h1 Show a transaction
-    - form_for @transaction, :controller => :transaction, :action => :update do |f|
+    - form_for @transaction, :url => {:action => :update} do |f|
+      = f.hidden_field :id
+      = f.hidden_field :to, :value => @transaction.to.name
 
       %div
         = f.label :amount
@@ -39,6 +41,7 @@
               - if c.object == @transaction.steps.first
                 = label_tag :to
                 = text_field_tag "to", @transaction.to.name, {:disabled => true, :class => "short"}
+
                 %div{:id => "state_link_#{@transaction.id}", :style => "margin-left: 70px;"}
                   = render :partial => 'transactions/state', :locals => {:transaction => @transaction}
               - else

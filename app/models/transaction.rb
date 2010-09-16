@@ -23,6 +23,12 @@ class Transaction < Dealing
     return true
   end
 
+  def update_amount_equally(total)
+    length = transaction.steps.length
+    each_step_amount = total / length.to_f
+    Step.update_all(amount = each_step_amount, ["parent_id = ?", self.id])
+  end
+
   def amount
     self.steps.map(&:amount).sum
   end

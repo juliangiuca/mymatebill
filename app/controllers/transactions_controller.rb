@@ -84,17 +84,26 @@ class TransactionsController < ApplicationController
   end
 
   def update
-    transaction = current_user.transactions.find(params[:id])
-    #transaction.destroy!
-    #transac
+    @transaction = current_user.transactions.find(params[:id])
+    transaction = params[:transaction]
 
-    new_step_ids = params[:transaction]["steps_attributes"].map{|k, v| v["id"].to_i}
-    step_ids = transaction.steps.map(&:id)
+    to = current_user.associates.find_or_create_by_name(transaction[:to])
 
+    raise NoToSet unless to
+
+    transaction.merge!({:to => to})
+    amount = (transaction[:amount].to_f / transaction[:steps_attributes].length.to_f)
+
+    raise NoAmountSet unless amount
+
+    transaction[:steps_attributes].try(:each) do |id, step|
+      step_from = current_user.associates.find_or_create_by_name(step[:from])
+      step.merge!({:from => step_from, :to => to, :amount => amount})
+    end
 
     debugger
-    i=0
-    i+=1
+    @transaction.update_attributes(params[:transaction])
+
 
     #account = current_user.accounts.find(params[:transaction][:account_id])
     #recipient = current_user.friends.find_or_create_by_name(params[:recipient])
