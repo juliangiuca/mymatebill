@@ -87,8 +87,9 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.find(params[:id])
     
     @transaction.steps.each do |step|
-      StepMailer.deliver_uome_email(step)
+      StepMailer.deliver_uome_email(step) if step.to.email.present?
     end
+    render :json => []
   end
   
   def index
@@ -210,10 +211,10 @@ class TransactionsController < ApplicationController
     respond_to do |format|
       format.js do
         render :update do |page|
-          page.replace_html "state_link_#{transaction.id}", :partial => "transactions/state", :locals => {:transaction => transaction}
+          page.replace_html "state_link_#{transaction.id}", :partial => "transactions/state", :object => transaction
 
           dealings.each do |dealing|
-            page.replace_html "step_state_link_#{dealing.id}", :partial => "transactions/state", :locals => {:transaction => dealing}
+            page.replace_html "step_state_link_#{dealing.id}", :partial => "transactions/state", :object => dealing
           end
         end
       end

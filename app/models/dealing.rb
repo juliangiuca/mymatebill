@@ -14,6 +14,7 @@ class Dealing < ActiveRecord::Base
 
   before_validation :set_due_date
   before_destroy :remove_debt
+  before_create :create_magic_hash
   
   named_scope :future, lambda {{ :conditions => "due >= #{Date.today}", :order => :due }}
   named_scope :past, lambda {{ :conditions => "due < #{Date.today}", :order => :due }}
@@ -24,6 +25,7 @@ class Dealing < ActiveRecord::Base
   aasm_initial_state :unpaid
 
   aasm_state :unpaid, :enter => :create_debt
+  aasm_state :pending
   aasm_state :paid,   :enter => :remove_debt
 
   aasm_event :pay do
@@ -71,7 +73,7 @@ class Dealing < ActiveRecord::Base
 
     return false unless available_events.include?(event)
 
-    if current_user == from
+    if current_user == from || current_user == owner
       return payer_events.include?(event)
     elsif current_user == to
       return payee_events.include?(event)
@@ -101,4 +103,10 @@ class Dealing < ActiveRecord::Base
   def set_due_date
     self[:due] ||= Date.today
   end
+
+  def create_magic_hash
+    string_to_be_hashed = "yohgurt is sometimes goood" + self.amount.to_s + Time.now.to_f.to_s + rand().to_s
+    self.unique_magic_hash = Digest::SHA1.hexdigest string_to_be_hashed
+  end
+  
 end

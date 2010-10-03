@@ -1,7 +1,25 @@
-%h2 Forgot Password
-- form_tag url_for(:action => 'create') do
-    %p What is the email address used to create your account?
-    = text_field_tag :email, "", :size => 50
-    %br
-    = submit_tag 'Reset Password'
+
+#signup
+  #main_title_and_clip
+    %div
+      %canvas#bull_clip_main{:width => "70", :height => "68"}
+    %div
+      %canvas#main_title{:width => "250", :height => "68"}
+  
+  %h1 Forgot Password
+  - form_tag url_for(:action => 'create') do
+    %div 
+      What is the email address used to create your account?
+      %div.label= label_tag 'email'
+      %div= text_field_tag :email, nil, :title => "steve@example.com", :size => 50
+    %div= submit_tag 'Reset Password'
+
+:javascript
+  function doOnLoadThings() {
+    draw_title('Whoops!'); 
+    load_bull_clip_title();
+    $('#signup [title]').tipsy({gravity: 'w', trigger: 'focus'});
+  }
+
+  
 

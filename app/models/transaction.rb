@@ -42,10 +42,6 @@ class Transaction < Dealing
     self.due ||= 1.week.since
   end
 
-  def create_magic_hash
-    string_to_be_hashed = "yohgurt is sometimes goood" + self.amount.to_s + Time.now.to_f.to_s + rand().to_s
-    self.unique_magic_hash = Digest::SHA1.hexdigest string_to_be_hashed
-  end
 
   def set_state_to_paid
     self.confirm_payment!

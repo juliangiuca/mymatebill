@@ -25,11 +25,15 @@
 
 
   %body{:onload => "draw_nav();doOnLoadThings();"}
+    - if flash[:error] || flash[:notice]
+      = "<div class='notice_bar'>#{flash[:error]}</div>" if flash[:error]
+      = "<div class='notice_bar'>#{flash[:notice]}</div>" if flash[:notice]
     = render :partial => "headers/deena"
     %div#content
-      - if flash[:error] || flash[:notice]
-        = "<div class='notice'>#{flash[:error]}</div>" if flash[:error]
-        = "<div class='notice'>#{flash[:notice]}</div>" if flash[:notice]
+      #user_control_panel
+        %canvas#username{:width => "190", :height => "50"}
+        = link_to "Log Out", logout_path
+
       = @content_for_layout
 
 

@@ -22,14 +22,30 @@ body {
   margin: 0; }
 
 #content {
+  position: relative;
   width: 100%;
   margin-top: 20px;
   padding-bottom: 10px; }
 
+#constant_headers {
+  position: relative; }
+
+.notice_bar {
+  width: 100%;
+  font-size: 15px;
+  line-height: 1;
+  padding: 10px 0;
+  background-color: #FFFFFF;
+  border-bottom: 3px solid #DDDDDD;
+  text-align: center;
+  z-index: 99; }
+
 .major_title {
   font-family: hobo_std, 'ariel';
   font-size: 46pt;
-  margin-left: 15px; }
+  margin-left: 15px;
+  cursor: pointer;
+  width: 310px; }
 
 .minor_title {
   font-family: hobo_std, 'ariel';
@@ -150,7 +166,7 @@ div#clickables {
 #welcome {
   position: absolute;
   right: 20%;
-  top: 30%;
+  top: 60px;
   width: 50%;
   min-width: 500px;
   height: 40%;
@@ -180,7 +196,7 @@ div#clickables {
 
 #wood_login {
   position: absolute;
-  top: 200px;
+  top: 60px;
   width: 180px;
   height: 273px;
   min-height: 273px;
@@ -371,7 +387,7 @@ div#clickables {
   /*margin-left: 300px;*/
   text-align: right;
   position: absolute;
-  top: 130px;
+  top: -15px;
   left: 30%; }
   #main_title_and_clip #bull_clip_main {
     z-index: 10;
