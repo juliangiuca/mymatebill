@@ -1,0 +1,4 @@
+- dealing = (@transaction || change_transaction_state)
+= dealing.state.to_s.titleize
+- dealing.user_events.each do |event|
+  = button_to_remote(event.to_s.titleize, :confirm => confirm_message, :url => {:controller => :transactions, :action => 'change_state', :id => dealing, :event => event})
