@@ -68,12 +68,18 @@ class Dealing < ActiveRecord::Base
     available_events & PAYEE_EVENTS
   end
 
+  def owner_events
+    available_events & PAYEE_EVENTS
+  end
+
   def user_can_trigger_event(event, token = nil)
     event = event.to_sym
 
     return false unless available_events.include?(event)
 
-    if current_user == from || current_user == owner
+    if current_user == owner
+      return owner_events.include?(event)
+    elsif current_user == from
       return payer_events.include?(event)
     elsif current_user == to
       return payee_events.include?(event)
