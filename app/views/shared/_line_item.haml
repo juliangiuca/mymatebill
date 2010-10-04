@@ -3,8 +3,8 @@
   %td= number_to_currency line_item.amount
   %td= line_item.try(:description) || line_item.try(:transaction).try(:description)
   %td= I18n.l(line_item.due.try(:to_date) || line_item.transaction.due.to_date)
-  %td= line_item.state
-  %td{:id => "state_link_#{line_item.id}"}
-    = render :partial => 'transactions/state', :object => line_item
+  - step = "step_" if line_item.is_a?(Step)
+  %td{:id => "#{step}state_link_#{line_item.id}"}
+    = render :partial => 'shared/change_transaction_state', :object => line_item
   
 

@@ -1,25 +1,41 @@
-%div#friend
-  %h1
-    = "Details for #{@friend.name}"
-  %div.label
-    You owe them:
-    %div.tally
-      = number_to_currency @friend.cash_in
-  %div.label
-    Owes you:
-    %div.tally
-      = number_to_currency @friend.cash_out
-  %div.label
-    Money In Transit:
-    %div.tally
-      = number_to_currency @friend.cash_pending
+%div
 
-  %table
-    %tr
-      %th Created On
-      %th Amount
-      %th Description
-      %th Due
-      %th Status
-      %th &nbsp;
-    = render :partial => "/shared/line_item", :collection => @friend.incoming_transactions
+  #main_title_and_clip
+    %div
+      %canvas#bull_clip_main{:width => "70", :height => "68"}
+    %div
+      %canvas#main_title{:width => "250", :height => "68"}
+
+  %div#transaction_list_container
+    %h1
+      = "Details for #{@friend.name}"
+    %div.label
+      You owe them:
+      %div.tally
+        = number_to_currency @friend.cash_in
+    %div.label
+      Owes you:
+      %div.tally
+        = number_to_currency @friend.cash_out
+    %div.label
+      Money In Transit:
+      %div.tally
+        = number_to_currency @friend.cash_pending
+
+    %table
+      %tr
+        %th Created On
+        %th Amount
+        %th Description
+        %th Due
+        %th Status
+      = render :partial => "/shared/line_item", :collection => @friend.incoming_transactions
+
+:javascript
+  function doOnLoadThings() {
+    draw_user_welcome('#{current_user.name}');
+    draw_title('#{@title.upcase}');
+    load_bull_clip_title();
+
+  }
+

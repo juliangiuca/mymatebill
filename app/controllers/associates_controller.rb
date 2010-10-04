@@ -8,6 +8,7 @@ class AssociatesController < ApplicationController
 
   def show
     @friend = current_user.associates.find(params[:id])
+    @title = @friend.name
   rescue ActiveRecord::RecordNotFound
     redirect_to :action => "index"
   end
@@ -18,6 +19,7 @@ class AssociatesController < ApplicationController
 
   def edit
     @friend = current_user.associates.find(params[:id])
+    @title = @friend.name
     raise ActiveRecord::RecordNotFound unless @friend
   end
 

@@ -1,15 +1,39 @@
-%div#new_friend_container{:class => "new container friend"}
-  %h1
-    Update for
-    = @friend.name
-  - form_for @friend do |f|
-    = f.error_messages
+%div
+  %div#add_transaction_container
+    %canvas#add_transaction{:width => "190", :height => "60"}
     %div
-      = f.label :name
-      = f.text_field :name
+      = link_to_function(image_tag("plus-icon-small.png", :border => 0) + " (simple)", "popover()")
     %div
-      = f.label :email
-      = f.text_field :email_address
+      %a{:href => new_transaction_path}
+        = image_tag("plus-icon-small.png", :border => 0)
+        (advanced)
+
+  #main_title_and_clip
     %div
-      = submit_tag
+      %canvas#bull_clip_main{:width => "70", :height => "68"}
+    %div
+      %canvas#main_title{:width => "250", :height => "68"}
+
+  %div#friends.rounded
+    %h1
+      Update for
+      = @friend.name
+    - form_for @friend, :url => {:controller => :associates, :action => :update} do |f|
+      = f.error_messages
+      %div
+        = f.label :name
+        = f.text_field :name
+      %div
+        = f.label :email
+        = f.text_field :email
+      %div
+        = submit_tag
+
+:javascript
+  function doOnLoadThings() {
+    draw_user_welcome('#{current_user.name}');
+    draw_title('#{@title.upcase}');
+    load_bull_clip_title();
+    draw_left_panel("MANAGE FRIENDS");
+  }
 

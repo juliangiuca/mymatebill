@@ -554,12 +554,10 @@ div.rounded div.buttons {
   width: 370px;
   margin-left: 170px;
   text-align: left; }
-div.rounded table {
-  margin-left: 50px; }
-  div.rounded table label {
-    width: 50px; }
-  div.rounded table .add_friends {
-    display: inline; }
+div.rounded table label {
+  width: 50px; }
+div.rounded table .add_friends {
+  display: inline; }
 
 .inline {
   display: inline; }

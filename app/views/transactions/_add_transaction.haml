@@ -9,13 +9,7 @@
 
     .submit_and_tick_container
       %div#quick_add_submit
-        = link_to_remote(image_tag("right-icon.png", :border => 0),         |
-            :url => {:controller => :transactions, :action => :understand}, |
-            :with => "'input=' + $('#observe_me').val()",                   |
-            :success => "show_tick_and_fade_out();",                        |
-            :failure => "shake();",                                         |
-            :before => "hide_submit();"                                     |
-            ) |
+        = link_to_function(image_tag("right-icon.png", :border => 0), "submit_quick_add();")
       %div#tick
         = image_tag "tick-icon.png"
       %div#block_icon
@@ -31,5 +25,6 @@
               :class => "light_gray",                                             |
               :id => "observe_me",                                                |
               :value => "I owe steve $50 for vuvuzela lessons",                   |
-              :onfocus => "$(this).removeClass(\"light_gray\");if ($(this).val() == 'I owe steve $50 for vuvuzela lessons'){ $(this).val(''); }" |
+              :onfocus => "$(this).removeClass(\"light_gray\");if ($(this).val() == 'I owe steve $50 for vuvuzela lessons'){ $(this).val(''); }", |
+              :onkeypress => "catch_enter_key(event);"                                 |
             }                                                                     |

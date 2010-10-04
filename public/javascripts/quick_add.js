@@ -39,3 +39,21 @@ function hide_submit() {
   $("#big_spinner").show();
 }
 
+function catch_enter_key(e) {
+  if ((e.keyCode || e.which) == 13) {
+    submit_quick_add();
+  }
+}
+
+function submit_quick_add() {
+  text_input = $("#observe_me").val();
+  $.ajax({
+      url: '/ut/understand_text',
+      type: "POST",
+      data: { input: text_input },
+      success: function(data) {show_tick_and_fade_out();},
+      error: function(data) {shake();},
+      beforeSend: function(data) { hide_submit(); }
+  });
+}
+

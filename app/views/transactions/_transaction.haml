@@ -8,6 +8,6 @@
   %td= currency
   %td= due
   %td{:id => "state_link_#{@transaction.id}"}
-    = render :partial => 'transactions/state'
+    = render :partial => 'shared/change_transaction_state'
   %td= link_to("details", edit_transaction_path(:id => @transaction.id))
 

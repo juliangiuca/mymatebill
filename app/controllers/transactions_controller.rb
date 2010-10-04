@@ -201,7 +201,7 @@ class TransactionsController < ApplicationController
 
     dealing.send("#{event}!")
 
-    transaction, dealings =
+    transaction, steps =
       if dealing.is_a?(Transaction)
         [ dealing, dealing.steps ]
       else
@@ -211,10 +211,10 @@ class TransactionsController < ApplicationController
     respond_to do |format|
       format.js do
         render :update do |page|
-          page.replace_html "state_link_#{transaction.id}", :partial => "transactions/state", :object => transaction
+          page.replace_html "state_link_#{transaction.id}", :partial => "shared/change_transaction_state", :object => transaction
 
-          dealings.each do |dealing|
-            page.replace_html "step_state_link_#{dealing.id}", :partial => "transactions/state", :object => dealing
+          steps.each do |step|
+            page.replace_html "step_state_link_#{step.id}", :partial => "shared/change_transaction_state", :object => step
           end
         end
       end
