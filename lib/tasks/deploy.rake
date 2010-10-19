@@ -15,6 +15,6 @@ namespace :deploy do
     end
 
     puts "Starting the unicorns"
-    system("cd #{RAILS_ROOT}; RAILS_ENV=#{Rails.env} unicorn_rails -c config/unicorn.rb -E #{Rails.env} -D")
+    system("cd #{RAILS_ROOT}; RAILS_ENV=#{Rails.env} bundle exec unicorn_rails -c config/unicorn.rb -E #{Rails.env} -D")
   end
 end
