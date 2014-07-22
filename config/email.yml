@@ -5,7 +5,7 @@ development:
   :domain: mymatebill.com
   :authentication: plain
   :user_name: support@mymatebill.com
-  :password: W9wddp6lMSvl
+  :password: ABCD123
 production:
   :enable_starttls_auto: true
   :address: smtp.gmail.com
@@ -13,4 +13,4 @@ production:
   :domain: mymatebill.com
   :authentication: plain
   :user_name: support@mymatebill.com
-  :password: W9wddp6lMSvl
+  :password: ABCD123

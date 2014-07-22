@@ -8,7 +8,7 @@ default_run_options[:pty] = true  # Must be set for the password prompt from git
 set :scm, 'git'
 set :deploy_via, :export
 set :user, "www"
-set :password, "cGQW44ZRXItY"
+set :password, "ABCD123"
 set :scm_username, "www"
 set :runner, nil
 set :use_sudo, false
@@ -36,4 +36,3 @@ namespace :config do
 end
 
 after "deploy:symlink", "config:database_yml"
-

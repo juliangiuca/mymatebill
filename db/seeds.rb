@@ -2,7 +2,7 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 # Examples:
-#   
+#
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Major.create(:name => 'Daley', :city => cities.first)
 
@@ -12,7 +12,7 @@
       else
         admin = Account.create!(
           :login      => "admin",
-          :email      => "julian@giuca.com",
+          :email      => "julian.giuca@gmail.com",
           :password   => "test123",
           :password_confirmation => "test123")
           admin.state = "active"
@@ -24,4 +24,3 @@
             puts "admin account creation failed"
           end
       end
-
